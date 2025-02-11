@@ -1,0 +1,162 @@
+/* Critical CSS für Above-the-fold Content */
+@tailwind base;
+@tailwind components;
+
+/* Hero Section Styles */
+.hero {
+  @apply relative min-h-screen md:h-screen;
+}
+
+.hero-content {
+  @apply flex items-center h-full py-20 md:py-0;
+}
+
+.hero-title {
+  @apply text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight md:leading-tight lg:leading-tight mb-6;
+}
+
+.hero-description {
+  @apply text-lg md:text-xl text-stone-200 mb-8 max-w-2xl;
+}
+
+/* Header Styles */
+.header {
+  @apply fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50;
+}
+
+.header-nav {
+  @apply flex items-center justify-between py-4;
+}
+
+.header-logo {
+  @apply text-2xl font-bold text-gray-900 hover:text-gray-700 transition-colors duration-300;
+}
+
+/* Mobile Sidebar Styles */
+.mobile-sidebar {
+  @apply fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out;
+}
+
+.mobile-sidebar-overlay {
+  @apply fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300;
+}
+
+/* Container */
+.container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Button Components */
+.btn-primary {
+  @apply inline-block px-6 py-3 bg-stone-900 text-white rounded-lg font-medium hover:bg-stone-800 transform hover:scale-105 transition-all duration-300 shadow-md hover:shadow-xl;
+}
+
+.btn-secondary {
+  @apply inline-block px-6 py-3 bg-white text-stone-900 rounded-lg font-medium hover:bg-stone-100 transform hover:scale-105 transition-all duration-300 shadow-md hover:shadow-xl;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animation-delay-400 {
+  animation-delay: 400ms;
+}
+
+/* Loading Animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+          90deg,
+          theme('colors.gray.100') 25%,
+          theme('colors.gray.200') 37%,
+          theme('colors.gray.100') 63%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+/* Feature Section Styles */
+.features-section {
+  @apply py-16 md:py-24 bg-gradient-to-b from-stone-50 to-white;
+}
+
+.feature-card {
+  @apply bg-white p-6 md:p-8 rounded-xl shadow-sm transition-all duration-300 transform;
+}
+
+.feature-card:hover {
+  @apply shadow-xl -translate-y-1;
+}
+
+.feature-icon-wrapper {
+  @apply mb-6 transform transition-transform duration-300;
+}
+
+.feature-card:hover .feature-icon-wrapper {
+  @apply scale-110;
+}
+
+.feature-icon {
+  @apply h-12 w-12 text-stone-900 transition-colors duration-300;
+}
+
+.feature-card:hover .feature-icon {
+  @apply text-stone-700;
+}
+
+.feature-title {
+  @apply text-xl font-semibold text-gray-900 mb-3 transition-colors duration-300;
+}
+
+.feature-card:hover .feature-title {
+  @apply text-stone-700;
+}
+
+.feature-description {
+  @apply text-gray-600 transition-colors duration-300;
+}
+
+.feature-card:hover .feature-description {
+  @apply text-gray-700;
+}
+
+/* Scroll Indicator Animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+.scroll-indicator {
+  animation: pulse 2s infinite;
+}

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1c1917" />
+
+  <!-- Security Headers - nur für Production -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+
+  <title>KamenPro | Dekorativne zidne obloge</title>
+
+  <!-- Hero image preload -->
+  <link
+          rel="preload"
+          href="https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=1920&q=75"
+          as="image"
+          fetchpriority="high"
+  />
+
+  <!-- Local font loading -->
+  <style>
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('/fonts/Inter-Regular.woff2') format('woff2');
+    }
+
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url('/fonts/Inter-Medium.woff2') format('woff2');
+    }
+
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 600;
+      font-display: swap;
+      src: url('/fonts/Inter-SemiBold.woff2') format('woff2');
+    }
+
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url('/fonts/Inter-Bold.woff2') format('woff2');
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="module" src="/src/main.tsx"></script>
+<noscript>
+  <div style="padding: 2rem; text-align: center;">
+    <h1>JavaScript je neophodan</h1>
+    <p>Molimo vas da omogućite JavaScript da biste koristili ovaj sajt.</p>
+  </div>
+</noscript>
+</body>
+</html>

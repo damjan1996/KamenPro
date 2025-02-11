@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Non-critical styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Additional utility classes that aren't critical for initial render */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
