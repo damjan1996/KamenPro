@@ -14,7 +14,7 @@ export default defineConfig({
     }),
   ],
   optimizeDeps: {
-    include: ['lucide-react'],
+    include: ['lucide-react', 'framer-motion'],
   },
   build: {
     cssCodeSplit: true,
@@ -24,6 +24,7 @@ export default defineConfig({
           'react-vendor': ['react', 'react-dom'],
           'router': ['react-router-dom'],
           'form': ['react-hook-form', '@hookform/resolvers/zod'],
+          'animation': ['framer-motion'],
         },
       },
     },

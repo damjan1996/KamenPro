@@ -1,87 +1,38 @@
+// src/App.tsx - Änderung
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense } from 'react';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
-import { ErrorBoundary } from './components/ErrorBoundary';
 
-// Enhanced lazy loading with preload capability
-const lazyWithPreload = (importFn) => {
-  const Component = lazy(importFn);
-  Component.preload = importFn;
-  return Component;
-};
+// Korrektes Lazy Loading
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+const Products = lazy(() => import('./pages/Products'));
+const References = lazy(() => import('./pages/References'));
+const Contact = lazy(() => import('./pages/Contact')); // Stelle sicher, dass Contact importiert wird
 
-// Lazy load pages with preload support
-const Home = lazyWithPreload(() =>
-    import('./pages/Home').then(module => ({ default: module.Home }))
-);
-const About = lazyWithPreload(() =>
-    import('./pages/About').then(module => ({ default: module.About }))
-);
-const Products = lazyWithPreload(() =>
-    import('./pages/Products').then(module => ({ default: module.Products }))
-);
-const References = lazyWithPreload(() =>
-    import('./pages/References').then(module => ({ default: module.References }))
-);
-const Contact = lazyWithPreload(() =>
-    import('./pages/Contact').then(module => ({ default: module.Contact }))
-);
-const NotFound = lazyWithPreload(() =>
-    import('./pages/NotFound').then(module => ({ default: module.NotFound }))
-);
-
-// Enhanced loading component with ARIA support
-function PageLoader() {
-  return (
-      <div
-          className="min-h-screen flex items-center justify-center"
-          role="progressbar"
-          aria-label="Učitavanje stranice"
-      >
-        <div
-            className="animate-spin rounded-full h-12 w-12 border-b-2 border-stone-900"
-            aria-hidden="true"
-        />
-      </div>
-  );
-}
+// Falls die NotFound Komponente im Projekt ist
+const NotFound = lazy(() => import('./pages/NotFound').then(module => ({ default: module.NotFound })));
 
 function App() {
-  // Preload critical routes on idle
-  useEffect(() => {
-    const preloadCriticalRoutes = () => {
-      requestIdleCallback(() => {
-        Home.preload();
-        Products.preload();
-      });
-    };
-
-    preloadCriticalRoutes();
-  }, []);
-
-  return (
-      <Router>
-        <ErrorBoundary>
-          <div className="min-h-screen flex flex-col">
-            <Header />
-            <main className="flex-grow">
-              <Suspense fallback={<PageLoader />}>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/products" element={<Products />} />
-                  <Route path="/references" element={<References />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
-            </main>
-            <Footer />
-          </div>
-        </ErrorBoundary>
-      </Router>
-  );
+    return (
+        <Router>
+            <ErrorBoundary>
+                <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Učitavanje...</div>}>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/o-nama" element={<About />} />
+                        <Route path="/proizvodi" element={<Products />} />
+                        <Route path="/reference" element={<References />} />
+                        <Route path="/kontakt" element={<Contact />} /> {/* Füge Route für Contact hinzu */}
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
+                </Suspense>
+            </ErrorBoundary>
+        </Router>
+    );
 }
 
 export default App;

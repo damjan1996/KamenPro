@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { AlertCircle } from 'lucide-react';
 
 interface ImageProps {
@@ -13,164 +13,91 @@ interface ImageProps {
 
 type LoadingState = 'initial' | 'loading' | 'loaded' | 'error';
 
-export function Image({ 
-  src, 
-  alt, 
-  className = '', 
-  sizes = '100vw',
-  priority = false,
-  fallbackSrc,
-  onError 
-}: ImageProps) {
+export function Image({
+                        src,
+                        alt,
+                        className = '',
+                        sizes = '100vw',
+                        priority = false,
+                        fallbackSrc = '/images/placeholder.jpg',
+                        onError
+                      }: ImageProps) {
   const [loadingState, setLoadingState] = useState<LoadingState>('initial');
-  const [isIntersecting, setIsIntersecting] = useState(priority);
-  const [currentSrc, setCurrentSrc] = useState(src);
-  const [retryCount, setRetryCount] = useState(0);
-  const maxRetries = 2;
-
-  // Validate image URL
-  const validateImageUrl = useCallback((url: string): boolean => {
-    try {
-      const parsedUrl = new URL(url);
-      return parsedUrl.protocol === 'https:' && 
-             parsedUrl.hostname === 'images.unsplash.com';
-    } catch {
-      return false;
-    }
-  }, []);
-
-  // Sanitize image URL
-  const sanitizeImageUrl = useCallback((url: string): string => {
-    if (!validateImageUrl(url)) {
-      console.error('Invalid image URL detected:', url);
-      return fallbackSrc || '';
-    }
-    return url;
-  }, [fallbackSrc]);
-
-  const handleImageError = useCallback((error: Error | Event) => {
-    if (retryCount < maxRetries) {
-      setRetryCount(prev => prev + 1);
-      setLoadingState('loading');
-      setCurrentSrc(`${sanitizeImageUrl(src)}?retry=${retryCount + 1}`);
-    } else if (fallbackSrc && currentSrc !== fallbackSrc) {
-      setLoadingState('loading');
-      setCurrentSrc(sanitizeImageUrl(fallbackSrc));
-    } else {
-      setLoadingState('error');
-      if (onError && error instanceof Error) {
-        onError(error);
-      }
-    }
-  }, [src, fallbackSrc, retryCount, currentSrc, onError, sanitizeImageUrl]);
+  const [imgSrc, setImgSrc] = useState<string>(src);
 
   useEffect(() => {
-    if (priority) {
-      setIsIntersecting(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsIntersecting(true);
-          setLoadingState('loading');
-        }
-      },
-      {
-        rootMargin: '50px',
-      }
-    );
-
-    const element = document.querySelector(`[data-image-src="${sanitizeImageUrl(src)}"]`);
-    if (element) {
-      observer.observe(element);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [src, priority, sanitizeImageUrl]);
-
-  useEffect(() => {
-    const sanitizedSrc = sanitizeImageUrl(src);
-    setCurrentSrc(sanitizedSrc);
-    setRetryCount(0);
+    // Wenn sich die Quelle ändert, setzen wir den Status zurück
     setLoadingState('initial');
-  }, [src, sanitizeImageUrl]);
+    setImgSrc(src);
+  }, [src]);
 
-  const generateSrcSet = (format: 'jpg' | 'webp') => {
-    const widths = [640, 750, 828, 1080, 1200, 1920, 2048];
-    const sanitizedUrl = sanitizeImageUrl(currentSrc);
-    if (!sanitizedUrl) return '';
-    
-    const baseUrl = sanitizedUrl.split('?')[0];
-    const formatParam = format === 'webp' ? '&fm=webp' : '';
-    
-    return widths
-      .map(width => `${baseUrl}?w=${width}&q=75${formatParam} ${width}w`)
-      .join(', ');
-  };
+  useEffect(() => {
+    if (loadingState === 'initial') {
+      setLoadingState('loading');
+      const img = new window.Image();
+      img.src = imgSrc;
 
-  const renderLoadingState = () => {
-    if (loadingState === 'loading' || (loadingState === 'initial' && !priority)) {
-      return (
-        <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-[length:200%_100%]" />
-      );
+      img.onload = () => {
+        setLoadingState('loaded');
+      };
+
+      img.onerror = (e) => {
+        const error = new Error(`Failed to load image: ${imgSrc}`);
+        if (onError) {
+          onError(error);
+        } else {
+          console.error(error);
+        }
+
+        if (fallbackSrc && imgSrc !== fallbackSrc) {
+          setImgSrc(fallbackSrc);
+        } else {
+          setLoadingState('error');
+        }
+      };
     }
-    return null;
-  };
+  }, [imgSrc, loadingState, fallbackSrc, onError]);
+
+  // Basisklassen für verschiedene Zustände
+  const baseClasses = `${className}`;
+  const loadingClasses = `${baseClasses} animate-pulse bg-gray-200`;
+  const errorClasses = `${baseClasses} bg-gray-100 flex items-center justify-center`;
+
+  if (loadingState === 'loading' && !priority) {
+    return <div className={loadingClasses} aria-busy="true" />;
+  }
 
   if (loadingState === 'error') {
     return (
-      <div className={`bg-red-50 flex flex-col items-center justify-center p-4 rounded-md ${className}`}>
-        <AlertCircle className="h-8 w-8 text-red-500 mb-2" />
-        <span className="text-red-700 text-sm text-center">
-          Slika nije dostupna
-        </span>
-        {retryCount > 0 && (
-          <button
-            onClick={() => {
-              setRetryCount(0);
-              setLoadingState('loading');
-              setCurrentSrc(sanitizeImageUrl(src));
-            }}
-            className="mt-2 text-sm text-red-600 hover:text-red-800 underline"
-          >
-            Pokušajte ponovo
-          </button>
-        )}
-      </div>
+        <div className={errorClasses} role="alert" aria-label={`Failed to load image: ${alt}`}>
+          <AlertCircle className="text-gray-400 h-8 w-8" />
+        </div>
     );
   }
 
-  return (
-    <div 
-      className="relative overflow-hidden"
-      data-image-src={sanitizeImageUrl(src)}
-    >
-      {renderLoadingState()}
-      <picture>
-        <source
-          type="image/webp"
-          sizes={sizes}
-          srcSet={isIntersecting ? generateSrcSet('webp') : undefined}
-        />
-        <source
-          type="image/jpeg"
-          sizes={sizes}
-          srcSet={isIntersecting ? generateSrcSet('jpg') : undefined}
-        />
-        <img
-          src={isIntersecting ? `${sanitizeImageUrl(currentSrc)}?w=1200&q=75` : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}
-          alt={alt}
-          className={`${className} transition-opacity duration-500 ${loadingState === 'loaded' ? 'opacity-100' : 'opacity-0'}`}
-          loading={priority ? 'eager' : 'lazy'}
-          onLoad={() => setLoadingState('loaded')}
-          onError={(e) => handleImageError(e)}
-          crossOrigin="anonymous"
-        />
-      </picture>
-    </div>
-  );
+  // Durchlässig für SEO/Barrierefreiheit
+  const imgProps: React.ImgHTMLAttributes<HTMLImageElement> = {
+    src: imgSrc,
+    alt,
+    className: baseClasses,
+    loading: priority ? 'eager' : 'lazy',
+    onLoad: () => setLoadingState('loaded'),
+    onError: () => {
+      const error = new Error(`Failed to load image: ${imgSrc}`);
+      if (onError) {
+        onError(error);
+      }
+      if (fallbackSrc && imgSrc !== fallbackSrc) {
+        setImgSrc(fallbackSrc);
+      } else {
+        setLoadingState('error');
+      }
+    },
+  };
+
+  if (sizes) {
+    imgProps.sizes = sizes;
+  }
+
+  return <img {...imgProps} />;
 }

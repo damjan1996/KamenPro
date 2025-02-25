@@ -1,4 +1,4 @@
-import { Container } from '../ui/Container';
+import { Container } from '../../ui/Container.tsx';
 import { Shield, Timer, Trophy, Palette } from 'lucide-react';
 
 const features = [
