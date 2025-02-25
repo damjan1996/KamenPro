@@ -7,29 +7,14 @@ import { reportWebVitals } from './lib/vitals';
 import './styles/critical.css';
 import './index.css';
 
-// Preload kritische Ressourcen
-const preloadLinks = [
-    {
-        rel: 'preload',
-        href: '/fonts/inter-var.woff2',
-        as: 'font',
-        type: 'font/woff2',
-        crossOrigin: 'anonymous',
-    },
-];
+// Container holen und Root erstellen
+const container = document.getElementById('root');
+if (!container) throw new Error('Root-Element nicht gefunden!');
 
-// Füge Preload-Links dynamisch hinzu
-preloadLinks.forEach(({ rel, href, as, type, crossOrigin }) => {
-    const link = document.createElement('link');
-    link.rel = rel;
-    link.href = href;
-    link.as = as;
-    if (type) link.type = type;
-    if (crossOrigin) link.crossOrigin = crossOrigin;
-    document.head.appendChild(link);
-});
+const root = createRoot(container);
 
-createRoot(document.getElementById('root')!).render(
+// App rendern
+root.render(
     <StrictMode>
         <HelmetProvider>
             <App />
@@ -37,4 +22,5 @@ createRoot(document.getElementById('root')!).render(
     </StrictMode>
 );
 
+// Web Vitals melden
 reportWebVitals();
