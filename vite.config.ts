@@ -21,25 +21,10 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'react-vendor': ['react', 'react-dom'],
-          'router': ['react-router-dom'],
-          'form': ['react-hook-form', '@hookform/resolvers/zod'],
-          'animation': ['framer-motion'],
+          vendor: ['react', 'react-dom', 'react-router-dom', 'lucide-react'],
+          'framer-motion': ['framer-motion'],
         },
       },
     },
   },
-  server: {
-    headers: {
-      'Content-Security-Policy': `
-        default-src 'self';
-        script-src 'self' 'unsafe-inline' 'unsafe-eval';
-        style-src 'self' 'unsafe-inline' data:;
-        img-src 'self' data: blob: https://images.unsplash.com;
-        font-src 'self' data: blob:;
-        connect-src 'self' ws: wss: https://images.unsplash.com;
-        worker-src 'self' blob:;
-      `.replace(/\s+/g, ' ').trim(),
-    },
-  }
 });
