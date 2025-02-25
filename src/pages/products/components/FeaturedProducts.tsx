@@ -1,7 +1,6 @@
 // src/pages/products/components/FeaturedProducts.tsx
 import { useState, useEffect } from "react";
 import { Container } from "../../../components/ui/Container";
-import { motion } from "framer-motion";
 
 export function FeaturedProducts() {
     const [activeProduct, setActiveProduct] = useState<number | null>(null);
@@ -14,212 +13,121 @@ export function FeaturedProducts() {
             }
         }, { threshold: 0.1 });
 
-        const section = document.getElementById("featured-products");
-        if (section) observer.observe(section);
+        const section = document.getElementById('featured-products-section');
+        if (section) {
+            observer.observe(section);
+        }
 
         return () => {
-            if (section) observer.unobserve(section);
+            if (section) {
+                observer.unobserve(section);
+            }
         };
     }, []);
 
+    // Featured products data
     const products = [
         {
             id: 1,
-            name: "Prirodni Kamen Classic",
-            description: "Tradicionalne kamene obloge sa klasičnim izgledom koje dodaju sofisticiranost svakom prostoru.",
-            image: "/images/product-1.jpg",
-            category: "Zidne obloge",
-            price: "52",
-            unit: "m²"
+            name: 'Travertin klasik',
+            description: 'Vanvremenska elegancija prirodnog travertina sa jedinstvenim šarama.',
+            images: ['/images/travertin-classic.jpg', '/images/travertin-classic-2.jpg'],
+            price: 'Od 3.500 RSD/m²',
+            category: 'Zidne obloge'
         },
         {
             id: 2,
-            name: "Modern Slate",
-            description: "Moderan izgled sa elegantnom završnom obradom idealan za savremene enterijere.",
-            image: "/images/product-2.jpg",
-            category: "Podne obloge",
-            price: "64",
-            unit: "m²"
+            name: 'Kvarcit sivi',
+            description: 'Izdržljiva i moderna siva kvarcitna obloga savršena za kontrasne dizajne.',
+            images: ['/images/quartzite-gray.jpg', '/images/quartzite-gray-2.jpg'],
+            price: 'Od 4.200 RSD/m²',
+            category: 'Podne obloge'
         },
         {
             id: 3,
-            name: "Travertin Beige",
-            description: "Topli tonovi za prirodan i pozivajući ambijent koji stvara harmoničan životni prostor.",
-            image: "/images/product-3.jpg",
-            category: "Zidne obloge",
-            price: "48",
-            unit: "m²"
+            name: 'Mermerna mozaik ploča',
+            description: 'Luksuzni mermerini mozaici za dekorativne zidne površine.',
+            images: ['/images/marble-mosaic.jpg', '/images/marble-mosaic-2.jpg'],
+            price: 'Od 6.800 RSD/m²',
+            category: 'Specijalni elementi'
+        },
+        {
+            id: 4,
+            name: 'Granit crni',
+            description: 'Izdržljivi i elegantni crni granit za spoljašnje površine.',
+            images: ['/images/granite-black.jpg', '/images/granite-black-2.jpg'],
+            price: 'Od 5.500 RSD/m²',
+            category: 'Fasade'
         }
     ];
 
-    // Animacija za naslov sekcije
-    const titleVariants = {
-        hidden: { opacity: 0, y: -20 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-    };
-
-    // Animacija za linije ispod naslova
-    const lineVariants = {
-        hidden: { scaleX: 0 },
-        visible: { scaleX: 1, transition: { duration: 0.5, delay: 0.2 } }
-    };
-
-    // Animacija za kontejner proizvoda
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2
-            }
-        }
-    };
-
-    // Animacija za pojedinačni proizvod
-    const productVariants = {
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-    };
-
     return (
-        <section id="featured-products" className="py-24 bg-stone-50">
+        <section id="featured-products-section" className="py-16 md:py-24">
             <Container>
-                <div className="flex flex-col items-center mb-16">
-                    <motion.h2
-                        className="text-4xl md:text-5xl font-bold text-stone-800 mb-4"
-                        variants={titleVariants}
-                        initial="hidden"
-                        animate={isVisible ? "visible" : "hidden"}
-                    >
-                        Istaknuti proizvodi
-                    </motion.h2>
-                    <motion.div
-                        className="w-16 h-1 bg-orange-500 mb-6"
-                        variants={lineVariants}
-                        initial="hidden"
-                        animate={isVisible ? "visible" : "hidden"}
-                    />
-                    <motion.p
-                        className="text-stone-600 text-center max-w-xl mb-8"
-                        initial={{ opacity: 0 }}
-                        animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
-                    >
-                        Transformišite svoj prostor sa našim premium kolekcijama prirodnog kamena
-                    </motion.p>
+                <div className={`mb-12 text-center transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Istaknuti proizvodi</h2>
+                    <p className="text-lg text-stone-600 max-w-3xl mx-auto">
+                        Naši najpopularniji proizvodi odabrani za vaš naredni projekat
+                    </p>
                 </div>
 
-                <motion.div
-                    className="grid md:grid-cols-2 lg:grid-cols-3 gap-12"
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate={isVisible ? "visible" : "hidden"}
-                >
-                    {products.map((product) => (
-                        <motion.div
+                <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+                    {products.map((product, index) => (
+                        <div
                             key={product.id}
-                            className="group relative"
-                            variants={productVariants}
+                            className={`bg-white rounded-lg shadow-md overflow-hidden transition-all duration-700 delay-${index * 150} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                             onMouseEnter={() => setActiveProduct(product.id)}
                             onMouseLeave={() => setActiveProduct(null)}
                         >
-                            <div className="overflow-hidden mb-5">
-                                <motion.div
-                                    className="aspect-w-16 aspect-h-9 relative"
-                                    initial={{ scale: 1 }}
-                                    whileHover={{ scale: 1.05 }}
-                                    transition={{ duration: 0.7 }}
-                                >
+                            <div className="flex flex-col md:flex-row">
+                                <div className="md:w-1/2 relative overflow-hidden">
                                     <img
-                                        src={product.image}
+                                        src={product.images[0]}
                                         alt={product.name}
-                                        className="object-cover w-full h-full"
+                                        className={`w-full h-64 md:h-full object-cover transition-transform duration-500 ${activeProduct === product.id ? 'scale-110' : 'scale-100'}`}
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                                    <motion.div
-                                        className="absolute bottom-6 left-6 text-white opacity-0 group-hover:opacity-100"
-                                        initial={{ y: 20 }}
-                                        whileHover={{ y: 0 }}
-                                        transition={{ duration: 0.3 }}
-                                    >
-                                        <button className="flex items-center space-x-2 bg-orange-500 px-4 py-2 rounded-sm hover:bg-orange-600 transition-colors">
-                                            <span>Pogledaj detalje</span>
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-300"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
+                                    <div className="absolute top-2 right-2 bg-amber-600 text-white px-3 py-1 text-sm rounded">
+                                        {product.category}
+                                    </div>
+                                </div>
+                                <div className="md:w-1/2 p-6 flex flex-col justify-between">
+                                    <div>
+                                        <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
+                                        <p className="text-stone-600 mb-4">{product.description}</p>
+                                    </div>
+                                    <div className="mt-4">
+                                        <p className="text-amber-600 font-bold text-lg mb-3">{product.price}</p>
+                                        <div className="flex space-x-3">
+                                            <a
+                                                href={`/proizvodi/${product.id}`}
+                                                className="px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700 transition-colors flex-1 text-center"
                                             >
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                            </svg>
-                                        </button>
-                                    </motion.div>
-                                </motion.div>
-                            </div>
-
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <div className="text-sm font-medium text-orange-500 mb-2">{product.category}</div>
-                                    <h3 className="text-xl font-semibold text-stone-800 mb-2 group-hover:text-orange-500 transition-colors">
-                                        {product.name}
-                                    </h3>
-                                    <p className="text-stone-600 line-clamp-2">{product.description}</p>
-                                </div>
-
-                                <div className="text-right">
-                                    <div className="text-xl font-bold text-stone-800">{product.price}€</div>
-                                    <div className="text-xs text-stone-500">po {product.unit}</div>
+                                                Detaljnije
+                                            </a>
+                                            <button
+                                                className="px-4 py-2 border border-amber-600 text-amber-600 rounded hover:bg-amber-50 transition-colors"
+                                            >
+                                                Uzorak
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                            <motion.div
-                                className="mt-5 h-px bg-stone-200 w-full"
-                                initial={{ scaleX: 0 }}
-                                animate={{
-                                    scaleX: activeProduct === product.id ? 1 : 0.3
-                                }}
-                                transition={{ duration: 0.5 }}
-                            />
-                        </motion.div>
+                        </div>
                     ))}
-                </motion.div>
+                </div>
 
-                <motion.div
-                    className="mt-16 flex justify-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                    transition={{ duration: 0.6, delay: 0.8 }}
-                >
-                    <motion.button
-                        className="px-8 py-3 bg-stone-800 text-white flex items-center space-x-2 group hover:bg-stone-700 transition-colors"
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.98 }}
+                <div className={`mt-12 text-center transition-all duration-500 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+                    <a
+                        href="/proizvodi/svi"
+                        className="inline-flex items-center px-6 py-3 border-2 border-amber-600 text-amber-600 rounded-lg hover:bg-amber-50 transition-colors font-medium"
                     >
-                        <span>Istražite kompletnu ponudu</span>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5 transform group-hover:translate-x-1 transition-transform duration-300"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        Pogledajte sve proizvode
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
                         </svg>
-                    </motion.button>
-                </motion.div>
-
-                <motion.div
-                    className="mt-24 text-center"
-                    initial={{ opacity: 0 }}
-                    animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
-                    transition={{ duration: 0.7, delay: 1 }}
-                >
-                    <p className="italic text-stone-600 max-w-3xl mx-auto">
-                        "Ključna razlika između običnog i posebnog - naši prostori su jednako nijansirani kao i životni stilovi koje odražavaju."
-                    </p>
-                </motion.div>
+                    </a>
+                </div>
             </Container>
         </section>
     );
