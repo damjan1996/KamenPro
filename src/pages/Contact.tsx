@@ -1,8 +1,6 @@
 // src/pages/Contact.tsx - Korrektur
 // Falls das Layout nicht korrekt geladen wird, sollten wir Header und Footer importieren:
 
-import { Header } from "../components/layout/Header";
-import { Footer } from "../components/layout/Footer";
 import { Seo } from "../components/Seo";
 import {
   Hero,
@@ -16,7 +14,6 @@ import {
 export default function Contact() {
   return (
       <>
-        <Header />
         <Seo
             title="Kontakt"
             description="KamenPro - Kontaktirajte nas za sve informacije o kamenim oblogama i našim uslugama. Naš tim je spreman da odgovori na sva vaša pitanja."
@@ -30,7 +27,6 @@ export default function Contact() {
           <BusinessHoursSection />
           <FAQSection />
         </main>
-        <Footer />
       </>
   );
 }

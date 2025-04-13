@@ -10,7 +10,7 @@ export function NotFound() {
         description="Stranica koju tražite ne postoji. Vratite se na početnu stranicu."
         canonical="/404"
       />
-      <Container>
+        <Container>
         <div className="min-h-[60vh] flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-6xl font-bold text-stone-900 mb-4">404</h1>
@@ -25,7 +25,7 @@ export function NotFound() {
             </Link>
           </div>
         </div>
-      </Container>
+        </Container>
     </div>
   );
 }

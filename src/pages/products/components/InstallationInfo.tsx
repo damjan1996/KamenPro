@@ -1,128 +1,257 @@
 // src/pages/products/components/InstallationInfo.tsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Container } from "../../../components/ui/Container";
+import { ArrowRight, Check } from "lucide-react";
 
 export function InstallationInfo() {
     const [activeStep, setActiveStep] = useState(1);
     const [isVisible, setIsVisible] = useState(false);
+    const [hoveredStep, setHoveredStep] = useState<number | null>(null);
+    const sectionRef = useRef<HTMLElement | null>(null);
 
     useEffect(() => {
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                setIsVisible(true);
-            }
-        }, { threshold: 0.1 });
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const [entry] = entries;
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                }
+            },
+            { threshold: 0.2 }
+        );
 
-        const section = document.getElementById('installation-section');
-        if (section) {
-            observer.observe(section);
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
         }
 
         return () => {
-            if (section) {
-                observer.unobserve(section);
+            if (sectionRef.current) {
+                observer.unobserve(sectionRef.current);
             }
         };
     }, []);
 
-    // Installation steps data
+    // Auto-rotacija kroz korake
+    useEffect(() => {
+        if (!isVisible) return;
+
+        const interval = setInterval(() => {
+            setActiveStep(prev => prev < steps.length ? prev + 1 : 1);
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, [isVisible]);
+
     const steps = [
         {
             id: 1,
-            title: 'Priprema površine',
-            description: 'Pre postavljanja kamenih obloga, potrebno je obezbediti čistu, ravnu i stabilnu površinu. Ovo može uključivati uklanjanje stare obloge, popravku oštećenja i ravnanje zida ili poda.',
-            image: '/images/surface-preparation.jpg'
+            title: "Priprema površine",
+            description: "Pre postavljanja obloga potrebno je pravilno pripremiti površinu. Površina treba biti čista i grundirana pre nego što se postavlja lepak za kamen."
         },
         {
             id: 2,
-            title: 'Postavljanje lepka',
-            description: 'Koristimo specijalizovane lepkove visokog kvaliteta za kamen koji obezbeđuju snažnu i dugotrajnu vezu. Lepak se nanosi nazubljenom gletericom kako bi se obezbedila ravnomerna pokrivenost.',
-            image: '/images/adhesive-application.jpg'
+            title: "Izbor lepka",
+            description: "Izbor odgovarajućeg lepka zavisi od toga da li se obloge lepe na vanjske ili unutrašnje zidove. Preporučićemo vam najadekvatniji lepak za vašu situaciju."
         },
         {
             id: 3,
-            title: 'Postavljanje kamenih obloga',
-            description: 'Kamene obloge se pažljivo postavljaju na pripremljenu površinu, uz korišćenje distancera za održavanje ravnomernih razmaka. Svaki komad se precizno pozicionira prema dizajnu.',
-            image: '/images/stone-placement.jpg'
+            title: "Postavljanje obloga",
+            description: "Obloge se postavljaju pažljivo, vodeći računa o razmaku između elemenata. Za unutrašnje uglove, obloge se seku pod odgovarajućim uglom."
         },
         {
             id: 4,
-            title: 'Fugovanje i završna obrada',
-            description: 'Nakon što lepak očvrsne, popunjavamo spojeve između kamenih ploča fug masom. Završni korak uključuje čišćenje površine i nanošenje zaštitnog sredstva koje poboljšava otpornost i dugotrajnost.',
-            image: '/images/grouting-finishing.jpg'
+            title: "Završna obrada",
+            description: "Nakon ugradnje, obloge je potrebno premazati zaštitnim prajmerom koji se može kupiti u svim bolje opremljenim prodavnicama boja i lakova."
         }
     ];
 
+    // Alati potrebni za ugradnju
+    const tools = [
+        "Špatla",
+        "Brusilica za sečenje kamena",
+        "Libela",
+        "Merna traka",
+        "Olovka za obeležavanje",
+        "Lepak za kamen/ciglu"
+    ];
+
+    // Pomoćna funkcija za dobijanje klasa animacije
+    const getAnimationClasses = (delay: string = '') => `
+        transition-all duration-700 ${delay} ease-out transform 
+        ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
+    `.trim();
+
     return (
-        <section id="installation-section" className="py-16 md:py-24 bg-stone-50">
+        <section
+            ref={sectionRef}
+            className="py-16 md:py-24 bg-stone-50 overflow-hidden font-sans"
+            id="ugradnja"
+        >
             <Container>
-                <div className={`mb-12 text-center transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Proces ugradnje</h2>
-                    <p className="text-lg text-stone-600 max-w-3xl mx-auto">
-                        Kako izgleda profesionalna ugradnja naših kamenih obloga
+                {/* Zaglavlje */}
+                <div className={`text-center mb-12 md:mb-16 ${getAnimationClasses()}`}>
+                    <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-4 uppercase tracking-wide">
+                        Proces <span className="font-medium">ugradnje</span>
+                    </h2>
+                    <div className="w-16 h-1 bg-amber-500 mx-auto mb-6"></div>
+                    <p className="text-stone-600 max-w-2xl mx-auto font-light">
+                        Naše dekorativne obloge su dizajnirane za jednostavnu ugradnju. Ovde možete pronaći osnovne korake procesa i informacije za uspešnu instalaciju.
                     </p>
                 </div>
 
-                <div className="flex flex-col lg:flex-row gap-8">
-                    <div className="lg:w-1/3">
-                        <div className={`space-y-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+                <div className="grid md:grid-cols-2 gap-8 lg:gap-12 mb-16">
+                    {/* Leva strana - Koraci ugradnje */}
+                    <div className={`transition-all duration-700 delay-200 ease-out transform ${
+                        isVisible ? "translate-x-0 opacity-100" : "-translate-x-10 opacity-0"
+                    }`}>
+                        <div className="space-y-4">
                             {steps.map((step) => (
-                                <button
+                                <div
                                     key={step.id}
-                                    onClick={() => setActiveStep(step.id)}
-                                    className={`block w-full text-left p-4 rounded-lg transition-all duration-300 ${
-                                        activeStep === step.id
-                                            ? 'bg-amber-600 text-white shadow-md'
-                                            : 'bg-white hover:bg-amber-50 text-stone-800'
+                                    className={`p-6 rounded-lg cursor-pointer transition-all duration-300 
+                                        ${activeStep === step.id
+                                        ? 'bg-white shadow-md border-l-4 border-amber-500'
+                                        : 'bg-white/50 hover:bg-white hover:shadow-sm hover:border-l-4 hover:border-amber-300'
                                     }`}
+                                    onClick={() => setActiveStep(step.id)}
+                                    onMouseEnter={() => setHoveredStep(step.id)}
+                                    onMouseLeave={() => setHoveredStep(null)}
                                 >
-                                    <div className="flex items-center">
-                                        <span className={`flex items-center justify-center w-8 h-8 rounded-full mr-3 text-sm font-bold ${
-                                            activeStep === step.id ? 'bg-white text-amber-600' : 'bg-amber-100 text-amber-600'
+                                    <div className="flex items-start">
+                                        <div className={`flex-shrink-0 mr-4 w-10 h-10 rounded-full flex items-center justify-center text-lg font-medium transition-colors duration-300
+                                            ${activeStep === step.id || hoveredStep === step.id
+                                            ? 'bg-amber-500 text-white'
+                                            : 'bg-stone-100 text-stone-500'
                                         }`}>
                                             {step.id}
-                                        </span>
-                                        <span className="font-medium">{step.title}</span>
+                                        </div>
+                                        <div>
+                                            <h3 className={`text-lg font-medium mb-2 transition-colors
+                                                ${activeStep === step.id ? 'text-amber-600' : 'text-stone-800'}`}>
+                                                {step.title}
+                                            </h3>
+                                            <p className="text-stone-600 font-light">{step.description}</p>
+                                        </div>
                                     </div>
-                                </button>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Indikatori */}
+                        <div className="flex justify-center mt-6 space-x-2">
+                            {steps.map((step) => (
+                                <button
+                                    key={`indicator-${step.id}`}
+                                    onClick={() => setActiveStep(step.id)}
+                                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                                        activeStep === step.id
+                                            ? 'w-8 bg-amber-500'
+                                            : 'w-4 bg-stone-300 hover:bg-stone-400'
+                                    }`}
+                                    aria-label={`Korak ${step.id}: ${step.title}`}
+                                ></button>
                             ))}
                         </div>
                     </div>
 
-                    <div className="lg:w-2/3">
-                        {steps.map((step) => (
-                            <div
-                                key={step.id}
-                                className={`transition-all duration-500 ${
-                                    activeStep === step.id ? 'opacity-100 block' : 'opacity-0 hidden'
-                                }`}
-                            >
-                                <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                                    <div className="aspect-w-16 aspect-h-9">
-                                        <img
-                                            src={step.image}
-                                            alt={step.title}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    </div>
-                                    <div className="p-6">
-                                        <h3 className="text-2xl font-semibold mb-3">{step.title}</h3>
-                                        <p className="text-stone-600">{step.description}</p>
-                                    </div>
+                    {/* Desna strana - Slika i dodatne informacije */}
+                    <div className={`transition-all duration-700 delay-400 ease-out transform ${
+                        isVisible ? "translate-x-0 opacity-100" : "translate-x-10 opacity-0"
+                    }`}>
+                        <div className="relative rounded-lg overflow-hidden mb-8 shadow-md group">
+                            <img
+                                src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Installation/proces%20ugradnje.jpg"
+                                alt="Proces ugradnje dekorativnih obloga"
+                                className="w-full h-64 md:h-72 object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                                <div className="p-6 text-white">
+                                    <p className="text-sm font-light">
+                                        Stručna ugradnja naših dekorativnih obloga
+                                    </p>
                                 </div>
                             </div>
-                        ))}
+                        </div>
+
+                        {/* Dodatne informacije */}
+                        <div className="bg-white p-6 rounded-lg shadow-sm border border-stone-200 hover:shadow-md transition-shadow duration-300">
+                            <h4 className="text-lg font-medium text-stone-800 mb-4">Dodatne informacije</h4>
+                            <ul className="space-y-3 mb-4">
+                                <li className="flex items-start">
+                                    <Check className="flex-shrink-0 h-5 w-5 mr-2 text-amber-500 mt-0.5" />
+                                    <p className="text-stone-600 font-light">Prosečna potrošnja lepka je 5 kg po m², zavisno od površine.</p>
+                                </li>
+                                <li className="flex items-start">
+                                    <Check className="flex-shrink-0 h-5 w-5 mr-2 text-amber-500 mt-0.5" />
+                                    <p className="text-stone-600 font-light">Vreme ugradnje zavisi od iskustva - profesionalni majstori rade znatno brže.</p>
+                                </li>
+                                <li className="flex items-start">
+                                    <Check className="flex-shrink-0 h-5 w-5 mr-2 text-amber-500 mt-0.5" />
+                                    <p className="text-stone-600 font-light">Nudimo uslugu ugradnje po dogovoru i stručnu podršku za one koji sami ugrađuju.</p>
+                                </li>
+                            </ul>
+                            <a
+                                href="/kontakt"
+                                className="inline-flex items-center text-amber-600 hover:text-amber-700 group font-light"
+                            >
+                                Kontaktirajte nas za više informacija
+                                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                <div className={`mt-12 text-center transition-all duration-500 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
-                    <p className="text-lg text-stone-600 mb-4">Želite profesionalnu ugradnju?</p>
-                    <a
-                        href="/kontakt"
-                        className="inline-flex items-center px-6 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors font-medium"
-                    >
-                        Kontaktirajte nas
-                    </a>
+                {/* Alati za ugradnju */}
+                <div className={`bg-white p-8 rounded-lg shadow-sm border border-stone-200 mt-12 ${getAnimationClasses('delay-600')}`}>
+                    <div className="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 className="text-2xl font-light text-stone-800 mb-4">
+                                Potreban <span className="font-medium">alat</span>
+                            </h3>
+                            <p className="text-stone-600 mb-6 font-light">
+                                Za samostalnu ugradnju naših obloga potreban vam je osnovni alat koji se koristi u građevinarstvu:
+                            </p>
+                            <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
+                                {tools.map((tool, index) => (
+                                    <li key={index} className="flex items-center">
+                                        <div className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mr-2">
+                                            <Check className="h-3 w-3" />
+                                        </div>
+                                        <span className="text-stone-700 font-light">{tool}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="rounded-lg overflow-hidden shadow-md">
+                            <img
+                                src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Installation/alat.jpg"
+                                alt="Alat potreban za ugradnju"
+                                className="w-full h-64 object-cover"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* CTA sekcija */}
+                <div className={`mt-12 text-center ${getAnimationClasses('delay-800')}`}>
+                    <p className="text-stone-600 font-light mb-6">
+                        Potrebna vam je pomoć prilikom ugradnje ili imate dodatna pitanja?
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a
+                            href="/kontakt"
+                            className="px-6 py-3 bg-amber-500 text-stone-900 rounded-sm hover:bg-amber-400 transition-all duration-300 inline-flex items-center justify-center text-sm uppercase tracking-wider font-light shadow-md hover:shadow-lg group"
+                        >
+                            Zakazati konsultaciju
+                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                        </a>
+                        <a
+                            href="tel:+38765678634"
+                            className="px-6 py-3 border border-stone-400 text-stone-800 rounded-sm hover:bg-stone-50 transition-all duration-300 inline-flex items-center justify-center text-sm uppercase tracking-wider font-light"
+                        >
+                            Pozvati: 065 678 634
+                        </a>
+                    </div>
                 </div>
             </Container>
         </section>

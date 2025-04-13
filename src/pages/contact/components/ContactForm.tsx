@@ -1,10 +1,23 @@
 // src/pages/contact/components/ContactForm.tsx
-import { useState, useEffect } from 'react';
-import { Send, Check } from 'lucide-react';
+import { useState, useEffect, useRef, ChangeEvent, FormEvent } from 'react';
+import { Container } from '../../../components/ui/Container';
+import { Check, ArrowRight } from 'lucide-react';
+
+interface FormState {
+    name: string;
+    email: string;
+    phone: string;
+    subject: string;
+    message: string;
+}
+
+interface FormErrors {
+    [key: string]: string;
+}
 
 export const ContactFormSection = () => {
     const [isVisible, setIsVisible] = useState(false);
-    const [formState, setFormState] = useState({
+    const [formState, setFormState] = useState<FormState>({
         name: '',
         email: '',
         phone: '',
@@ -13,17 +26,34 @@ export const ContactFormSection = () => {
     });
     const [focused, setFocused] = useState('');
     const [submitted, setSubmitted] = useState(false);
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState<FormErrors>({});
+    const sectionRef = useRef<HTMLElement | null>(null);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsVisible(true);
-        }, 400);
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const [entry] = entries;
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                }
+            },
+            { threshold: 0.1 }
+        );
 
-        return () => clearTimeout(timer);
+        const currentRef = sectionRef.current;
+
+        if (currentRef) {
+            observer.observe(currentRef);
+        }
+
+        return () => {
+            if (currentRef) {
+                observer.unobserve(currentRef);
+            }
+        };
     }, []);
 
-    const handleChange = (e) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { id, value } = e.target;
         setFormState(prev => ({
             ...prev,
@@ -31,7 +61,7 @@ export const ContactFormSection = () => {
         }));
     };
 
-    const handleFocus = (field) => {
+    const handleFocus = (field: string) => {
         setFocused(field);
     };
 
@@ -40,7 +70,7 @@ export const ContactFormSection = () => {
     };
 
     const validateForm = () => {
-        const newErrors = {};
+        const newErrors: FormErrors = {};
 
         if (!formState.name.trim()) newErrors.name = 'Ime je obavezno';
         if (!formState.email.trim()) {
@@ -54,7 +84,7 @@ export const ContactFormSection = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
         if (validateForm()) {
@@ -76,171 +106,241 @@ export const ContactFormSection = () => {
         }
     };
 
-    const inputClasses = (field) => {
+    const inputClasses = (field: string) => {
         return `w-full px-4 py-3 border ${errors[field]
-            ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
+            ? 'border-red-300 focus:border-red-500 focus:ring-1 focus:ring-red-200'
             : focused === field
-                ? 'border-blue-400 ring-2 ring-blue-100'
-                : 'border-gray-200 focus:border-blue-500 focus:ring-blue-200'} 
-            rounded-lg transition-all duration-300 bg-white/80 backdrop-blur-sm hover:bg-white`;
+                ? 'border-amber-400 ring-1 ring-amber-200'
+                : 'border-stone-200 focus:border-amber-500 focus:ring-1 focus:ring-amber-200'} 
+            rounded-sm transition-all duration-300 bg-white hover:bg-white/95 font-light text-stone-800`;
+    };
+
+    // Pomoćna funkcija za dobijanje klasa animacije
+    const getAnimationClasses = (delay: string = '') => `
+        transition-all duration-700 ${delay} ease-out transform 
+        ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
+    `.trim();
+
+    // Komponente za formularska polja
+    const FormField = ({
+                           id,
+                           label,
+                           type = 'text',
+                           placeholder,
+                           value,
+                           delay,
+                           isTextarea = false,
+                           rows = 5,
+                           options = []
+                       }: {
+        id: keyof FormState;
+        label: string;
+        type?: string;
+        placeholder?: string;
+        value: string;
+        delay: string;
+        isTextarea?: boolean;
+        rows?: number;
+        options?: Array<{value: string; label: string}>;
+    }) => (
+        <div className={getAnimationClasses(delay)}>
+            <label htmlFor={id} className="block text-sm font-medium text-stone-700 mb-1">{label}</label>
+            {isTextarea ? (
+                <textarea
+                    id={id}
+                    rows={rows}
+                    value={value}
+                    onChange={handleChange}
+                    onFocus={() => handleFocus(id)}
+                    onBlur={handleBlur}
+                    className={inputClasses(id)}
+                    placeholder={placeholder}
+                ></textarea>
+            ) : type === 'select' ? (
+                <select
+                    id={id}
+                    value={value}
+                    onChange={handleChange}
+                    onFocus={() => handleFocus(id)}
+                    onBlur={handleBlur}
+                    className={inputClasses(id)}
+                >
+                    {options.map(option => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
+                    ))}
+                </select>
+            ) : (
+                <input
+                    type={type}
+                    id={id}
+                    value={value}
+                    onChange={handleChange}
+                    onFocus={() => handleFocus(id)}
+                    onBlur={handleBlur}
+                    className={inputClasses(id)}
+                    placeholder={placeholder}
+                />
+            )}
+            {errors[id] && <p className="mt-1 text-sm text-red-600">{errors[id]}</p>}
+        </div>
+    );
+
+    // Komponenta za prikaz uspeha nakon slanja forme
+    const SuccessMessage = () => (
+        <div className="py-12 text-center">
+            <div className="mx-auto w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mb-6">
+                <Check className="w-8 h-8 text-amber-600" />
+            </div>
+            <h3 className="text-2xl font-medium text-stone-800 mb-2">Hvala na poruci!</h3>
+            <p className="text-stone-600 font-light">Vaša poruka je uspešno poslata. Uskoro ćemo vas kontaktirati.</p>
+        </div>
+    );
+
+    // Komponenta za brzu kontakt opciju
+    const ContactOption = ({
+                               href,
+                               title,
+                               content,
+                               isClickable = true
+                           }: {
+        href?: string;
+        title: string;
+        content: string;
+        isClickable?: boolean
+    }) => {
+        const baseClasses = "p-4 bg-stone-50 rounded-lg border border-stone-200 hover:border-amber-200 hover:shadow-sm transition-all duration-300 text-center";
+
+        const content_el = (
+            <>
+                <h3 className="font-medium text-stone-800 mb-1 transition-colors duration-300 group-hover:text-amber-600">{title}</h3>
+                <p className="text-stone-600 font-light text-sm">{content}</p>
+            </>
+        );
+
+        return isClickable && href ? (
+            <a href={href} className={`${baseClasses} group`}>
+                {content_el}
+            </a>
+        ) : (
+            <div className={baseClasses}>
+                {content_el}
+            </div>
+        );
     };
 
     return (
-        <section id="contact-form" className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
-            {/* Design elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-blue-50 opacity-70 -translate-y-1/2 translate-x-1/2"></div>
-            <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-gray-50 opacity-50 translate-y-1/2 -translate-x-1/2"></div>
-
-            <div className="container mx-auto px-4 relative z-10">
-                <div className={`max-w-3xl mx-auto transition-all duration-1000 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-                    <div className="text-center mb-12">
-                        <span className="inline-block text-blue-600 text-sm font-medium tracking-wider uppercase mb-2">Pišite nam</span>
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Pošaljite Nam Poruku</h2>
-                        <div className="w-20 h-1 bg-blue-600 mx-auto mb-4"></div>
-                        <p className="text-gray-600 max-w-lg mx-auto">
-                            Ispunite formular ispod i naš tim će vam odgovoriti u najkraćem mogućem roku. Radujemo se vašoj poruci.
+        <section
+            ref={sectionRef}
+            id="kontakt-forma"
+            className="py-16 md:py-24 bg-white overflow-hidden font-sans"
+        >
+            <Container>
+                <div className="max-w-3xl mx-auto">
+                    <div className={`text-center mb-12 ${getAnimationClasses()}`}>
+                        <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-4 uppercase tracking-wide">
+                            Pošaljite nam <span className="font-medium">poruku</span>
+                        </h2>
+                        <div className="w-16 h-1 bg-amber-500 mx-auto mb-6"></div>
+                        <p className="text-stone-600 max-w-lg mx-auto font-light">
+                            Ispunite formular ispod i naš tim će vam odgovoriti u najkraćem mogućem roku.
+                            Stojimo vam na raspolaganju za sve informacije o našim proizvodima.
                         </p>
                     </div>
 
-                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 md:p-8 transition-all duration-500 hover:shadow-2xl">
+                    <div className={`bg-stone-50 rounded-lg shadow-md p-6 md:p-8 ${getAnimationClasses('delay-200')}`}>
                         {submitted ? (
-                            <div className="py-12 text-center">
-                                <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6 animate-pulse">
-                                    <Check className="w-8 h-8 text-green-600" />
-                                </div>
-                                <h3 className="text-2xl font-semibold text-gray-800 mb-2">Hvala na poruci!</h3>
-                                <p className="text-gray-600">Vaša poruka je uspešno poslata. Uskoro ćemo vas kontaktirati.</p>
-                            </div>
+                            <SuccessMessage />
                         ) : (
                             <form className="space-y-6" onSubmit={handleSubmit}>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className={`transition-all duration-500 delay-100 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-                                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Ime i prezime</label>
-                                        <input
-                                            type="text"
-                                            id="name"
-                                            value={formState.name}
-                                            onChange={handleChange}
-                                            onFocus={() => handleFocus('name')}
-                                            onBlur={handleBlur}
-                                            className={inputClasses('name')}
-                                            placeholder="Vaše ime i prezime"
-                                        />
-                                        {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
-                                    </div>
-                                    <div className={`transition-all duration-500 delay-200 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-                                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email adresa</label>
-                                        <input
-                                            type="email"
-                                            id="email"
-                                            value={formState.email}
-                                            onChange={handleChange}
-                                            onFocus={() => handleFocus('email')}
-                                            onBlur={handleBlur}
-                                            className={inputClasses('email')}
-                                            placeholder="vasa.adresa@email.com"
-                                        />
-                                        {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
-                                    </div>
-                                </div>
-
-                                <div className={`transition-all duration-500 delay-300 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-                                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Telefon</label>
-                                    <input
-                                        type="tel"
-                                        id="phone"
-                                        value={formState.phone}
-                                        onChange={handleChange}
-                                        onFocus={() => handleFocus('phone')}
-                                        onBlur={handleBlur}
-                                        className={inputClasses('phone')}
-                                        placeholder="Vaš broj telefona"
+                                    <FormField
+                                        id="name"
+                                        label="Ime i prezime"
+                                        placeholder="Vaše ime i prezime"
+                                        value={formState.name}
+                                        delay="delay-300"
+                                    />
+                                    <FormField
+                                        id="email"
+                                        label="Email adresa"
+                                        type="email"
+                                        placeholder="vasa.adresa@email.com"
+                                        value={formState.email}
+                                        delay="delay-400"
                                     />
                                 </div>
 
-                                <div className={`transition-all duration-500 delay-400 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-                                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">Tema</label>
-                                    <select
-                                        id="subject"
-                                        value={formState.subject}
-                                        onChange={handleChange}
-                                        onFocus={() => handleFocus('subject')}
-                                        onBlur={handleBlur}
-                                        className={inputClasses('subject')}
-                                    >
-                                        <option value="">Izaberite temu</option>
-                                        <option value="general">Opšte informacije</option>
-                                        <option value="quote">Zatražite ponudu</option>
-                                        <option value="project">Razgovor o projektu</option>
-                                        <option value="other">Drugo</option>
-                                    </select>
-                                </div>
+                                <FormField
+                                    id="phone"
+                                    label="Telefon"
+                                    type="tel"
+                                    placeholder="Vaš broj telefona"
+                                    value={formState.phone}
+                                    delay="delay-500"
+                                />
 
-                                <div className={`transition-all duration-500 delay-500 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-                                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Poruka</label>
-                                    <textarea
-                                        id="message"
-                                        rows={5}
-                                        value={formState.message}
-                                        onChange={handleChange}
-                                        onFocus={() => handleFocus('message')}
-                                        onBlur={handleBlur}
-                                        className={inputClasses('message')}
-                                        placeholder="Vaša poruka..."
-                                    ></textarea>
-                                    {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message}</p>}
-                                </div>
+                                <FormField
+                                    id="subject"
+                                    label="Tema"
+                                    type="select"
+                                    value={formState.subject}
+                                    delay="delay-600"
+                                    options={[
+                                        { value: "", label: "Izaberite temu" },
+                                        { value: "info", label: "Informacije o proizvodima" },
+                                        { value: "quote", label: "Zatražite ponudu" },
+                                        { value: "project", label: "Konsultacije za projekat" },
+                                        { value: "installation", label: "Ugradnja dekorativnih obloga" },
+                                        { value: "other", label: "Drugo" }
+                                    ]}
+                                />
 
-                                <div className={`text-center transition-all duration-500 delay-600 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                                <FormField
+                                    id="message"
+                                    label="Poruka"
+                                    placeholder="Vaša poruka..."
+                                    value={formState.message}
+                                    delay="delay-700"
+                                    isTextarea={true}
+                                />
+
+                                <div className={`text-center ${getAnimationClasses('delay-800')}`}>
                                     <button
                                         type="submit"
-                                        className="group relative overflow-hidden bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 rounded-lg font-medium transition-all duration-300 hover:shadow-lg"
+                                        className="group inline-flex items-center bg-amber-500 text-stone-900 px-6 py-3 rounded-sm hover:bg-amber-400 transition-all duration-300 text-sm uppercase tracking-wider font-light shadow-md hover:shadow-lg"
                                     >
-                                        <span className="relative z-10 flex items-center justify-center gap-2">
-                                            Pošaljite Poruku
-                                            <Send className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" />
-                                        </span>
-                                        <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                                        <span>Pošaljite poruku</span>
+                                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                                     </button>
                                 </div>
                             </form>
                         )}
                     </div>
 
-                    <div className={`mt-8 text-center text-gray-500 text-sm transition-all duration-500 delay-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+                    <div className={`mt-8 text-center text-stone-500 text-sm font-light ${getAnimationClasses('delay-900')}`}>
                         <p>Vaši podaci su sigurni i neće biti deljeni sa trećim licima.</p>
                     </div>
-                </div>
-            </div>
 
-            {/* Responsive animations */}
-            <style jsx>{`
-                @media (max-width: 640px) {
-                    form {
-                        gap: 1rem;
-                    }
-                }
-                
-                @keyframes fadeInUp {
-                    from {
-                        opacity: 0;
-                        transform: translateY(20px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-                
-                @keyframes pulse {
-                    0%, 100% {
-                        opacity: 1;
-                    }
-                    50% {
-                        opacity: 0.7;
-                    }
-                }
-            `}</style>
+                    {/* Dodatne informacije i brze kontakt opcije */}
+                    <div className={`mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 ${getAnimationClasses('delay-1000')}`}>
+                        <ContactOption
+                            href="tel:+38765678634"
+                            title="Pozovite nas"
+                            content="065 678 634"
+                        />
+                        <ContactOption
+                            href="mailto:info@kamenpro.rs"
+                            title="Pošaljite email"
+                            content="info@kamenpro.rs"
+                        />
+                        <ContactOption
+                            title="Radno vreme"
+                            content="Pon - Sub: 09:00 - 18:00"
+                            isClickable={false}
+                        />
+                    </div>
+                </div>
+            </Container>
         </section>
     );
 };

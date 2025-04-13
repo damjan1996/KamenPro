@@ -1,6 +1,5 @@
 // src/components/about/components/CompanyHistory.tsx
 import { useState, useEffect, useRef } from 'react';
-import { Container } from '../../../components/ui/Container';
 import { ArrowRight } from 'lucide-react';
 
 interface HistoryItem {
@@ -17,28 +16,28 @@ export function CompanyHistory() {
 
     const historyItems: HistoryItem[] = [
         {
-            year: '2008',
-            title: 'Početak',
-            description: 'KamenPro je započeo kao mali porodični biznis u radionici veličine 50m². Sa samo dva zaposlena, započeli smo rad sa osnovnim alatima i velikom strašću prema prirodnom kamenu.',
-            image: '/images/history/2008.jpg'
+            year: '2019',
+            title: 'Osnivanje',
+            description: 'KamenPro je osnovan kao samostalna zanatska radnja u Bijeljini. Sa jasnom vizijom kvaliteta i profesionalnosti, započeli smo proizvodnju dekorativnih kamenih obloga fokusirajući se na ručnu izradu i pažljiv odabir materijala.',
+            image: 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/History/osnivanje.jpg'
         },
         {
-            year: '2012',
-            title: 'Širenje proizvodnje',
-            description: 'Nakon četiri godine uspešnog poslovanja, proširili smo kapacitete na novu lokaciju sa modernom proizvodnom halom od 500m² i najsavremenijom opremom za obradu kamena.',
-            image: '/images/history/2012.jpg'
+            year: '2020',
+            title: 'Razvoj asortimana',
+            description: 'Proširili smo naš asortiman proizvoda dodajući nove vrste dekorativnih obloga i boja. Pored kamena, počeli smo sa proizvodnjom rustik cigle koja je brzo postala popularna među našim klijentima.',
+            image: 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/History/asortiman.jpg'
         },
         {
-            year: '2016',
-            title: 'Nacionalno priznanje',
-            description: 'Nagrađeni smo priznanjem za najboljeg proizvođača dekorativnog kamena u Srbiji. Naš tim je narastao na 15 stručnjaka specijalizovanih za različite aspekte obrade kamena.',
-            image: '/images/history/2016.jpg'
+            year: '2022',
+            title: 'Uspostavljanje partnerstava',
+            description: 'Uspostavili smo partnerstva sa građevinskim firmama i prodavnicama, šireći našu mrežu distribucije. Naši proizvodi su postali prepoznatljivi po kvalitetu i izdržljivosti, a klijentska baza je kontinuirano rasla.',
+            image: 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/History/partnerstva.jpg'
         },
         {
-            year: '2023',
-            title: 'Lider u industriji',
-            description: 'KamenPro je danas prepoznat kao vodeći proizvođač kamenih obloga u regionu sa preko 500 uspešno realizovanih projekata i saradnjom sa najpoznatijim arhitektama i dizajnerima enterijera.',
-            image: '/images/history/today.jpg'
+            year: '2025',
+            title: 'Danas',
+            description: 'Danas je KamenPro vodeći proizvođač dekorativnih kamenih obloga u regionu Bijeljine. Radimo na proširenju kapaciteta proizvodnje i kontinuirano unapređujemo kvalitet naših proizvoda, trudeći se da ispunimo i premašimo očekivanja naših klijenata.',
+            image: 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/History/danas.jpg'
         }
     ];
 
@@ -52,154 +51,176 @@ export function CompanyHistory() {
             { threshold: 0.2 }
         );
 
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
+        const currentSectionRef = sectionRef.current;
+
+        if (currentSectionRef) {
+            observer.observe(currentSectionRef);
         }
 
         return () => {
-            if (sectionRef.current) {
-                observer.unobserve(sectionRef.current);
+            if (currentSectionRef) {
+                observer.unobserve(currentSectionRef);
             }
         };
     }, []);
 
+    // Shared timeline button styles to avoid duplication
+    const getTimelineButtonStyles = (index: number) => {
+        const isActive = index === activeIndex;
+        return {
+            yearCircle: `${
+                isActive
+                    ? 'bg-amber-500 text-white shadow-lg'
+                    : 'bg-white text-stone-500 border-2 border-stone-200 group-hover:border-amber-500 group-hover:text-amber-600'
+            }`,
+            yearText: `${
+                isActive ? 'text-amber-600' : 'text-stone-500'
+            }`
+        };
+    };
+
     return (
-        <section ref={sectionRef} className="py-16 md:py-24 bg-white">
-            <Container>
-                <div className="max-w-5xl mx-auto">
+        <section ref={sectionRef} className="py-16 md:py-24 bg-white font-sans">
+            <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-6xl mx-auto">
                     <div className={`mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                        <h2 className="text-3xl md:text-4xl font-light text-gray-800 mb-4">
-                            <span className="text-gray-400">Naša</span> <span className="font-medium">istorija</span>
+                        <h2 className="text-3xl md:text-4xl font-light mb-4 tracking-wide">
+                            <span className="text-stone-400">Naša</span> <span className="text-stone-800 font-medium">istorija</span>
                         </h2>
-                        <p className="text-gray-600 max-w-2xl">
-                            Od malog porodičnog biznisa do vodećeg proizvođača kamenih obloga u regionu -
-                            pogledajte našu transformaciju kroz godine.
+                        <div className="w-16 h-1 bg-amber-500 mb-8"></div>
+                        <p className="text-stone-600 max-w-3xl font-light">
+                            Od osnivanja 2019. godine, KamenPro se razvio u prepoznatljivog proizvođača
+                            visokokvalitetnih dekorativnih kamenih obloga. Pogledajte ključne trenutke našeg razvoja.
                         </p>
                     </div>
 
-                    {/* Desktop timeline (horizontalni) */}
+                    {/* Desktop timeline (horizontalna linija sa godinama) */}
                     <div className="hidden md:block mb-16">
                         <div className="relative">
-                            {/* Timeline linja */}
-                            <div className="absolute left-0 right-0 top-1/2 h-[2px] bg-gray-200 transform -translate-y-1/2"></div>
+                            {/* Timeline linija */}
+                            <div className="absolute left-0 right-0 top-1/2 h-[2px] bg-stone-200 transform -translate-y-1/2"></div>
 
-                            {/* Timeline tačke */}
+                            {/* Timeline tačke i godine */}
                             <div className="relative flex justify-between">
-                                {historyItems.map((item, index) => (
-                                    <button
-                                        key={index}
-                                        className={`relative z-10 flex flex-col items-center group transition-all duration-300 ${
-                                            index === activeIndex ? 'scale-110' : 'opacity-70 hover:opacity-100'
-                                        }`}
-                                        onClick={() => setActiveIndex(index)}
-                                    >
-                                        <div className={`w-16 h-16 mb-3 rounded-full flex items-center justify-center transition-all duration-300 ${
-                                            index === activeIndex
-                                                ? 'bg-[#FF5722] text-white shadow-lg'
-                                                : 'bg-white text-gray-400 border-2 border-gray-200 group-hover:border-[#FF5722] group-hover:text-[#FF5722]'
-                                        }`}>
-                                            <span className="text-lg font-semibold">{item.year}</span>
-                                        </div>
-                                        <span className={`text-sm font-medium transition-all duration-300 ${
-                                            index === activeIndex ? 'text-[#FF5722]' : 'text-gray-500'
-                                        }`}>
-                      {item.title}
-                    </span>
-                                    </button>
-                                ))}
+                                {historyItems.map((item, index) => {
+                                    const styles = getTimelineButtonStyles(index);
+                                    return (
+                                        <button
+                                            key={index}
+                                            className={`relative z-10 flex flex-col items-center group transition-all duration-300 ${
+                                                index === activeIndex ? 'scale-110' : 'opacity-70 hover:opacity-100'
+                                            }`}
+                                            onClick={() => setActiveIndex(index)}
+                                        >
+                                            <div className={`w-16 h-16 mb-3 rounded-full flex items-center justify-center transition-all duration-300 ${styles.yearCircle}`}>
+                                                <span className="text-lg font-medium">{item.year}</span>
+                                            </div>
+                                            <span className={`text-sm font-medium transition-all duration-300 ${styles.yearText}`}>
+                                                {item.title}
+                                            </span>
+                                        </button>
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>
 
-                    {/* Glavni prikaz sadržaja */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                        {/* Tekstualni sadržaj */}
-                        <div className={`order-2 md:order-1 transition-all duration-700 ${
+                    {/* Mobile timeline (horizontalna linija sa godinama za mobilni prikaz) */}
+                    <div className="md:hidden mb-8 overflow-x-auto pb-2">
+                        <div className="flex space-x-6 min-w-max">
+                            {historyItems.map((item, index) => (
+                                <button
+                                    key={index}
+                                    className="flex flex-col items-center"
+                                    onClick={() => setActiveIndex(index)}
+                                >
+                                    <div className={`w-14 h-14 mb-2 rounded-full flex items-center justify-center transition-all duration-300 ${
+                                        index === activeIndex
+                                            ? 'bg-amber-500 text-white'
+                                            : 'bg-white text-stone-500 border border-stone-200'
+                                    }`}>
+                                        <span className="text-base font-medium">{item.year}</span>
+                                    </div>
+                                    <span className={`text-xs font-medium transition-all duration-300 ${
+                                        index === activeIndex ? 'text-amber-600' : 'text-stone-500'
+                                    }`}>
+                                        {item.title}
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Aktivni period - detaljan prikaz */}
+                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
+                        {/* Leva kolona sa tekstom - zauzima 2/5 na desktop-u */}
+                        <div className={`lg:col-span-2 transition-all duration-700 delay-200 ${
                             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                         }`}>
-                            {/* Mobile timeline (vertikalni) */}
-                            <div className="md:hidden mb-8">
-                                <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide">
-                                    {historyItems.map((item, index) => (
-                                        <button
-                                            key={index}
-                                            className={`flex-shrink-0 px-4 py-2 rounded-full transition-all duration-300 ${
-                                                index === activeIndex
-                                                    ? 'bg-[#FF5722] text-white'
-                                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                            }`}
-                                            onClick={() => setActiveIndex(index)}
-                                        >
-                                            {item.year}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="bg-gray-50 p-6 md:p-8 rounded-lg transform transition-all duration-500">
-                                <div className="flex items-center mb-4">
-                                    <div className="mr-4 hidden md:block">
-                                        <div className={`w-14 h-14 rounded-full flex items-center justify-center bg-[#FF5722] text-white`}>
-                                            <span className="text-lg font-semibold">{historyItems[activeIndex].year}</span>
+                            <div className="p-6 md:p-8 bg-stone-50 rounded-lg shadow-sm border border-stone-100 h-full">
+                                <div className="flex items-start mb-6">
+                                    <div className="mr-4">
+                                        <div className="w-14 h-14 rounded-full flex items-center justify-center bg-amber-500 text-white shadow-sm">
+                                            <span className="text-lg font-medium">{historyItems[activeIndex].year}</span>
                                         </div>
                                     </div>
                                     <div>
-                                        <h3 className="text-2xl font-medium text-gray-800">
+                                        <h3 className="text-2xl font-medium text-stone-800">
                                             {historyItems[activeIndex].title}
                                         </h3>
-                                        <div className="h-1 w-12 bg-[#FF5722] mt-2"></div>
+                                        <div className="h-1 w-12 bg-amber-500 mt-2"></div>
                                     </div>
                                 </div>
 
-                                <p className="text-gray-600 leading-relaxed mb-6">
+                                <p className="text-stone-600 leading-relaxed mb-8 font-light">
                                     {historyItems[activeIndex].description}
                                 </p>
 
                                 <a
-                                    href={`/o-nama/istorija/${historyItems[activeIndex].year.toLowerCase()}`}
-                                    className="group inline-flex items-center text-[#FF5722] hover:text-[#E64A19] transition-colors duration-300"
+                                    href="/o-nama"
+                                    className="group inline-flex items-center text-amber-600 hover:text-amber-700 transition-colors duration-300"
                                 >
-                                    <span className="mr-2">Saznajte više</span>
-                                    <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-[#FF5722] transition-all duration-300">
-                                        <ArrowRight className="h-4 w-4 text-[#FF5722] group-hover:text-white transition-colors duration-300" />
-                                    </div>
+                                    <span className="mr-2 font-light">Naša priča</span>
+                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
                                 </a>
                             </div>
                         </div>
 
-                        {/* Slika */}
-                        <div className={`order-1 md:order-2 h-64 md:h-96 relative rounded-lg overflow-hidden transition-all duration-700 ${
+                        {/* Desna kolona sa slikom - zauzima 3/5 na desktop-u */}
+                        <div className={`lg:col-span-3 transition-all duration-700 delay-300 ${
                             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                         }`}>
-                            {historyItems.map((item, index) => (
-                                <div
-                                    key={index}
-                                    className={`absolute inset-0 transition-all duration-700 ${
-                                        index === activeIndex
-                                            ? 'opacity-100 scale-100'
-                                            : 'opacity-0 scale-110'
-                                    }`}
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-                                    <img
-                                        src={item.image || '/images/placeholder.jpg'}
-                                        alt={`${item.year} - ${item.title}`}
-                                        className="w-full h-full object-cover"
-                                    />
-                                </div>
-                            ))}
-
-                            {/* Image overlay with stats */}
-                            <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                                <div className="flex items-center space-x-4">
-                                    <div>
-                                        <div className="text-3xl font-bold">15+</div>
-                                        <div className="text-sm text-white/80">Godina iskustva</div>
+                            <div className="relative h-64 md:h-96 rounded-lg overflow-hidden shadow-md">
+                                {historyItems.map((item, index) => (
+                                    <div
+                                        key={index}
+                                        className={`absolute inset-0 transition-all duration-700 ${
+                                            index === activeIndex
+                                                ? 'opacity-100 scale-100'
+                                                : 'opacity-0 scale-110'
+                                        }`}
+                                    >
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
+                                        <img
+                                            src={item.image || 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/workshop-default.jpg'}
+                                            alt={`${item.year} - ${item.title}`}
+                                            className="w-full h-full object-cover"
+                                        />
                                     </div>
-                                    <div className="h-10 w-px bg-white/30"></div>
-                                    <div>
-                                        <div className="text-3xl font-bold">500+</div>
-                                        <div className="text-sm text-white/80">Projekata</div>
+                                ))}
+
+                                {/* Image overlay with stats */}
+                                <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-20">
+                                    <div className="flex items-center space-x-12">
+                                        <div>
+                                            <div className="text-3xl font-bold">6+</div>
+                                            <div className="text-sm text-white/90 font-light">Godina iskustva</div>
+                                        </div>
+                                        <div className="h-10 w-px bg-white/30"></div>
+                                        <div>
+                                            <div className="text-3xl font-bold">100+</div>
+                                            <div className="text-sm text-white/90 font-light">Projekata</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -207,46 +228,46 @@ export function CompanyHistory() {
                     </div>
 
                     {/* Navigacija */}
-                    <div className="mt-12 flex justify-center md:justify-end space-x-2">
+                    <div className="mt-12 flex justify-center space-x-4">
                         <button
                             onClick={() => setActiveIndex(prev => (prev > 0 ? prev - 1 : prev))}
-                            className={`w-10 h-10 rounded-full flex items-center justify-center border border-gray-200 transition-all duration-300 ${
+                            className={`w-10 h-10 rounded-full flex items-center justify-center border border-stone-200 transition-all duration-300 ${
                                 activeIndex > 0
-                                    ? 'hover:border-[#FF5722] hover:text-[#FF5722]'
+                                    ? 'hover:border-amber-500 hover:text-amber-600'
                                     : 'opacity-50 cursor-not-allowed'
                             }`}
                             disabled={activeIndex === 0}
+                            aria-label="Prethodna godina"
                         >
                             <ArrowRight className="h-4 w-4 transform rotate-180" />
                         </button>
+                        <div className="flex space-x-2">
+                            {historyItems.map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setActiveIndex(index)}
+                                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                        index === activeIndex ? 'bg-amber-500 w-4' : 'bg-stone-300 hover:bg-stone-400'
+                                    }`}
+                                    aria-label={`Godina ${historyItems[index].year}`}
+                                />
+                            ))}
+                        </div>
                         <button
                             onClick={() => setActiveIndex(prev => (prev < historyItems.length - 1 ? prev + 1 : prev))}
-                            className={`w-10 h-10 rounded-full flex items-center justify-center border border-gray-200 transition-all duration-300 ${
+                            className={`w-10 h-10 rounded-full flex items-center justify-center border border-stone-200 transition-all duration-300 ${
                                 activeIndex < historyItems.length - 1
-                                    ? 'hover:border-[#FF5722] hover:text-[#FF5722]'
+                                    ? 'hover:border-amber-500 hover:text-amber-600'
                                     : 'opacity-50 cursor-not-allowed'
                             }`}
                             disabled={activeIndex === historyItems.length - 1}
+                            aria-label="Sledeća godina"
                         >
                             <ArrowRight className="h-4 w-4" />
                         </button>
                     </div>
-
-                    {/* Mobile page indicator */}
-                    <div className="md:hidden mt-6 flex justify-center">
-                        <div className="flex space-x-1">
-                            {historyItems.map((_, index) => (
-                                <div
-                                    key={index}
-                                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                        index === activeIndex ? 'bg-[#FF5722] w-4' : 'bg-gray-300'
-                                    }`}
-                                />
-                            ))}
-                        </div>
-                    </div>
                 </div>
-            </Container>
+            </div>
         </section>
     );
 }

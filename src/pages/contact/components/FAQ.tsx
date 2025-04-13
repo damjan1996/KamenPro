@@ -1,85 +1,97 @@
 // src/pages/contact/components/FAQ.tsx
-import { useState, useEffect, useRef } from 'react';
-import { ChevronDown, Search, Plus, MessageCircle } from 'lucide-react';
+import { useState, useEffect, useRef } from "react";
+import { ChevronDown, Search, MessageCircle, ArrowRight } from "lucide-react";
+import { Container } from "../../../components/ui/Container";
 
-export const FAQSection = () => {
+interface FAQItem {
+    question: string;
+    answer: string;
+    category: string;
+}
+
+export function FAQSection() {
     const [isVisible, setIsVisible] = useState(false);
-    const [activeIndex, setActiveIndex] = useState(null);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [expandedHeight, setExpandedHeight] = useState({});
-    const answerRefs = useRef([]);
+    const [activeIndex, setActiveIndex] = useState<number | null>(null);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [expandedHeight, setExpandedHeight] = useState<Record<number, number>>({});
+    const answerRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const sectionRef = useRef<HTMLElement | null>(null);
 
-    const faqItems = [
+    // Realni FAQ podaci iz KamenPro dokumentacije
+    const faqItems: FAQItem[] = [
         {
-            question: "Koliko košta konsultacija?",
-            answer: "Inicijalne konsultacije su besplatne za sve potencijalne klijente. Tokom ove konsultacije razgovaramo o vašim potrebama, idejama i budžetu. Nakon toga, za detaljnije planiranje i posete lokaciji naplaćujemo konsultaciju koja se kasnije oduzima od ukupne cene projekta ako odlučite da sarađujemo.",
-            category: "cene"
-        },
-        {
-            question: "Koliko dugo traju projekti?",
-            answer: "Vremenski okvir projekta zavisi od njegove veličine i složenosti. Manji projekti poput oblaganja pojedinačnih zidova mogu biti završeni za 1-2 nedelje. Srednji projekti obično traju 3-4 nedelje, dok veći projekti, kao što su kompletna renoviranja, mogu trajati 2-3 meseca. Za svaki projekat pravimo detaljan vremenski plan koji delimo sa vama pre početka radova.",
-            category: "projekti"
-        },
-        {
-            question: "Da li radite i van Beograda?",
-            answer: "Da, pružamo usluge na celoj teritoriji Srbije. Za projekte izvan Beograda naplaćujemo dodatne troškove transporta i smeštaja ako je potrebno. Imamo iskustva sa projektima širom zemlje i možemo organizovati logistiku efikasno za bilo koju lokaciju.",
-            category: "lokacija"
-        },
-        {
-            question: "Kakva je garancija na vaše usluge?",
-            answer: "Na sve materijale dajemo garanciju od minimum 5 godina, dok na izvedene radove nudimo garanciju od 2 godine. Ovo pokriva sve potencijalne probleme sa materijalima ili izvođenjem. Dodatno, nudimo i godišnji pregled stanja i održavanje za naše klijente po povoljnijim cenama nakon isteka garantnog roka.",
-            category: "garancija"
-        },
-        {
-            question: "Da li mogu da posetim vaš salon?",
-            answer: "Naravno, naš izložbeni salon je otvoren za posete tokom redovnog radnog vremena. U salonu možete videti uzorke svih materijala koje koristimo, primere završenih projekata i razgovarati sa našim dizajnerima. Preporučujemo da zakažete posetu unapred kako bismo vam mogli posvetiti punu pažnju i pripremiti uzorke koji bi vas mogli zanimati.",
-            category: "posete"
-        },
-        {
-            question: "Koje vrste kamena nudite?",
-            answer: "Nudimo širok spektar prirodnih i veštačkih kamenih materijala. Od prirodnih imamo: mermer, granit, travertin, krečnjak, kvarcit i škriljac. Od veštačkih nudimo kvarcne kompozite, porcelan i teraco. Svaki materijal ima svoje specifične karakteristike, prednosti i namene, o čemu vas naši stručnjaci mogu detaljno informisati.",
+            question: "Koji su standardni materijali koje koristite u proizvodnji?",
+            answer: "Dekorativni kamen radimo na bazi belog cementa i drugih aditiva kao i boja, što mu daje kvalitet i mogućnost upotrebe na vanjskim i unutrašnjim zidovima.",
             category: "materijali"
         },
         {
-            question: "Da li radite i enterijere i eksterijere?",
-            answer: "Da, specijalizovani smo za rad na oba tipa projekata. Za enterijere radimo podove, zidove, kupatila, kuhinje i dekorativne elemente. Za eksterijere izvodimo fasade, terase, staze, bazene i dekorativne elemente za baštenske prostore. Materijali se biraju prema nameni, uzimajući u obzir otpornost na atmosferske uslove za spoljne radove.",
-            category: "projekti"
+            question: "Koje su prednosti vaših proizvoda u odnosu na konkurenciju?",
+            answer: "Počevši od toga da vodimo računa o kvalitetu kroz ručnu proizvodnju i upotrebu najkavlitetnijih, proverenih materijala za proizvodnju dekorativnog kamena do toga da mu damo dovoljno vremenskog prostora ukoliko bi se on mogao formirati tokom sušenja.",
+            category: "kvalitet"
+        },
+        {
+            question: "Da li su vaši proizvodi otporni na vlagu, vatru ili druge spoljne uticaje?",
+            answer: "Da, naši proizvodi su otporni na svaku vrstu vremenskih uslova - kišu, sneg ili nevreme. Takođe su otporni na vlagu, vatru i ostale spoljne uticaje vanjske upotrebe.",
+            category: "karakteristike"
+        },
+        {
+            question: "Kako se pravilno postavljaju vaše zidne obloge?",
+            answer: "Pre postavljanja obloga na zidnu površinu potrebno je pravilna priprema površine što znači da površina treba biti čista i u stanju da bude grundirana pre nego što se postavlja lepak za kamen.",
+            category: "instalacija"
+        },
+        {
+            question: "Koji lepak preporučujete za ugradnju?",
+            answer: "Izbor lepka zavisi od toga da li se lepi na vanjske ili unutrašnje zidove. Preporučujemo lepak koji je namenjen za kamen ili cigle.",
+            category: "instalacija"
+        },
+        {
+            question: "Da li nudite uslugu ugradnje ili samo prodajete proizvode?",
+            answer: "Postoji mogućnost ugradnje po dogovoru. Takođe pružamo tehničku podršku i savete kupcima koji sami ugrađuju naše proizvode.",
+            category: "usluge"
+        },
+        {
+            question: "Koja je cena po m² za različite vrste obloga koje nudite?",
+            answer: "Cena dekorativnog kamena se kreće između 33 BAM do 40 BAM. Cena dekorativne rustik cigle se kreće od 25 BAM do 30 BAM. Za veće količine nudimo popuste po dogovoru.",
+            category: "cene"
         }
     ];
 
-    // Filter FAQ items by search term
-    const filteredFAQs = faqItems.filter(item =>
-        item.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.answer.toLowerCase().includes(searchTerm.toLowerCase())
+    // Filter FAQ stavki prema terminu pretrage
+    const filteredFAQs = faqItems.filter(
+        (item) =>
+            item.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.answer.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
-                if (entries[0].isIntersecting) {
+                const [entry] = entries;
+                if (entry.isIntersecting) {
                     setIsVisible(true);
                 }
             },
             { threshold: 0.1 }
         );
 
-        const section = document.querySelector('.faq-section');
-        if (section) {
-            observer.observe(section);
+        const currentRef = sectionRef.current;
+
+        if (currentRef) {
+            observer.observe(currentRef);
         }
 
         return () => {
-            if (section) {
-                observer.unobserve(section);
+            if (currentRef) {
+                observer.unobserve(currentRef);
             }
         };
     }, []);
 
     useEffect(() => {
-        // Measure height of answer elements
+        // Merenje visine elemenata odgovora
         answerRefs.current.forEach((ref, index) => {
             if (ref) {
-                setExpandedHeight(prev => ({
+                setExpandedHeight((prev) => ({
                     ...prev,
                     [index]: ref.scrollHeight
                 }));
@@ -87,155 +99,173 @@ export const FAQSection = () => {
         });
     }, [filteredFAQs]);
 
-    const toggleAccordion = (index) => {
+    const toggleAccordion = (index: number) => {
         setActiveIndex(activeIndex === index ? null : index);
     };
 
-    return (
-        <section className="faq-section py-20 relative overflow-hidden bg-gradient-to-b from-white to-gray-50">
-            {/* Decorative elements */}
-            <div className="absolute top-0 left-0 w-96 h-96 bg-blue-50 rounded-full opacity-30 blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
-            <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-50 rounded-full opacity-30 blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
+    // Pomoćna funkcija za animacijske klase
+    const getAnimationClasses = (delay: string = "") => {
+        return `transition-all duration-700 transform ${delay} ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        }`;
+    };
 
-            <div className="container mx-auto px-4 relative z-10">
-                <div className={`text-center mb-16 transition-all duration-1000 ease-out ${
-                    isVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-10'
-                }`}>
-                    <span className="inline-block text-blue-600 text-sm font-medium tracking-wider uppercase mb-2">Odgovori na vaša pitanja</span>
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Često Postavljena Pitanja</h2>
-                    <div className="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
-                    <p className="text-gray-600 max-w-2xl mx-auto">
-                        Pronađite odgovore na najčešća pitanja o našim uslugama. Ako ne možete pronaći odgovor koji tražite, slobodno nas kontaktirajte direktno.
+    // Komponenta za pojedinačno FAQ pitanje
+    const FAQItem = ({ item, index }: { item: FAQItem; index: number }) => (
+        <div
+            className={getAnimationClasses(`delay-${300 + index * 100}`)}
+            style={{ transitionDelay: `${300 + index * 100}ms` }}
+        >
+            <div
+                className={`border rounded-lg overflow-hidden transition-all duration-300 ${
+                    activeIndex === index
+                        ? "border-amber-200 shadow-md bg-white"
+                        : "border-stone-200 bg-white hover:border-amber-100 hover:shadow-sm"
+                }`}
+            >
+                {/* Pitanje zaglavlje */}
+                <button
+                    className="w-full text-left p-6 flex justify-between items-center focus:outline-none"
+                    onClick={() => toggleAccordion(index)}
+                    aria-expanded={activeIndex === index}
+                >
+                    <h3
+                        className={`text-lg font-medium pr-8 transition-colors duration-300 ${
+                            activeIndex === index ? "text-amber-700" : "text-stone-800"
+                        }`}
+                    >
+                        {item.question}
+                    </h3>
+                    <span
+                        className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500 ${
+                            activeIndex === index ? "bg-amber-100 rotate-180" : "bg-stone-100"
+                        }`}
+                    >
+                        <ChevronDown
+                            className={`w-5 h-5 transition-colors duration-300 ${
+                                activeIndex === index ? "text-amber-600" : "text-stone-500"
+                            }`}
+                        />
+                    </span>
+                </button>
+
+                {/* Odgovor sadržaj */}
+                <div
+                    className="overflow-hidden transition-all duration-500 ease-in-out"
+                    style={{
+                        maxHeight: activeIndex === index ? `${expandedHeight[index]}px` : "0px",
+                        opacity: activeIndex === index ? 1 : 0
+                    }}
+                >
+                    <div ref={(el) => (answerRefs.current[index] = el)} className="px-6 pb-6">
+                        <div className="pt-2 border-t border-stone-100"></div>
+                        <p className="mt-4 text-stone-600 leading-relaxed font-light">
+                            {item.answer}
+                        </p>
+
+                        {/* Kategorija tag i dugmići za povratne informacije */}
+                        <div className="mt-4 flex flex-wrap items-center justify-between">
+                          <span className="inline-block bg-amber-50 text-amber-800 text-xs px-2 py-1 rounded-full mt-2 font-light">
+                            {item.category}
+                          </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+
+    return (
+        <section
+            ref={sectionRef}
+            id="faq-section"
+            className="py-16 md:py-24 bg-white font-sans relative overflow-hidden"
+        >
+            {/* Dekorativni elementi */}
+            <div className="absolute top-0 left-0 w-96 h-96 bg-amber-50 rounded-full opacity-30 blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-amber-50 rounded-full opacity-30 blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
+
+            <Container>
+                <div className={`text-center mb-16 ${getAnimationClasses("duration-1000 ease-out")}`}>
+                    <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-4 tracking-wide uppercase">
+                        Često postavljena <span className="font-medium">pitanja</span>
+                    </h2>
+                    <div className="w-16 h-1 bg-amber-500 mx-auto mb-6"></div>
+                    <p className="text-stone-600 max-w-2xl mx-auto font-light">
+                        Pronađite odgovore na najčešća pitanja o našim proizvodima i uslugama. Ako ne možete
+                        pronaći odgovor koji tražite, slobodno nas kontaktirajte direktno.
                     </p>
                 </div>
 
-                {/* Search bar */}
-                <div className={`max-w-2xl mx-auto mb-12 transition-all duration-700 delay-200 ${
-                    isVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-10'
-                }`}>
-                    <div className="relative">
-                        <input
-                            type="text"
-                            placeholder="Pretražite pitanja..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full py-3 pl-12 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition-all duration-300"
-                        />
-                        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                {/* Pretraga */}
+                <div className={getAnimationClasses("delay-200")}>
+                    <div className="max-w-2xl mx-auto mb-12">
+                        <div className="relative">
+                            <input
+                                type="text"
+                                placeholder="Pretražite pitanja..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full py-3 pl-12 pr-4 bg-white border border-stone-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-200 focus:border-amber-400 transition-all duration-300"
+                            />
+                            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-stone-400 w-5 h-5" />
+                        </div>
                     </div>
                 </div>
 
-                {/* FAQ accordions */}
+                {/* FAQ akordeoni */}
                 <div className="max-w-3xl mx-auto">
                     {filteredFAQs.length > 0 ? (
                         <div className="space-y-4">
                             {filteredFAQs.map((item, index) => (
-                                <div
-                                    key={index}
-                                    className={`transition-all duration-700 transform ${
-                                        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                                    }`}
-                                    style={{ transitionDelay: `${300 + index * 100}ms` }}
-                                >
-                                    <div
-                                        className={`border rounded-xl overflow-hidden transition-all duration-300 ${
-                                            activeIndex === index
-                                                ? 'border-blue-200 shadow-md bg-white'
-                                                : 'border-gray-200 bg-white hover:border-blue-100 hover:shadow-sm'
-                                        }`}
-                                    >
-                                        {/* Question header */}
-                                        <button
-                                            className="w-full text-left p-6 flex justify-between items-center focus:outline-none"
-                                            onClick={() => toggleAccordion(index)}
-                                            aria-expanded={activeIndex === index}
-                                        >
-                                            <h3 className={`text-lg font-semibold pr-8 transition-colors duration-300 ${
-                                                activeIndex === index ? 'text-blue-700' : 'text-gray-800'
-                                            }`}>
-                                                {item.question}
-                                            </h3>
-                                            <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500 ${
-                                                activeIndex === index ? 'bg-blue-100 rotate-180' : 'bg-gray-100'
-                                            }`}>
-                                                <ChevronDown className={`w-5 h-5 transition-colors duration-300 ${
-                                                    activeIndex === index ? 'text-blue-600' : 'text-gray-500'
-                                                }`} />
-                                            </span>
-                                        </button>
-
-                                        {/* Answer content */}
-                                        <div
-                                            className="overflow-hidden transition-all duration-500 ease-in-out"
-                                            style={{
-                                                maxHeight: activeIndex === index ? `${expandedHeight[index]}px` : '0px',
-                                                opacity: activeIndex === index ? 1 : 0
-                                            }}
-                                        >
-                                            <div
-                                                ref={el => answerRefs.current[index] = el}
-                                                className="px-6 pb-6"
-                                            >
-                                                <div className="pt-2 border-t border-gray-100"></div>
-                                                <p className="mt-4 text-gray-600 leading-relaxed">
-                                                    {item.answer}
-                                                </p>
-
-                                                {/* Category tag and feedback buttons */}
-                                                <div className="mt-4 flex flex-wrap items-center justify-between">
-                                                    <span className="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full mt-2">
-                                                        {item.category}
-                                                    </span>
-
-                                                    <div className="flex items-center space-x-2 mt-2">
-                                                        <button className="text-xs text-gray-500 hover:text-blue-600 transition-colors flex items-center">
-                                                            <MessageCircle className="w-3 h-3 mr-1" />
-                                                            Postavite dodatno pitanje
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <FAQItem key={index} item={item} index={index} />
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center p-8 bg-gray-50 rounded-lg">
-                            <p className="text-gray-600">Nema rezultata za vašu pretragu. Pokušajte sa drugačijim terminima.</p>
+                        <div className="text-center p-8 bg-stone-50 rounded-lg">
+                            <p className="text-stone-600 font-light">
+                                Nema rezultata za vašu pretragu. Pokušajte sa drugačijim terminima.
+                            </p>
                         </div>
                     )}
 
-                    {/* Ask additional question */}
-                    <div className={`mt-12 text-center transition-all duration-700 delay-700 ${
-                        isVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-10'
-                    }`}>
-                        <p className="text-gray-600 mb-4">Niste pronašli odgovor na vaše pitanje?</p>
+                    {/* Postavite dodatno pitanje */}
+                    <div className={getAnimationClasses("delay-700 mt-12 text-center")}>
+                        <p className="text-stone-600 mb-4 font-light">Niste pronašli odgovor na vaše pitanje?</p>
                         <a
-                            href="#contact-form"
-                            className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm transition-all duration-300 hover:shadow group"
+                            href="#kontakt-forma"
+                            className="inline-flex items-center px-6 py-3 bg-amber-500 hover:bg-amber-400 text-stone-900 rounded-sm shadow-md transition-all duration-300 group"
                         >
-                            <Plus className="w-5 h-5 mr-2 transition-transform duration-300 group-hover:rotate-90" />
-                            <span>Postavite nam pitanje</span>
+                            <span>Kontaktirajte nas</span>
+                            <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                         </a>
                     </div>
                 </div>
-            </div>
+            </Container>
 
-            {/* Mobile optimized floating action button */}
+            {/* Ploveće dugme za akciju optimizovano za mobilne uređaje */}
             <div className="md:hidden fixed bottom-6 right-6 z-20">
                 <a
-                    href="#contact-form"
-                    className="flex items-center justify-center w-12 h-12 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition-colors"
+                    href="#kontakt-forma"
+                    className="flex items-center justify-center w-12 h-12 bg-amber-500 text-stone-900 rounded-full shadow-lg hover:bg-amber-400 transition-colors"
                 >
                     <MessageCircle className="w-6 h-6" />
                 </a>
             </div>
 
-            {/* Animated decorative elements */}
-            <div className="absolute top-1/4 left-10 w-3 h-3 rounded-full bg-blue-400 opacity-30 animate-pulse" style={{ animationDuration: '3s' }}></div>
-            <div className="absolute top-1/3 right-1/4 w-4 h-4 rounded-full bg-purple-400 opacity-20 animate-pulse" style={{ animationDuration: '4s' }}></div>
-            <div className="absolute bottom-1/4 right-10 w-3 h-3 rounded-full bg-blue-400 opacity-20 animate-pulse" style={{ animationDuration: '5s' }}></div>
+            {/* Animirani dekorativni elementi */}
+            <div
+                className="absolute top-1/4 left-10 w-3 h-3 rounded-full bg-amber-400 opacity-30 animate-pulse"
+                style={{ animationDuration: "3s" }}
+            ></div>
+            <div
+                className="absolute top-1/3 right-1/4 w-4 h-4 rounded-full bg-amber-400 opacity-20 animate-pulse"
+                style={{ animationDuration: "4s" }}
+            ></div>
+            <div
+                className="absolute bottom-1/4 right-10 w-3 h-3 rounded-full bg-amber-400 opacity-20 animate-pulse"
+                style={{ animationDuration: "5s" }}
+            ></div>
         </section>
     );
-};
+}

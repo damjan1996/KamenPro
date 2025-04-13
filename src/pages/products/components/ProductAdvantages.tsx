@@ -1,11 +1,12 @@
 // src/pages/products/components/ProductAdvantages.tsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Container } from "../../../components/ui/Container";
-import { Shield, Clock, Leaf, ThumbsUp } from "lucide-react";
+import { Shield, Clock, Droplets, ThumbsUp, ArrowRight } from "lucide-react";
 
 export function ProductAdvantages() {
     const [activeAdvantage, setActiveAdvantage] = useState<number | null>(null);
     const [isVisible, setIsVisible] = useState(false);
+    const sectionRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
@@ -14,74 +15,197 @@ export function ProductAdvantages() {
             }
         }, { threshold: 0.1 });
 
-        const section = document.getElementById('advantages-section');
-        if (section) {
-            observer.observe(section);
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
         }
 
         return () => {
-            if (section) {
-                observer.unobserve(section);
+            if (sectionRef.current) {
+                observer.unobserve(sectionRef.current);
             }
         };
     }, []);
 
-    // Advantages data
     const advantages = [
         {
             id: 1,
             icon: Shield,
-            title: 'Vrhunski kvalitet',
-            description: 'Svaki proizvod prolazi stroge kontrole kvaliteta. Koristimo samo najbolje sirovine i savremene proizvodne procese.'
+            title: "Otpornost na vremenske uslove",
+            description: "Naše dekorativne obloge su otporne na sve vrste vremenskih uslova - kišu, sneg, mraz, kao i na vatru i vlagu.",
+            color: "bg-amber-500"
         },
         {
             id: 2,
             icon: Clock,
-            title: 'Dugotrajnost',
-            description: 'Naši kameni proizvodi dizajnirani su da traju decenijama uz minimalno održavanje, što ih čini izuzetno isplativom investicijom.'
+            title: "Dugotrajnost",
+            description: "Sa pravilnim održavanjem i kvalitetnim lepkom, naši proizvodi mogu trajati nekoliko decenija bez gubitka kvaliteta i izgleda.",
+            color: "bg-amber-500"
         },
         {
             id: 3,
-            icon: Leaf,
-            title: 'Ekološki prihvatljivo',
-            description: 'Koristimo prirodne materijale i održive proizvodne procese kako bismo minimizirali uticaj na životnu sredinu.'
+            icon: Droplets,
+            title: "Lako održavanje",
+            description: "Nakon ugradnje, obloge je dovoljno premazati zaštitnim prajmerom koji se može nabaviti u bolje opremljenim prodavnicama.",
+            color: "bg-amber-500"
         },
         {
             id: 4,
             icon: ThumbsUp,
-            title: 'Lako održavanje',
-            description: 'Kamene obloge zahtevaju minimalno održavanje - jednostavno čišćenje i povremena zaštita su sve što je potrebno.'
+            title: "Estetski kvalitet",
+            description: "Prirodna kamena optika sa 6 različitih reljefnih tipova koji stvaraju jedinstveni izgled za svaki enterijer ili eksterijer.",
+            color: "bg-amber-500"
         }
     ];
 
+    const useCases = [
+        { name: "Enterijer", image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Material/interijer.jpg" },
+        { name: "Eksterijer", image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Material/eksterijer.jpg" },
+        { name: "Kamini", image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Material/kamin.jpg" },
+        { name: "Stubovi", image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Material/stubovi.jpg" }
+    ];
+
     return (
-        <section id="advantages-section" className="py-16 md:py-24">
+        <section ref={sectionRef} id="product-advantages" className="py-16 md:py-24 bg-stone-50 font-sans">
             <Container>
-                <div className={`mb-12 text-center transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Prednosti naših proizvoda</h2>
-                    <p className="text-lg text-stone-600 max-w-3xl mx-auto">
-                        Zašto izabrati kamene obloge KamenPro za vaš sledeći projekat
-                    </p>
+                <div className="text-center mb-16">
+                    <div className={`transition-all duration-700 transform ${
+                        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                    }`}>
+                        <span className="text-amber-600 mb-2 text-sm font-medium tracking-wider uppercase block">
+                            Zašto izabrati nas
+                        </span>
+                        <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-4 tracking-wide">
+                            <span className="text-stone-400">Prednosti</span> <span className="font-medium">naših proizvoda</span>
+                        </h2>
+                        <div className="h-1 w-16 bg-amber-500 mx-auto mb-6"></div>
+                        <p className="max-w-2xl mx-auto text-base text-stone-600 font-light">
+                            Naše dekorativne kamene i ciglene obloge nude brojne prednosti koje će unaprediti
+                            vaš prostor, od izdržljivosti do estetskog kvaliteta.
+                        </p>
+                    </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {advantages.map((advantage, index) => {
-                        const Icon = advantage.icon;
-                        return (
-                            <div
-                                key={advantage.id}
-                                className={`bg-white p-6 rounded-lg shadow-md border border-stone-100 hover:border-amber-300 transition-all duration-500 delay-${index * 100} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                                onMouseEnter={() => setActiveAdvantage(advantage.id)}
-                                onMouseLeave={() => setActiveAdvantage(null)}
-                            >
-                                <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-4 transition-all duration-300 ${activeAdvantage === advantage.id ? 'bg-amber-600 text-white' : 'bg-amber-100 text-amber-600'}`}>
-                                    <Icon size={24} />
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                    {advantages.map((advantage, index) => (
+                        <div
+                            key={advantage.id}
+                            className={`bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-all duration-500 transform ${
+                                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                            } ${
+                                activeAdvantage === advantage.id ? 'border-l-2 border-amber-500' : 'border-l-2 border-transparent'
+                            }`}
+                            style={{ transitionDelay: `${200 + index * 100}ms` }}
+                            onMouseEnter={() => setActiveAdvantage(advantage.id)}
+                            onMouseLeave={() => setActiveAdvantage(null)}
+                        >
+                            <div className={`h-1 w-full ${advantage.color}`}></div>
+                            <div className="p-6">
+                                <div
+                                    className={`w-14 h-14 rounded-full flex items-center justify-center mb-5 transition-all duration-300 ${
+                                        activeAdvantage === advantage.id
+                                            ? 'bg-amber-500 text-white transform scale-110'
+                                            : 'bg-amber-100 text-amber-600'
+                                    }`}
+                                >
+                                    <advantage.icon className="w-6 h-6" />
                                 </div>
-                                <h3 className="text-xl font-semibold mb-3">{advantage.title}</h3>
-                                <p className="text-stone-600">{advantage.description}</p>
+                                <h3 className="text-lg font-medium text-stone-800 mb-3">{advantage.title}</h3>
+                                <p className="text-stone-600 text-sm font-light mb-4">{advantage.description}</p>
+
+                                <div
+                                    className={`mt-4 flex items-center text-sm transition-all duration-300 ${
+                                        activeAdvantage === advantage.id
+                                            ? 'opacity-100 translate-y-0'
+                                            : 'opacity-0 translate-y-4'
+                                    }`}
+                                >
+                                    <a
+                                        href="/kontakt"
+                                        className="text-amber-600 hover:text-amber-700 transition-colors font-medium inline-flex items-center"
+                                    >
+                                        <span>Saznajte više</span>
+                                        <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                    </a>
+                                </div>
                             </div>
-                        );
-                    })}
+                        </div>
+                    ))}
+                </div>
+
+                <div
+                    className={`mt-12 text-center transition-all duration-700 delay-500 transform ${
+                        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                    }`}
+                >
+                    <a
+                        href="/proizvodi#proizvodi"
+                        className="px-6 py-3 bg-stone-800 text-white rounded-sm inline-flex items-center hover:bg-stone-700 transition-all duration-300 shadow-md hover:shadow-lg"
+                    >
+                        <span className="font-light">Pogledajte sve proizvode</span>
+                        <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                </div>
+
+                {/* Primene proizvoda */}
+                <div
+                    className={`mt-16 pt-8 border-t border-stone-200 transition-all duration-700 delay-600 transform ${
+                        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                    }`}
+                >
+                    <h3 className="text-2xl font-medium text-stone-800 mb-8 text-center">
+                        Primene naših proizvoda
+                    </h3>
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        {useCases.map((category, index) => (
+                            <div
+                                key={index}
+                                className={`rounded-lg overflow-hidden shadow-sm group cursor-pointer transition-all duration-500 transform ${
+                                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                                }`}
+                                style={{ transitionDelay: `${700 + index * 100}ms` }}
+                            >
+                                <div className="relative overflow-hidden aspect-square">
+                                    <img
+                                        src={category.image}
+                                        alt={category.name}
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                                        <h4 className="text-white text-lg font-medium">{category.name}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* CTA sekcija */}
+                <div
+                    className={`mt-16 p-8 bg-amber-50 rounded-lg border border-amber-100 text-center transition-all duration-700 delay-700 transform ${
+                        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                    }`}
+                >
+                    <h3 className="text-2xl font-medium text-stone-800 mb-4">Spremni za vašu transformaciju prostora?</h3>
+                    <p className="text-stone-600 mb-6 max-w-2xl mx-auto font-light">
+                        Naše dekorativne kamene i ciglene obloge će dati vašem prostoru prirodan, topao i autentičan izgled.
+                        Kontaktirajte nas danas za besplatnu konsultaciju ili posetite naš izložbeni prostor.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a
+                            href="/reference"
+                            className="px-6 py-3 bg-stone-800 hover:bg-stone-700 text-white rounded-sm transition-all duration-300 inline-flex items-center justify-center font-light"
+                        >
+                            Pogledajte projekte
+                        </a>
+                        <a
+                            href="/kontakt"
+                            className="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-sm transition-all duration-300 inline-flex items-center justify-center font-light"
+                        >
+                            Kontaktirajte nas
+                        </a>
+                    </div>
                 </div>
             </Container>
         </section>

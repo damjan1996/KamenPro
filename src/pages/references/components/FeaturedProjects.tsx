@@ -1,73 +1,77 @@
 // src/pages/references/components/FeaturedProjects.tsx
 import { useState, useEffect, useRef } from 'react';
+import { Container } from '../../../components/ui/Container';
+import { ArrowRight, ChevronRight, ChevronLeft, MapPin } from 'lucide-react';
 
 export const FeaturedProjectsSection = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
-    const sectionRef = useRef(null);
+    const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+    const sectionRef = useRef<HTMLElement | null>(null);
 
-    // Primer projekata sa realističnim podacima
+    // Projekti sa podacima relevantnim za KamenPro
     const projects = [
         {
             id: 1,
-            title: "Minimalistički stan u centru grada",
-            description: "Savršen spoj funkcionalnosti i elegancije za moderan urbani život.",
-            category: "Stambeni prostor",
-            location: "Novi Beograd",
+            title: "Vila sa kamenim fasadnim detaljima",
+            description: "Moderan stambeni objekat sa dekorativnim kamenim oblogama koje ističu ulaz i spoljne zidove.",
+            category: "Stambeni objekat",
+            location: "Bijeljina",
             year: "2023",
-            image: "/images/project1.jpg"
+            image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/References/Projects/stambeni-2.jpg"
         },
         {
             id: 2,
-            title: "Boutique kancelarija sa pogledom",
-            description: "Inspirirajući radni prostor koji promoviše kreativnost i produktivnost.",
+            title: "Poslovni prostor sa kamenim akcentima",
+            description: "Elegantna kancelarija sa dekorativnim kamenim oblogama koje stvaraju profesionalni i upečatljiv ambijent.",
             category: "Poslovni prostor",
-            location: "Vračar",
-            year: "2023",
-            image: "/images/project2.jpg"
+            location: "Bijeljina",
+            year: "2022",
+            image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/References/Projects/poslovni-2.jpg"
         },
         {
             id: 3,
-            title: "Penthouse apartman sa terasom",
-            description: "Luksuzni stambeni prostor sa panoramskim pogledom i zelenim detaljima.",
-            category: "Stambeni prostor",
-            location: "Savski Venac",
-            year: "2022",
-            image: "/images/project3.jpg"
+            title: "Dnevna soba sa kaminom",
+            description: "Topao porodični prostor sa kamenim oblogama oko kamina koje stvaraju fokusnu tačku u dnevnoj sobi.",
+            category: "Stambeni objekat",
+            location: "Bijeljina",
+            year: "2023",
+            image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/References/Projects/stambeni-3.jpg"
         },
         {
             id: 4,
-            title: "Kafe sa etno modernim stilom",
-            description: "Spoj tradicije i savremenosti u ugodnom ambijentu za druženje.",
-            category: "Ugostiteljstvo",
-            location: "Dorćol",
+            title: "Restoran sa rustičnim ambijentom",
+            description: "Ugostiteljski objekat sa dekorativnim ciglama koje stvaraju autentičan i topao ambijent za goste.",
+            category: "Ugostiteljski objekat",
+            location: "Bijeljina",
             year: "2022",
-            image: "/images/project4.jpg"
+            image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/References/Projects/ugostiteljski-2.jpg"
         },
         {
             id: 5,
-            title: "Zen spa & wellness centar",
-            description: "Umirujući prostor za opuštanje tela i duha uz prirodne materijale.",
-            category: "Wellness",
-            location: "Dedinje",
+            title: "Hodnik sa dekorativnim kamenom",
+            description: "Ulazni prostor stambenog objekta sa elegantnim kamenim oblogama koje stvaraju upečatljiv prvi utisak.",
+            category: "Stambeni objekat",
+            location: "Brčko",
             year: "2023",
-            image: "/images/project5.jpg"
+            image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/References/Projects/stambeni-4.jpg"
         },
         {
             id: 6,
-            title: "Vila sa bazenom i vrtom",
-            description: "Harmoničan spoj unutrašnjeg i spoljašnjeg prostora za porodični život.",
-            category: "Stambeni prostor",
-            location: "Avala",
+            title: "Prostor za odmor sa kamenim zidom",
+            description: "Kutak za opuštanje sa akcentnim kamenim zidom koji daje karakter i toplinu prostoru.",
+            category: "Stambeni objekat",
+            location: "Bijeljina",
             year: "2022",
-            image: "/images/project6.jpg"
+            image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/References/Projects/stambeni-5.jpg"
         }
     ];
 
     // Observer za animaciju pri skrolovanju
     useEffect(() => {
         const observer = new IntersectionObserver(
-            ([entry]) => {
+            (entries) => {
+                const [entry] = entries;
                 if (entry.isIntersecting) {
                     setIsVisible(true);
                 }
@@ -88,6 +92,8 @@ export const FeaturedProjectsSection = () => {
 
     // Automatsko menjanje aktivnog projekta na mobilnom prikazu
     useEffect(() => {
+        if (!isVisible) return;
+
         const interval = setInterval(() => {
             if (window.innerWidth < 768) {
                 setActiveIndex((prevIndex) => (prevIndex + 1) % projects.length);
@@ -95,59 +101,63 @@ export const FeaturedProjectsSection = () => {
         }, 5000);
 
         return () => clearInterval(interval);
-    }, [projects.length]);
+    }, [isVisible, projects.length]);
+
+    // Funkcija za navigaciju kroz projekte na mobilnom
+    const nextProject = () => {
+        setActiveIndex((prevIndex) => (prevIndex + 1) % projects.length);
+    };
+
+    const prevProject = () => {
+        setActiveIndex((prevIndex) => (prevIndex - 1 + projects.length) % projects.length);
+    };
+
+    // Pomoćna funkcija za dobijanje klasa animacije
+    const getAnimationClasses = (delay: string = '') => `
+        transition-all duration-700 ${delay} ease-out transform 
+        ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
+    `.trim();
 
     return (
         <section
             ref={sectionRef}
-            className="py-16 md:py-24 bg-stone-50 relative overflow-hidden"
+            id="istaknuti-projekti"
+            className="py-16 md:py-24 bg-stone-50 overflow-hidden font-sans"
         >
-            {/* Dekorativni elementi */}
-            <div className="absolute w-72 h-72 bg-green-50 rounded-full -top-20 -left-20 opacity-40"></div>
-            <div className="absolute w-96 h-96 bg-amber-50 rounded-full -bottom-32 -right-32 opacity-40"></div>
-
-            <div className="container mx-auto px-4 relative z-10">
-                {/* Naslov sekcije */}
-                <div className={`mb-16 transition-all duration-700 transform ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}>
-                    <h2 className="text-3xl md:text-5xl font-bold text-center mb-4">
-                        Istaknuti <span className="text-emerald-800">Projekti</span>
+            <Container>
+                {/* Zaglavlje */}
+                <div className={`text-center mb-12 md:mb-16 ${getAnimationClasses()}`}>
+                    <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-4 uppercase tracking-wide">
+                        Istaknuti <span className="font-medium">projekti</span>
                     </h2>
-                    <p className="text-center max-w-2xl mx-auto text-stone-600">
+                    <div className="w-16 h-1 bg-amber-500 mx-auto mb-6"></div>
+                    <p className="text-stone-600 max-w-2xl mx-auto font-light">
                         Pogledajte našu kolekciju pažljivo odabranih projekata koji predstavljaju
-                        naš jedinstveni pristup dizajnu enterijera.
+                        naš jedinstveni pristup dekorativnim kamenim oblogama u različitim prostorima.
                     </p>
-                    <div className="w-24 h-1 bg-emerald-800 mx-auto mt-6"></div>
                 </div>
 
-                {/* Projekti - Desktop prikaz (2x3 mreža) */}
-                <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                {/* Projekti - Desktop prikaz (grid) */}
+                <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                     {projects.map((project, index) => (
                         <div
                             key={project.id}
-                            className={`group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-500 transform ${
-                                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
-                            }`}
-                            style={{ transitionDelay: `${index * 100}ms` }}
+                            className={`group relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-500 ${getAnimationClasses(`delay-${200 + index * 100}`)}`}
+                            onMouseEnter={() => setHoveredProject(project.id)}
+                            onMouseLeave={() => setHoveredProject(null)}
                         >
                             {/* Slika projekta */}
                             <div className="relative h-64 overflow-hidden">
-                                <div
-                                    className="absolute inset-0 bg-stone-700/10 group-hover:bg-stone-700/0 transition-colors duration-300"
-                                ></div>
-                                <div
-                                    className="w-full h-full bg-stone-200 transition-transform duration-700 group-hover:scale-110"
-                                    style={{
-                                        backgroundImage: `url(${project.image || '/api/placeholder/800/600'})`,
-                                        backgroundPosition: 'center',
-                                        backgroundSize: 'cover',
-                                    }}
-                                ></div>
+                                <img
+                                    src={project.image}
+                                    alt={project.title}
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent transition-opacity duration-300"></div>
 
                                 {/* Kategorija projekta */}
                                 <div className="absolute top-4 left-4">
-                                    <span className="px-3 py-1 bg-white/90 text-emerald-800 text-xs font-medium rounded-full">
+                                    <span className="px-3 py-1 bg-white/90 text-stone-800 text-xs font-medium rounded-sm">
                                         {project.category}
                                     </span>
                                 </div>
@@ -156,39 +166,36 @@ export const FeaturedProjectsSection = () => {
                             {/* Informacije o projektu */}
                             <div className="p-6 relative">
                                 {/* Godina projekta */}
-                                <div className="absolute -top-10 right-6 w-16 h-16 rounded-full bg-emerald-800 text-white flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
-                                    <span className="text-sm font-semibold">{project.year}</span>
+                                <div className={`absolute -top-10 right-6 w-14 h-14 rounded-full flex items-center justify-center transform transition-all duration-300 ${
+                                    hoveredProject === project.id ? 'bg-amber-500 text-white scale-110' : 'bg-white text-stone-800 border border-stone-200'
+                                }`}>
+                                    <span className="text-sm font-medium">{project.year}</span>
                                 </div>
 
                                 {/* Naslov i opis */}
-                                <h3 className="text-xl font-semibold mb-2 text-stone-900 group-hover:text-emerald-800 transition-colors duration-300">
+                                <h3 className={`text-lg font-medium mb-2 transition-colors duration-300 ${
+                                    hoveredProject === project.id ? 'text-amber-600' : 'text-stone-800'
+                                }`}>
                                     {project.title}
                                 </h3>
-                                <p className="text-stone-600 mb-4 line-clamp-2">
+                                <p className="text-stone-600 text-sm font-light mb-4 line-clamp-2">
                                     {project.description}
                                 </p>
 
                                 {/* Lokacija i dugme */}
                                 <div className="flex justify-between items-center">
-                                    <span className="text-sm text-stone-500 flex items-center">
-                                        <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                            <circle cx="12" cy="10" r="3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                        </svg>
+                                    <span className="text-sm text-stone-500 flex items-center font-light">
+                                        <MapPin className="w-4 h-4 mr-1" />
                                         {project.location}
                                     </span>
 
-                                    <button className="group flex items-center text-emerald-800 font-medium text-sm">
-                                        <span className="mr-1">Detaljnije</span>
-                                        <svg
-                                            className="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                        >
-                                            <path d="M5 12h14M12 5l7 7-7 7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                        </svg>
-                                    </button>
+                                    <a
+                                        href={`#projekat-${project.id}`}
+                                        className="group inline-flex items-center text-amber-600 hover:text-amber-700 text-sm font-light"
+                                    >
+                                        <span>Detaljnije</span>
+                                        <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -209,21 +216,19 @@ export const FeaturedProjectsSection = () => {
                                         activeIndex === index ? 'opacity-100' : 'opacity-30'
                                     }`}
                                 >
-                                    <div className="bg-white rounded-xl overflow-hidden shadow-md">
+                                    <div className="bg-white rounded-lg overflow-hidden shadow-md">
                                         {/* Slika projekta */}
                                         <div className="relative h-64 overflow-hidden">
-                                            <div
-                                                className="w-full h-full bg-stone-200"
-                                                style={{
-                                                    backgroundImage: `url(${project.image || '/api/placeholder/800/600'})`,
-                                                    backgroundPosition: 'center',
-                                                    backgroundSize: 'cover',
-                                                }}
-                                            ></div>
+                                            <img
+                                                src={project.image}
+                                                alt={project.title}
+                                                className="w-full h-full object-cover"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
 
                                             {/* Kategorija projekta */}
                                             <div className="absolute top-4 left-4">
-                                                <span className="px-3 py-1 bg-white/90 text-emerald-800 text-xs font-medium rounded-full">
+                                                <span className="px-3 py-1 bg-white/90 text-stone-800 text-xs font-medium rounded-sm">
                                                     {project.category}
                                                 </span>
                                             </div>
@@ -232,34 +237,32 @@ export const FeaturedProjectsSection = () => {
                                         {/* Informacije o projektu */}
                                         <div className="p-6 relative">
                                             {/* Godina projekta */}
-                                            <div className="absolute -top-10 right-6 w-16 h-16 rounded-full bg-emerald-800 text-white flex items-center justify-center">
-                                                <span className="text-sm font-semibold">{project.year}</span>
+                                            <div className="absolute -top-10 right-6 w-14 h-14 rounded-full bg-amber-500 text-white flex items-center justify-center">
+                                                <span className="text-sm font-medium">{project.year}</span>
                                             </div>
 
                                             {/* Naslov i opis */}
-                                            <h3 className="text-xl font-semibold mb-2 text-stone-900">
+                                            <h3 className="text-lg font-medium mb-2 text-stone-800">
                                                 {project.title}
                                             </h3>
-                                            <p className="text-stone-600 mb-4">
+                                            <p className="text-stone-600 text-sm font-light mb-4">
                                                 {project.description}
                                             </p>
 
                                             {/* Lokacija i dugme */}
                                             <div className="flex justify-between items-center">
-                                                <span className="text-sm text-stone-500 flex items-center">
-                                                    <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                                        <circle cx="12" cy="10" r="3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                                    </svg>
+                                                <span className="text-sm text-stone-500 flex items-center font-light">
+                                                    <MapPin className="w-4 h-4 mr-1" />
                                                     {project.location}
                                                 </span>
 
-                                                <button className="flex items-center text-emerald-800 font-medium text-sm">
-                                                    <span className="mr-1">Detaljnije</span>
-                                                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                                        <path d="M5 12h14M12 5l7 7-7 7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                                    </svg>
-                                                </button>
+                                                <a
+                                                    href={`#projekat-${project.id}`}
+                                                    className="inline-flex items-center text-amber-600 text-sm font-light"
+                                                >
+                                                    <span>Detaljnije</span>
+                                                    <ArrowRight className="ml-1 h-4 w-4" />
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -268,42 +271,69 @@ export const FeaturedProjectsSection = () => {
                         </div>
                     </div>
 
-                    {/* Indikatori za carousel */}
-                    <div className="flex justify-center mt-8 space-x-2">
-                        {projects.map((_, index) => (
-                            <button
-                                key={index}
-                                onClick={() => setActiveIndex(index)}
-                                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                    activeIndex === index
-                                        ? 'w-8 bg-emerald-800'
-                                        : 'bg-stone-300 hover:bg-stone-400'
-                                }`}
-                                aria-label={`Prikaži projekat ${index + 1}`}
-                            ></button>
-                        ))}
+                    {/* Kontrole za carousel */}
+                    <div className="flex justify-between mt-6">
+                        <button
+                            onClick={prevProject}
+                            className="w-10 h-10 rounded-full border border-stone-300 flex items-center justify-center text-stone-600 hover:bg-stone-100 transition-colors"
+                            aria-label="Prethodni projekat"
+                        >
+                            <ChevronLeft className="w-5 h-5" />
+                        </button>
+
+                        {/* Indikatori */}
+                        <div className="flex items-center space-x-2">
+                            {projects.map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setActiveIndex(index)}
+                                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                                        activeIndex === index
+                                            ? 'w-8 bg-amber-500'
+                                            : 'w-4 bg-stone-300 hover:bg-stone-400'
+                                    }`}
+                                    aria-label={`Prikaži projekat ${index + 1}`}
+                                ></button>
+                            ))}
+                        </div>
+
+                        <button
+                            onClick={nextProject}
+                            className="w-10 h-10 rounded-full border border-stone-300 flex items-center justify-center text-stone-600 hover:bg-stone-100 transition-colors"
+                            aria-label="Sledeći projekat"
+                        >
+                            <ChevronRight className="w-5 h-5" />
+                        </button>
                     </div>
                 </div>
 
-                {/* Dugme "Pogledaj sve projekte" */}
-                <div className={`flex justify-center mt-16 transition-all duration-700 delay-700 transform ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}>
-                    <button className="group relative bg-emerald-800 text-white py-3 px-8 rounded-full overflow-hidden transition-all duration-300 hover:bg-emerald-900">
-                        <span className="relative z-10 flex items-center font-medium">
-                            Pogledaj sve projekte
-                            <svg
-                                className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </span>
-                    </button>
+                {/* CTA Dugme */}
+                <div className={`mt-12 text-center ${getAnimationClasses('delay-700')}`}>
+                    <a
+                        href="/reference/projekti"
+                        className="group inline-flex items-center bg-stone-800 text-white px-6 py-3 rounded-sm hover:bg-stone-700 transition-all duration-300 text-sm uppercase tracking-wider font-light shadow-sm hover:shadow-md"
+                    >
+                        <span>Pogledajte sve projekte</span>
+                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </a>
                 </div>
-            </div>
+
+                {/* Statistike */}
+                <div className={`mt-16 flex flex-wrap justify-center gap-8 md:gap-16 ${getAnimationClasses('delay-800')}`}>
+                    <div className="text-center">
+                        <div className="text-3xl font-medium text-amber-600 mb-1">6+</div>
+                        <div className="text-sm text-stone-600 font-light">Godina iskustva</div>
+                    </div>
+                    <div className="text-center">
+                        <div className="text-3xl font-medium text-amber-600 mb-1">50+</div>
+                        <div className="text-sm text-stone-600 font-light">Realizovanih projekata</div>
+                    </div>
+                    <div className="text-center">
+                        <div className="text-3xl font-medium text-amber-600 mb-1">100%</div>
+                        <div className="text-sm text-stone-600 font-light">Zadovoljnih klijenata</div>
+                    </div>
+                </div>
+            </Container>
         </section>
     );
 };

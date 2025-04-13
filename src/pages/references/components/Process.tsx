@@ -1,54 +1,41 @@
 // src/pages/references/components/Process.tsx
 import { useState, useEffect, useRef } from 'react';
+import { Container } from '../../../components/ui/Container';
+import { MessageSquare, Palette, Clock, CheckCircle, ArrowRight } from 'lucide-react';
 
 export const ProcessSection = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [activeStep, setActiveStep] = useState(0);
-    const sectionRef = useRef(null);
+    const sectionRef = useRef<HTMLElement | null>(null);
 
     const processSteps = [
         {
             title: "Konsultacije",
-            desc: "Započinjemo sa detaljnim razgovorom o vašim željama, potrebama i budžetu. U ovoj fazi analiziramo prostor i stvaramo inicijalnu viziju vašeg idealnog enterijera.",
-            icon: (
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-            )
+            desc: "Započinjemo sa detaljnim razgovorom o vašim željama i potrebama. Analiziramo prostor i pomažemo vam da izaberete najbolje dekorativne obloge za vaš projekat.",
+            icon: <MessageSquare className="w-5 h-5" />
         },
         {
-            title: "Dizajn Koncept",
-            desc: "Naš kreativni tim razvija detaljne koncepte i vizualizacije prostora. Predstavljamo vam 3D rendere, materijale, palete boja i sve detalje koji će oživeti vaš prostor.",
-            icon: (
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-            )
+            title: "Izbor materijala",
+            desc: "Predstavljamo vam naš asortiman dekorativnih kamenih i ciglenih obloga, uključujući različite teksture, boje i završne obrade koje će najbolje odgovarati vašem prostoru.",
+            icon: <Palette className="w-5 h-5" />
         },
         {
-            title: "Implementacija",
-            desc: "Koordiniramo sve aspekte realizacije projekta, od nabavke materijala do saradnje sa majstorima i dobavljačima. Osiguravamo da svaki detalj bude izveden prema planu.",
-            icon: (
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-            )
+            title: "Ugradnja",
+            desc: "Naš stručni tim ili vaš izvođač radova vrši profesionalnu ugradnju dekorativnih obloga prema planu, osiguravajući savršen rezultat i poštovanje rokova.",
+            icon: <Clock className="w-5 h-5" />
         },
         {
-            title: "Finalizacija",
-            desc: "Pažljivo stilizujemo prostor sa dekorativnim elementima i detaljima koji daju karakter. Finalni obilazak zajedno sa vama osigurava da je svaki aspekt projekta savršeno izveden.",
-            icon: (
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-            )
+            title: "Završna obrada",
+            desc: "Nakon ugradnje, obloge se premazuju zaštitnim sredstvom koje održava njihov prirodan izgled i obezbeđuje dugotrajnost i otpornost na vremenske uslove.",
+            icon: <CheckCircle className="w-5 h-5" />
         }
     ];
 
     // Pratimo vidljivost sekcije za animaciju
     useEffect(() => {
         const observer = new IntersectionObserver(
-            ([entry]) => {
+            (entries) => {
+                const [entry] = entries;
                 if (entry.isIntersecting) {
                     setIsVisible(true);
                 }
@@ -78,66 +65,74 @@ export const ProcessSection = () => {
         return () => clearInterval(interval);
     }, [isVisible, processSteps.length]);
 
-    return (
-        <section ref={sectionRef} className="py-20 md:py-32 bg-stone-50 relative overflow-hidden">
-            {/* Pozadinski elementi */}
-            <div className="absolute w-96 h-96 rounded-full bg-neutral-100 -top-48 -right-48 opacity-50"></div>
-            <div className="absolute w-96 h-96 rounded-full bg-neutral-100 -bottom-48 -left-48 opacity-50"></div>
+    // Pomoćna funkcija za dobijanje klasa animacije
+    const getAnimationClasses = (delay: string = '') => `
+        transition-all duration-700 ${delay} ease-out transform 
+        ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
+    `.trim();
 
-            <div className="container mx-auto px-4 relative z-10">
-                {/* Naslov sekcije */}
-                <div className={`mb-20 transition-all duration-1000 transform ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}>
-                    <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
-                        Naš <span className="text-neutral-800 relative inline-block">
-                            Proces
-                            <span className="absolute -bottom-2 left-0 w-full h-1 bg-gold-500"></span>
-                        </span>
+    return (
+        <section
+            ref={sectionRef}
+            id="proces-rada"
+            className="py-16 md:py-24 bg-stone-100 overflow-hidden font-sans"
+        >
+            <Container>
+                {/* Zaglavlje */}
+                <div className={`text-center mb-12 md:mb-16 ${getAnimationClasses()}`}>
+                    <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-4 uppercase tracking-wide">
+                        Naš <span className="font-medium">proces</span>
                     </h2>
-                    <p className="text-center max-w-2xl mx-auto text-neutral-600">
+                    <div className="w-16 h-1 bg-amber-500 mx-auto mb-6"></div>
+                    <p className="text-stone-600 max-w-2xl mx-auto font-light">
                         Pristupamo svakom projektu sa posvećenošću i preciznošću,
-                        prateći proverenu metodologiju koja garantuje izvanredne rezultate.
+                        prateći proverenu metodologiju koja garantuje kvalitetne rezultate.
                     </p>
                 </div>
 
                 {/* Desktop prikaz procesa - horizontalni timeline */}
-                <div className="hidden md:block max-w-6xl mx-auto">
-                    <div className="relative">
+                <div className="hidden md:block max-w-5xl mx-auto">
+                    <div className="relative pb-16">
                         {/* Centralna linija */}
-                        <div className="absolute top-1/2 left-0 w-full h-0.5 bg-neutral-200 transform -translate-y-1/2"></div>
+                        <div className="absolute top-16 left-0 w-full h-0.5 bg-stone-300"></div>
 
                         {/* Koraci procesa */}
                         <div className="flex justify-between relative z-10">
                             {processSteps.map((step, index) => (
                                 <div
                                     key={index}
-                                    className={`w-64 transition-all duration-700 transform ${
-                                        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                                    }`}
-                                    style={{ transitionDelay: `${index * 200}ms` }}
+                                    className={`w-56 ${getAnimationClasses(`delay-${200 + index * 100}`)}`}
                                     onMouseEnter={() => setActiveStep(index)}
                                 >
-                                    {/* Broj koraka u krugu */}
-                                    <div className={`w-16 h-16 rounded-full mx-auto flex items-center justify-center text-xl font-semibold transition-all duration-500 ${
+                                    {/* Ikona koraka u krugu */}
+                                    <div className={`w-12 h-12 rounded-full mx-auto flex items-center justify-center transition-all duration-500 ${
                                         activeStep === index
-                                            ? 'bg-black text-white scale-110'
-                                            : 'bg-white text-neutral-800 border-2 border-neutral-200'
+                                            ? 'bg-amber-500 text-white scale-110 shadow-md'
+                                            : 'bg-white text-stone-600 border border-stone-200'
+                                    }`}>
+                                        {step.icon}
+                                    </div>
+
+                                    {/* Broj koraka */}
+                                    <div className={`w-6 h-6 rounded-full bg-stone-200 text-stone-600 flex items-center justify-center text-xs font-medium mx-auto -mt-2 transition-all duration-500 ${
+                                        activeStep === index
+                                            ? 'bg-amber-600 text-white'
+                                            : ''
                                     }`}>
                                         {index + 1}
                                     </div>
 
-                                    {/* Sadržaj koraka - alternirajući gore/dole */}
-                                    <div className={`mt-8 text-center transition-all duration-500 ${
+                                    {/* Sadržaj koraka */}
+                                    <div className={`mt-6 text-center transition-all duration-500 ${
                                         activeStep === index ? 'opacity-100' : 'opacity-70'
                                     }`}>
-                                        <h3 className={`text-xl font-semibold mb-3 transition-colors duration-300 ${
-                                            activeStep === index ? 'text-black' : 'text-neutral-600'
+                                        <h3 className={`text-lg font-medium mb-2 transition-colors duration-300 ${
+                                            activeStep === index ? 'text-amber-600' : 'text-stone-800'
                                         }`}>
                                             {step.title}
                                         </h3>
-                                        <p className={`text-sm transition-all duration-500 ${
-                                            activeStep === index ? 'text-neutral-800 max-h-40' : 'text-neutral-500 max-h-20 overflow-hidden'
+                                        <p className={`text-sm font-light transition-all duration-500 ${
+                                            activeStep === index ? 'text-stone-700' : 'text-stone-500'
                                         }`}>
                                             {step.desc}
                                         </p>
@@ -150,38 +145,37 @@ export const ProcessSection = () => {
 
                 {/* Mobilni prikaz procesa - vertikalni timeline */}
                 <div className="md:hidden max-w-sm mx-auto">
-                    <div className="relative pl-8">
+                    <div className="relative pl-10">
                         {/* Vertikalna linija */}
-                        <div className="absolute top-0 left-4 w-0.5 h-full bg-neutral-200"></div>
+                        <div className="absolute top-0 left-4 w-0.5 h-full bg-stone-300"></div>
 
                         {/* Koraci procesa */}
                         {processSteps.map((step, index) => (
                             <div
                                 key={index}
-                                className={`mb-12 relative transition-all duration-700 transform ${
-                                    isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
-                                }`}
-                                style={{ transitionDelay: `${index * 200}ms` }}
+                                className={`mb-10 relative ${getAnimationClasses(`delay-${200 + index * 100}`)}`}
+                                onClick={() => setActiveStep(index)}
                             >
-                                {/* Broj koraka u krugu */}
-                                <div className={`absolute -left-4 w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-500 ${
+                                {/* Ikona koraka u krugu */}
+                                <div className={`absolute -left-4 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500 ${
                                     activeStep === index
-                                        ? 'bg-black text-white scale-110'
-                                        : 'bg-white text-neutral-800 border-2 border-neutral-200'
+                                        ? 'bg-amber-500 text-white scale-110 shadow-md'
+                                        : 'bg-white text-stone-600 border border-stone-200'
                                 }`}>
-                                    {index + 1}
+                                    <span className="text-xs font-medium">{index + 1}</span>
                                 </div>
 
                                 {/* Sadržaj koraka */}
                                 <div className={`transition-all duration-500 ${
                                     activeStep === index ? 'opacity-100' : 'opacity-70'
                                 }`}>
-                                    <h3 className={`text-lg font-semibold mb-2 transition-colors duration-300 ${
-                                        activeStep === index ? 'text-black' : 'text-neutral-600'
+                                    <h3 className={`text-lg font-medium mb-2 transition-colors duration-300 flex items-center ${
+                                        activeStep === index ? 'text-amber-600' : 'text-stone-800'
                                     }`}>
-                                        {step.title}
+                                        {step.icon}
+                                        <span className="ml-2">{step.title}</span>
                                     </h3>
-                                    <p className="text-sm text-neutral-600">
+                                    <p className="text-sm text-stone-600 font-light">
                                         {step.desc}
                                     </p>
                                 </div>
@@ -195,10 +189,10 @@ export const ProcessSection = () => {
                             <button
                                 key={index}
                                 onClick={() => setActiveStep(index)}
-                                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                className={`h-1.5 rounded-full transition-all duration-300 ${
                                     activeStep === index
-                                        ? 'w-8 bg-black'
-                                        : 'bg-neutral-300 hover:bg-neutral-400'
+                                        ? 'w-8 bg-amber-500'
+                                        : 'w-4 bg-stone-300 hover:bg-stone-400'
                                 }`}
                                 aria-label={`Korak ${index + 1}`}
                             ></button>
@@ -207,18 +201,35 @@ export const ProcessSection = () => {
                 </div>
 
                 {/* CTA sekcija */}
-                <div className={`mt-20 text-center transition-all duration-1000 transform ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`} style={{ transitionDelay: '800ms' }}>
-                    <p className="text-neutral-600 mb-6 max-w-2xl mx-auto">
-                        Spremni ste da transformišete svoj prostor u luksuzno remek-delo?
+                <div className={`mt-16 md:mt-20 text-center ${getAnimationClasses('delay-800')}`}>
+                    <p className="text-stone-600 mb-6 max-w-2xl mx-auto font-light">
+                        Spremni ste da transformišete svoj prostor sa našim dekorativnim kamenim oblogama?
                     </p>
-                    <button className="group relative inline-flex items-center justify-center px-8 py-3 bg-black text-white overflow-hidden transition-all duration-300">
-                        <span className="relative z-10 font-medium">Započnite Projekat</span>
-                        <span className="absolute inset-0 bg-neutral-800 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100"></span>
-                    </button>
+                    <a
+                        href="/kontakt"
+                        className="group inline-flex items-center bg-stone-800 text-white px-6 py-3 rounded-sm hover:bg-stone-700 transition-all duration-300 text-sm uppercase tracking-wider font-light shadow-sm hover:shadow-md"
+                    >
+                        <span>Započnite projekat</span>
+                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </a>
                 </div>
-            </div>
+
+                {/* Dodatne informacije */}
+                <div className={`mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 ${getAnimationClasses('delay-900')}`}>
+                    <div className="bg-white p-6 rounded-lg border border-stone-200 shadow-sm hover:shadow-md transition-all duration-300">
+                        <h3 className="text-lg font-medium text-stone-800 mb-3">Stručna podrška kroz ceo proces</h3>
+                        <p className="text-stone-600 font-light text-sm">
+                            Od inicijalnih konsultacija do završne obrade, naš tim vam pruža stručnu podršku i savete. Oslonite se na naše iskustvo za besprekorne rezultate.
+                        </p>
+                    </div>
+                    <div className="bg-white p-6 rounded-lg border border-stone-200 shadow-sm hover:shadow-md transition-all duration-300">
+                        <h3 className="text-lg font-medium text-stone-800 mb-3">Prilagođeno vašim potrebama</h3>
+                        <p className="text-stone-600 font-light text-sm">
+                            Svaki projekat je jedinstven, a naš pristup je prilagođen vašim specifičnim zahtevima. Pružamo fleksibilne opcije ugradnje i podrške koji odgovaraju vašim potrebama.
+                        </p>
+                    </div>
+                </div>
+            </Container>
         </section>
     );
 };

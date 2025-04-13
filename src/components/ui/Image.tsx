@@ -34,6 +34,7 @@ export function Image({
   useEffect(() => {
     if (loadingState === 'initial') {
       setLoadingState('loading');
+      // Verwenden des HTMLImageElement Konstruktors
       const img = new window.Image();
       img.src = imgSrc;
 
@@ -41,7 +42,7 @@ export function Image({
         setLoadingState('loaded');
       };
 
-      img.onerror = (e) => {
+      img.onerror = () => {
         const error = new Error(`Failed to load image: ${imgSrc}`);
         if (onError) {
           onError(error);

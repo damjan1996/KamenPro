@@ -1,13 +1,17 @@
 // src/pages/references/components/Categories.tsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { Container } from '../../../components/ui/Container';
+import { ArrowRight } from 'lucide-react';
 
 export const CategoriesSection = () => {
-    const [activeCategory, setActiveCategory] = useState(0);
+    const [activeCategory, setActiveCategory] = useState<number | null>(null);
     const [isVisible, setIsVisible] = useState(false);
+    const sectionRef = useRef<HTMLElement | null>(null);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
-            ([entry]) => {
+            (entries) => {
+                const [entry] = entries;
                 if (entry.isIntersecting) {
                     setIsVisible(true);
                 }
@@ -15,125 +19,152 @@ export const CategoriesSection = () => {
             { threshold: 0.1 }
         );
 
-        const section = document.getElementById('categories-section');
-        if (section) observer.observe(section);
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
+        }
 
         return () => {
-            if (section) observer.unobserve(section);
+            if (sectionRef.current) {
+                observer.unobserve(sectionRef.current);
+            }
         };
     }, []);
 
     const categories = [
         {
-            title: "Stambeni Objekti",
-            description: "Estetski i funkcionalni prostori koji harmonizuju modernu estetiku sa bezvremenskom elegancijom, stvarajući dom koji odiše životom.",
-            image: "/images/residential.jpg",
-            imageAlt: "Moderna dnevna soba sa minimalističkim dizajnom"
+            id: 1,
+            title: "Stambeni objekti",
+            description: "Nudimo rešenja za enterijer stambenih objekata, obezbeđujući da svaki prostor odražava stil i ličnost vlasnika. Naše kamene obloge donose toplinu i karakter svakom domu.",
+            image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Values/stambeni%20prostor.jpg",
+            imageAlt: "Stambeni objekat sa dekorativnim kamenim oblogama"
         },
         {
-            title: "Komercijalni Objekti",
-            description: "Poslovni prostori koji spajaju profesionalizam i kreativnost, stvarajući produktivno okruženje koje impresionira klijente i inspiriše zaposlene.",
-            image: "/images/commercial.jpg",
-            imageAlt: "Moderan kancelarijski prostor sa drvenim detaljima"
+            id: 2,
+            title: "Poslovni objekti",
+            description: "Naše kamene obloge stvaraju upečatljiv utisak u poslovnim prostorima, od elegantnih recepcija do reprezentativnih sala za sastanke. Kombinujemo estetiku i funkcionalnost za stvaranje produktivnog radnog okruženja.",
+            image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Values/radni%20prostor.jpg",
+            imageAlt: "Poslovni prostor sa dekorativnim kamenim oblogama"
         },
         {
-            title: "Javni Prostori",
-            description: "Javni prostori koji inspirišu zajednicu, kombinujući funkcionalnost i estetiku za stvaranje dugotrajnog utiska na svakog posetioca.",
-            image: "/images/public.jpg",
-            imageAlt: "Elegantno uređen javni prostor sa prirodnim svetlom"
+            id: 3,
+            title: "Ugostiteljski objekti",
+            description: "Specijalizovani smo za stvaranje jedinstvenih ambijenata u hotelima i restoranima, gde naše kamene obloge doprinose autentičnom doživljaju. Svaki projekat odražava karakter i viziju brenda.",
+            image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/Projects/ugostiteljski-prostor.jpg",
+            imageAlt: "Ugostiteljski objekat sa dekorativnim kamenim oblogama"
         }
     ];
 
+    // Pomoćna funkcija za dobijanje klasa animacije
+    const getAnimationClasses = (delay: string = '') => `
+        transition-all duration-700 ${delay} ease-out transform 
+        ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
+    `.trim();
+
     return (
-        <section id="categories-section" className="py-16 md:py-24 bg-stone-50">
-            <div className="container mx-auto px-4 md:px-6">
-                {/* Naslov sa animacijom */}
-                <div className={`mb-12 md:mb-16 transition-all duration-700 transform ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}>
-                    <h2 className="text-3xl md:text-5xl font-bold text-center">
-                        Kategorije <span className="text-orange-700">Projekata</span>
+        <section
+            ref={sectionRef}
+            id="kategorije-projekata"
+            className="py-16 md:py-24 bg-stone-50 overflow-hidden font-sans"
+        >
+            <Container>
+                {/* Zaglavlje */}
+                <div className={`text-center mb-12 md:mb-16 ${getAnimationClasses()}`}>
+                    <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-4 uppercase tracking-wide">
+                        Kategorije <span className="font-medium">projekata</span>
                     </h2>
-                    <div className="w-24 h-1 bg-orange-700 mx-auto mt-4"></div>
+                    <div className="w-16 h-1 bg-amber-500 mx-auto mb-6"></div>
+                    <p className="text-stone-600 max-w-2xl mx-auto font-light">
+                        Istražite naš portfolio realizovanih projekata po kategorijama i pogledajte
+                        kako naše dekorativne obloge transformišu različite vrste prostora.
+                    </p>
                 </div>
 
                 {/* Kategorije */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                     {categories.map((category, index) => (
                         <div
-                            key={index}
-                            className={`group relative overflow-hidden rounded-xl transition-all duration-700 transform ${
-                                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
-                            }`}
-                            style={{ transitionDelay: `${100 * index}ms` }}
-                            onMouseEnter={() => setActiveCategory(index)}
+                            key={category.id}
+                            className={`group relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all duration-300 ${getAnimationClasses(`delay-${200 + index * 100}`)}`}
+                            onMouseEnter={() => setActiveCategory(category.id)}
+                            onMouseLeave={() => setActiveCategory(null)}
                         >
-                            {/* Pozadinska slika */}
-                            <div className="relative h-80 md:h-96 overflow-hidden">
-                                <div
-                                    className="absolute inset-0 bg-stone-800 opacity-30 group-hover:opacity-10 transition-opacity duration-500"
-                                ></div>
-                                <div
-                                    className="w-full h-full bg-stone-200 transition-transform duration-700 group-hover:scale-105"
-                                    style={{
-                                        backgroundImage: `url(${category.image || '/api/placeholder/800/600'})`,
-                                        backgroundPosition: 'center',
-                                        backgroundSize: 'cover',
-                                    }}
-                                ></div>
+                            {/* Slika */}
+                            <div className="relative h-72 overflow-hidden">
+                                <img
+                                    src={category.image}
+                                    alt={category.imageAlt}
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent transition-opacity duration-300 group-hover:opacity-90"></div>
                             </div>
 
-                            {/* Sadržaj kartice */}
-                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 bg-gradient-to-t from-stone-900 to-transparent">
-                                <h3 className="text-xl md:text-2xl font-semibold mb-2 text-white group-hover:text-orange-200 transition-colors duration-300">
-                                    {category.title}
-                                </h3>
-                                <p className="text-stone-200 text-sm md:text-base max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 transition-all duration-500 overflow-hidden">
-                                    {category.description}
-                                </p>
-                                <div className="mt-4 md:mt-6 overflow-hidden h-8">
-                                    <button className="flex items-center text-white opacity-0 transform translate-y-8 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
-                                        <span className="mr-2">Pogledaj projekte</span>
-                                        <svg
-                                            className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                        </svg>
-                                    </button>
+                            {/* Sadržaj */}
+                            <div className="absolute inset-0 flex flex-col justify-end p-6">
+                                <div className="relative z-10">
+                                    <h3 className="text-xl font-medium text-white mb-2">{category.title}</h3>
+                                    <p className={`text-white/80 text-sm font-light mb-4 transition-all duration-500 line-clamp-2 ${
+                                        activeCategory === category.id ? 'opacity-100 max-h-20' : 'opacity-0 max-h-0'
+                                    }`}>
+                                        {category.description}
+                                    </p>
+                                    <a
+                                        href={`#${category.title.toLowerCase().replace(/\s+/g, '-')}`}
+                                        className={`inline-flex items-center text-amber-400 transition-all duration-300 ${
+                                            activeCategory === category.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                                        }`}
+                                    >
+                                        <span className="text-sm font-light">Pogledajte projekte</span>
+                                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                    </a>
                                 </div>
                             </div>
 
                             {/* Dekorativni element */}
-                            <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden">
-                                <div className="absolute rotate-45 bg-orange-500 text-white w-16 h-16 flex items-center justify-center -top-8 -right-8 group-hover:bg-orange-600 transition-colors duration-300"></div>
+                            <div className="absolute top-4 right-4 bg-amber-500 text-white text-xs font-medium py-1 px-2 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                {categories.filter(c => c.id === category.id).length} projekata
                             </div>
                         </div>
                     ))}
                 </div>
 
-                {/* Dugme "Pogledaj sve" */}
-                <div className={`flex justify-center mt-12 transition-all duration-700 delay-500 transform ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}>
-                    <button className="group relative bg-transparent border-2 border-stone-800 text-stone-800 py-3 px-8 rounded-full overflow-hidden transition-all duration-300 hover:text-white hover:border-orange-700">
-                        <span className="relative z-10 flex items-center">
-                            Pogledaj sve projekte
-                            <svg
-                                className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </span>
-                        <span className="absolute inset-0 bg-orange-700 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
-                    </button>
+                {/* CTA */}
+                <div className={`mt-12 text-center ${getAnimationClasses('delay-700')}`}>
+                    <a
+                        href="#svi-projekti"
+                        className="group inline-flex items-center bg-stone-800 text-white px-6 py-3 rounded-sm hover:bg-stone-700 transition-all duration-300 text-sm uppercase tracking-wider font-light shadow-sm hover:shadow-md"
+                    >
+                        <span>Pogledajte sve projekte</span>
+                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </a>
                 </div>
-            </div>
+
+                {/* Brojke */}
+                <div className={`mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 ${getAnimationClasses('delay-800')}`}>
+                    <div className="p-6 bg-white rounded-lg border border-stone-200 hover:border-amber-200 hover:shadow-sm transition-all duration-300 text-center">
+                        <div className="w-16 h-16 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-4">
+                            <span className="text-2xl font-medium">5+</span>
+                        </div>
+                        <h4 className="text-lg font-medium text-stone-800 mb-2">Godina iskustva</h4>
+                        <p className="text-stone-600 font-light text-sm">Od 2019. godine radimo na stvaranju jedinstvenih prostora</p>
+                    </div>
+
+                    <div className="p-6 bg-white rounded-lg border border-stone-200 hover:border-amber-200 hover:shadow-sm transition-all duration-300 text-center">
+                        <div className="w-16 h-16 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-4">
+                            <span className="text-2xl font-medium">50+</span>
+                        </div>
+                        <h4 className="text-lg font-medium text-stone-800 mb-2">Uspešnih projekata</h4>
+                        <p className="text-stone-600 font-light text-sm">Stambeni objekti, poslovni prostori i ugostiteljski objekti</p>
+                    </div>
+
+                    <div className="p-6 bg-white rounded-lg border border-stone-200 hover:border-amber-200 hover:shadow-sm transition-all duration-300 text-center">
+                        <div className="w-16 h-16 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-4">
+                            <span className="text-2xl font-medium">100%</span>
+                        </div>
+                        <h4 className="text-lg font-medium text-stone-800 mb-2">Zadovoljnih klijenata</h4>
+                        <p className="text-stone-600 font-light text-sm">Posvećeni smo kvalitetu i zadovoljstvu naših klijenata</p>
+                    </div>
+                </div>
+            </Container>
         </section>
     );
 };

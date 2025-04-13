@@ -3,7 +3,6 @@ import { OurStoryHero } from './components/OurStoryHero';
 import { CompanyHistory } from './components/CompanyHistory';
 import { MissionVision } from './components/MissionVision';
 import { ValuesSection } from './components/ValuesSection';
-import { TeamSection } from './components/TeamSection';
 import { ProductionCapabilities } from './components/ProductionCapabilities';
 import { CertificatesSection } from './components/CertificatesSection';
 
@@ -14,7 +13,6 @@ const AboutPage = () => {
             <CompanyHistory />
             <MissionVision />
             <ValuesSection />
-            <TeamSection />
             <ProductionCapabilities />
             <CertificatesSection />
         </div>
