@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Container } from '../../../components/ui/Container';
 import { Check, ArrowRight, AlertCircle } from 'lucide-react';
 
-// Einfachere Typdefinitionen
 type FormData = {
     name: string;
     email: string;
@@ -16,11 +15,10 @@ type FormErrors = {
     [key: string]: string;
 }
 
-// Vereinfachten API-Endpunkt verwenden
-const API_URL = '/api/simple-contact';
+// Ändern Sie den API-Endpunkt zum funktionierenden Endpunkt
+const API_URL = '/api/send-inquiry'; // Verwenden Sie den existierenden Endpunkt
 
 export const ContactFormSection: React.FC = () => {
-    // State mit expliziten Typdefinitionen
     const [formData, setFormData] = useState<FormData>({
         name: '',
         email: '',
@@ -35,7 +33,6 @@ export const ContactFormSection: React.FC = () => {
     const [apiError, setApiError] = useState<string | null>(null);
     const [debugInfo, setDebugInfo] = useState<string | null>(null);
 
-    // Event-Handler mit einfacheren Typen
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { id, value } = e.target;
         setFormData(prev => ({
@@ -44,7 +41,6 @@ export const ContactFormSection: React.FC = () => {
         }));
     };
 
-    // Formularvalidierung
     const validateForm = () => {
         const newErrors: FormErrors = {};
 
@@ -60,7 +56,6 @@ export const ContactFormSection: React.FC = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    // Formular absenden mit expliziten Promise-Handling
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setDebugInfo(null);
@@ -70,19 +65,21 @@ export const ContactFormSection: React.FC = () => {
                 setIsLoading(true);
                 setApiError(null);
 
-                // API-Anfrage vorbereiten
+                // Passen Sie die Daten an das Format von send-inquiry an
                 const requestData = {
                     name: formData.name,
                     email: formData.email,
                     phone: formData.phone || "Nije unet",
                     message: formData.message,
-                    subject: formData.subject || 'Opšti upit'
+                    // Fügen Sie diese Felder für send-inquiry hinzu, aber mit Fallback-Werten
+                    productName: formData.subject || "Kontakt forma",
+                    productCode: "KONTAKT",
+                    productId: "contact-form",
+                    quantity: "1"
                 };
 
-                // Debug-Info
                 setDebugInfo(`Sending to: ${API_URL}`);
 
-                // API-Anfrage senden
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
@@ -92,12 +89,10 @@ export const ContactFormSection: React.FC = () => {
                     body: JSON.stringify(requestData)
                 });
 
-                // Wir kopieren die Response, da wir sie potenziell zweimal lesen müssen
                 const clonedResponse = response.clone();
                 setDebugInfo(prev => `${prev}\nResponse status: ${response.status}`);
 
                 try {
-                    // Versuche JSON-Antwort zu parsen
                     const responseData = await response.json();
                     setDebugInfo(prev => `${prev}\nResponse data: ${JSON.stringify(responseData).substring(0, 100)}...`);
 
@@ -112,10 +107,8 @@ export const ContactFormSection: React.FC = () => {
                         throw new Error(errorMessage);
                     }
 
-                    // Erfolgreiche Übermittlung
                     setIsSubmitted(true);
 
-                    // Formular zurücksetzen
                     setFormData({
                         name: '',
                         email: '',
@@ -124,13 +117,11 @@ export const ContactFormSection: React.FC = () => {
                         message: ''
                     });
 
-                    // Nach 6 Sekunden die Erfolgsmeldung zurücksetzen
                     setTimeout(() => {
                         setIsSubmitted(false);
                     }, 6000);
 
                 } catch (jsonError) {
-                    // Falls JSON-Parsing fehlschlägt, versuche Text-Antwort
                     console.error('Error parsing JSON response:', jsonError);
                     setDebugInfo(prev => `${prev}\nJSON parsing error: ${jsonError}`);
 
@@ -140,7 +131,6 @@ export const ContactFormSection: React.FC = () => {
                     if (!response.ok) {
                         throw new Error(`Server error: ${text || response.statusText}`);
                     } else {
-                        // Wenn Status OK ist, trotz JSON-Fehler, betrachten wir es als Erfolg
                         setIsSubmitted(true);
                         setFormData({
                             name: '',
@@ -155,7 +145,6 @@ export const ContactFormSection: React.FC = () => {
                     }
                 }
             } catch (err) {
-                // Vereinfachte Fehlerbehandlung
                 console.error('Form submission error:', err);
                 setDebugInfo(prev => `${prev}\nError: ${err instanceof Error ? err.message : 'Unknown error'}`);
                 setApiError(err instanceof Error ? err.message : 'Došlo je do nepoznate greške');
@@ -165,7 +154,6 @@ export const ContactFormSection: React.FC = () => {
         }
     };
 
-    // Erfolgskomponente ohne separate Definition
     return (
         <section id="kontakt-forma" className="py-16 md:py-24 bg-white font-sans">
             <Container>
