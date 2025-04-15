@@ -1,5 +1,5 @@
 // api/send-inquiry.js
-const nodemailer = require('nodemailer');
+const https = require('https');
 
 // Vercel Serverless Function
 module.exports = async (req, res) => {
@@ -68,126 +68,53 @@ module.exports = async (req, res) => {
         const safeName = name ? String(name).replace(/[<>]/g, '') : 'Unknown';
         const safeEmail = email ? String(email).replace(/[<>]/g, '') : 'Unknown';
         const safePhone = phone ? String(phone).replace(/[<>]/g, '') : 'Unknown';
-        const safeMessage = message ? String(message).replace(/\n/g, '<br>').replace(/[<>]/g, '') : 'No message';
+        const safeMessage = message ? String(message).replace(/[<>]/g, '') : 'No message';
 
-        // Create HTML email content
-        const htmlContent = `
-        <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px;">
-            <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Novi upit za proizvod</h2>
-            
-            <div style="margin: 20px 0;">
-                <p><strong>Proizvod:</strong> ${safeProductName} (${safeProductCode})</p>
-                <p><strong>Količina:</strong> ${safeQuantity} m²</p>
-            </div>
-            
-            <div style="margin: 20px 0;">
-                <p><strong>Ime i prezime:</strong> ${safeName}</p>
-                <p><strong>Email:</strong> ${safeEmail}</p>
-                <p><strong>Telefon:</strong> ${safePhone}</p>
-            </div>
-            
-            <div style="margin: 20px 0; background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
-                <p><strong>Poruka:</strong></p>
-                <p>${safeMessage}</p>
-            </div>
-            
-            <div style="font-size: 12px; margin-top: 30px; color: #777; border-top: 1px solid #eee; padding-top: 10px;">
-                <p>Ova poruka je automatski poslata sa web sajta KamenPro.</p>
-            </div>
-        </div>
-        `;
+        // Log the inquiry to console (will be visible in Vercel logs)
+        console.log('INQUIRY RECEIVED:');
+        console.log('---------------------');
+        console.log(`Product: ${safeProductName} (${safeProductCode})`);
+        console.log(`Quantity: ${safeQuantity}`);
+        console.log(`Customer: ${safeName}`);
+        console.log(`Email: ${safeEmail}`);
+        console.log(`Phone: ${safePhone}`);
+        console.log(`Message: ${safeMessage}`);
+        console.log('---------------------');
 
-        // Workaround: Store the message in Supabase since we're already using it
-        // If you have Supabase configured, this is a good alternative to ensure data is captured
-        try {
-            const { createClient } = require('@supabase/supabase-js');
-            const supabaseUrl = process.env.VITE_SUPABASE_URL;
-            const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
-
-            if (supabaseUrl && supabaseKey) {
-                console.log('Attempting to store inquiry in Supabase...');
-                const supabase = createClient(supabaseUrl, supabaseKey);
-
-                const { data, error } = await supabase
-                    .from('inquiries')
-                    .insert([
-                        {
-                            name: safeName,
-                            email: safeEmail,
-                            phone: safePhone,
-                            message: safeMessage,
-                            product_name: safeProductName,
-                            product_code: safeProductCode,
-                            quantity: safeQuantity,
-                            created_at: new Date().toISOString()
-                        }
-                    ]);
-
-                if (error) {
-                    console.error('Supabase storage error:', error);
-                } else {
-                    console.log('Successfully stored inquiry in Supabase');
-                }
-            } else {
-                console.log('Supabase credentials not found, skipping database storage');
-            }
-        } catch (dbError) {
-            console.error('Error while trying to store in database:', dbError);
-        }
-
-        // Fallback email method: Using SendGrid
-        try {
-            if (process.env.SENDGRID_API_KEY) {
-                console.log('Attempting to send via SendGrid...');
-                const sgMail = require('@sendgrid/mail');
-                sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-                const msg = {
-                    to: process.env.TO_EMAIL || process.env.SMTP_USER || 'info@kamenpro.net',
-                    from: process.env.FROM_EMAIL || process.env.SMTP_USER || 'info@kamenpro.net',
-                    subject: `Upit za proizvod: ${safeProductName} (${safeProductCode})`,
-                    text: `Novi upit za proizvod ${safeProductName} (${safeProductCode}) od ${safeName}. Email: ${safeEmail}, Telefon: ${safePhone}. Poruka: ${message}`,
-                    html: htmlContent,
-                    replyTo: safeEmail
+        // Optional: Send to webhook if WEBHOOK_URL is defined in environment variables
+        if (process.env.WEBHOOK_URL) {
+            try {
+                // Format the message for webhook (e.g., Discord, Slack, etc.)
+                const webhookData = {
+                    content: `**Nova kontakt poruka sa web sajta**`,
+                    embeds: [{
+                        title: `Upit za proizvod: ${safeProductName} (${safeProductCode})`,
+                        color: 16766720, // Amber color
+                        fields: [
+                            { name: "Ime i prezime", value: safeName, inline: true },
+                            { name: "Email", value: safeEmail, inline: true },
+                            { name: "Telefon", value: safePhone, inline: true },
+                            { name: "Proizvod", value: safeProductName, inline: true },
+                            { name: "Šifra", value: safeProductCode, inline: true },
+                            { name: "Količina", value: `${safeQuantity} m²`, inline: true },
+                            { name: "Poruka", value: safeMessage }
+                        ],
+                        timestamp: new Date().toISOString()
+                    }]
                 };
 
-                const result = await sgMail.send(msg);
-                console.log('SendGrid email sent successfully');
-            } else {
-                console.log('SendGrid API key not found, trying original SMTP...');
-
-                // Original SMTP as fallback
-                const transporter = nodemailer.createTransport({
-                    host: process.env.SMTP_HOST,
-                    port: parseInt(process.env.SMTP_PORT || '465'),
-                    secure: process.env.SMTP_SECURE === 'true',
-                    auth: {
-                        user: process.env.SMTP_USER,
-                        pass: process.env.SMTP_PASSWORD,
-                    },
-                    connectionTimeout: 10000,
-                    greetingTimeout: 10000,
-                    socketTimeout: 10000,
-                });
-
-                const mailOptions = {
-                    from: `"KamenPro Web" <${process.env.SMTP_USER}>`,
-                    to: process.env.SMTP_USER,
-                    subject: `Upit za proizvod: ${safeProductName} (${safeProductCode})`,
-                    html: htmlContent,
-                    replyTo: safeEmail,
-                    text: `Novi upit za proizvod ${safeProductName} (${safeProductCode}) od ${safeName}. Email: ${safeEmail}, Telefon: ${safePhone}. Poruka: ${message}`,
-                };
-
-                const info = await transporter.sendMail(mailOptions);
-                console.log('Original SMTP email sent successfully:', info.messageId);
+                // Send to webhook
+                await sendToWebhook(process.env.WEBHOOK_URL, webhookData);
+                console.log('Successfully sent to webhook');
+            } catch (webhookError) {
+                console.error('Error sending to webhook:', webhookError);
+                // We don't return an error to the client if the webhook fails
             }
-        } catch (emailError) {
-            console.error('Error with email sending:', emailError);
-            // We don't throw here to avoid affecting the user response
+        } else {
+            console.log('No webhook URL configured - only logging to console');
         }
 
-        // Return success regardless of email sending result
+        // Return success
         return res.status(200).json({
             success: true,
             message: 'Vaš upit je uspešno poslat.'
@@ -199,3 +126,47 @@ module.exports = async (req, res) => {
         });
     }
 };
+
+// Helper function to send data to a webhook
+async function sendToWebhook(webhookUrl, data) {
+    return new Promise((resolve, reject) => {
+        // Parse the webhook URL
+        const urlObj = new URL(webhookUrl);
+
+        // Create the request options
+        const options = {
+            hostname: urlObj.hostname,
+            port: 443,
+            path: urlObj.pathname + urlObj.search,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        };
+
+        // Create and send the request
+        const req = https.request(options, (res) => {
+            let responseData = '';
+
+            res.on('data', (chunk) => {
+                responseData += chunk;
+            });
+
+            res.on('end', () => {
+                if (res.statusCode >= 200 && res.statusCode < 300) {
+                    resolve(responseData);
+                } else {
+                    reject(new Error(`Webhook request failed with status code ${res.statusCode}: ${responseData}`));
+                }
+            });
+        });
+
+        req.on('error', (error) => {
+            reject(error);
+        });
+
+        // Send the data
+        req.write(JSON.stringify(data));
+        req.end();
+    });
+}

@@ -2,9 +2,5 @@
   "name": "kamenpro-api",
   "version": "1.0.0",
   "description": "KamenPro API functions",
-  "dependencies": {
-    "nodemailer": "^6.10.1",
-    "@sendgrid/mail": "^7.7.0",
-    "@supabase/supabase-js": "^2.49.1"
-  }
+  "dependencies": {}
 }
