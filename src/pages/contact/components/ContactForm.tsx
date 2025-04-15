@@ -16,6 +16,9 @@ type FormErrors = {
     [key: string]: string;
 }
 
+// API-URL für die Brevo API
+const API_URL = '/api/send-inquiry';
+
 export const ContactFormSection: React.FC = () => {
     // State mit expliziten Typdefinitionen
     const [formData, setFormData] = useState<FormData>({
@@ -77,7 +80,7 @@ export const ContactFormSection: React.FC = () => {
                 };
 
                 // API-Anfrage senden
-                const response = await fetch('/api/send-inquiry', {
+                const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

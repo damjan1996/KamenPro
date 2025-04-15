@@ -1,6 +1,9 @@
 // api/send-inquiry.js
 import fetch from 'node-fetch';
 
+// Brevo API Key direkt für den Test
+const BREVO_API_KEY = "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";
+
 // Vercel Serverless Function
 export default async function handler(req, res) {
     // Set CORS headers
@@ -83,13 +86,6 @@ export default async function handler(req, res) {
 
         // Use fetch to send directly to Brevo API
         try {
-            // Check if API key is available
-            const apiKey = process.env.BREVO_API_KEY;
-            if (!apiKey) {
-                console.error('BREVO_API_KEY is not set in environment variables');
-                throw new Error('Email service configuration missing');
-            }
-
             // Prepare data for Brevo API
             const emailData = {
                 sender: {
@@ -141,7 +137,7 @@ export default async function handler(req, res) {
                 method: 'POST',
                 headers: {
                     'accept': 'application/json',
-                    'api-key': apiKey,
+                    'api-key': BREVO_API_KEY,
                     'content-type': 'application/json'
                 },
                 body: JSON.stringify(emailData)
