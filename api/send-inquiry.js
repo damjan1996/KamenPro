@@ -1,5 +1,5 @@
 // api/send-inquiry.js
-const https = require('https');
+const nodemailer = require('nodemailer');
 
 // Vercel Serverless Function
 module.exports = async (req, res) => {
@@ -42,7 +42,6 @@ module.exports = async (req, res) => {
             email,
             phone,
             message,
-            productId,
             productName,
             productCode,
             quantity
@@ -68,7 +67,7 @@ module.exports = async (req, res) => {
         const safeName = name ? String(name).replace(/[<>]/g, '') : 'Unknown';
         const safeEmail = email ? String(email).replace(/[<>]/g, '') : 'Unknown';
         const safePhone = phone ? String(phone).replace(/[<>]/g, '') : 'Unknown';
-        const safeMessage = message ? String(message).replace(/[<>]/g, '') : 'No message';
+        const safeMessage = message ? String(message).replace(/\n/g, '<br>').replace(/[<>]/g, '') : 'No message';
 
         // Log the inquiry to console (will be visible in Vercel logs)
         console.log('INQUIRY RECEIVED:');
@@ -81,40 +80,82 @@ module.exports = async (req, res) => {
         console.log(`Message: ${safeMessage}`);
         console.log('---------------------');
 
-        // Optional: Send to webhook if WEBHOOK_URL is defined in environment variables
-        if (process.env.WEBHOOK_URL) {
-            try {
-                // Format the message for webhook (e.g., Discord, Slack, etc.)
-                const webhookData = {
-                    content: `**Nova kontakt poruka sa web sajta**`,
-                    embeds: [{
-                        title: `Upit za proizvod: ${safeProductName} (${safeProductCode})`,
-                        color: 16766720, // Amber color
-                        fields: [
-                            { name: "Ime i prezime", value: safeName, inline: true },
-                            { name: "Email", value: safeEmail, inline: true },
-                            { name: "Telefon", value: safePhone, inline: true },
-                            { name: "Proizvod", value: safeProductName, inline: true },
-                            { name: "Šifra", value: safeProductCode, inline: true },
-                            { name: "Količina", value: `${safeQuantity} m²`, inline: true },
-                            { name: "Poruka", value: safeMessage }
-                        ],
-                        timestamp: new Date().toISOString()
-                    }]
-                };
+        // HTML email content
+        const htmlContent = `
+        <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px;">
+            <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Novi upit za proizvod</h2>
+            
+            <div style="margin: 20px 0;">
+                <p><strong>Proizvod:</strong> ${safeProductName} (${safeProductCode})</p>
+                <p><strong>Količina:</strong> ${safeQuantity} m²</p>
+            </div>
+            
+            <div style="margin: 20px 0;">
+                <p><strong>Ime i prezime:</strong> ${safeName}</p>
+                <p><strong>Email:</strong> ${safeEmail}</p>
+                <p><strong>Telefon:</strong> ${safePhone}</p>
+            </div>
+            
+            <div style="margin: 20px 0; background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
+                <p><strong>Poruka:</strong></p>
+                <p>${safeMessage}</p>
+            </div>
+            
+            <div style="font-size: 12px; margin-top: 30px; color: #777; border-top: 1px solid #eee; padding-top: 10px;">
+                <p>Ova poruka je automatski poslata sa web sajta KamenPro.</p>
+            </div>
+        </div>
+        `;
 
-                // Send to webhook
-                await sendToWebhook(process.env.WEBHOOK_URL, webhookData);
-                console.log('Successfully sent to webhook');
-            } catch (webhookError) {
-                console.error('Error sending to webhook:', webhookError);
-                // We don't return an error to the client if the webhook fails
+        try {
+            // Alternative configuration for Hostinger
+            const transporter = nodemailer.createTransport({
+                host: process.env.SMTP_HOST,
+                port: parseInt(process.env.SMTP_PORT || '465'),
+                secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
+                auth: {
+                    user: process.env.SMTP_USER,
+                    pass: process.env.SMTP_PASSWORD,
+                },
+                // More aggressive timeouts for Hostinger
+                connectionTimeout: 15000,
+                greetingTimeout: 15000,
+                socketTimeout: 20000,
+                // Debug flags
+                debug: true,
+                logger: true
+            });
+
+            // Set up email options
+            const mailOptions = {
+                from: `"KamenPro Web" <${process.env.SMTP_USER}>`,
+                to: process.env.SMTP_USER,
+                subject: `Upit za proizvod: ${safeProductName} (${safeProductCode})`,
+                html: htmlContent,
+                replyTo: safeEmail,
+                text: `Novi upit za proizvod ${safeProductName} (${safeProductCode}) od ${safeName}. Email: ${safeEmail}, Telefon: ${safePhone}. Poruka: ${message}`,
+            };
+
+            try {
+                // Testing SMTP connection first
+                await transporter.verify();
+                console.log('SMTP connection verified successfully');
+
+                // Send email
+                console.log('Attempting to send email via SMTP');
+                const info = await transporter.sendMail(mailOptions);
+                console.log('Email sent successfully:', info.messageId);
+            } catch (emailError) {
+                console.error('SMTP error:', emailError);
+                // We continue even if email fails
             }
-        } else {
-            console.log('No webhook URL configured - only logging to console');
+        } catch (smtpError) {
+            console.error('SMTP configuration error:', smtpError);
+            // We continue even if SMTP setup fails
         }
 
-        // Return success
+        // Return success regardless of email sending result
+        // This way the user doesn't see an error even if email sending fails
         return res.status(200).json({
             success: true,
             message: 'Vaš upit je uspešno poslat.'
@@ -126,47 +167,3 @@ module.exports = async (req, res) => {
         });
     }
 };
-
-// Helper function to send data to a webhook
-async function sendToWebhook(webhookUrl, data) {
-    return new Promise((resolve, reject) => {
-        // Parse the webhook URL
-        const urlObj = new URL(webhookUrl);
-
-        // Create the request options
-        const options = {
-            hostname: urlObj.hostname,
-            port: 443,
-            path: urlObj.pathname + urlObj.search,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        };
-
-        // Create and send the request
-        const req = https.request(options, (res) => {
-            let responseData = '';
-
-            res.on('data', (chunk) => {
-                responseData += chunk;
-            });
-
-            res.on('end', () => {
-                if (res.statusCode >= 200 && res.statusCode < 300) {
-                    resolve(responseData);
-                } else {
-                    reject(new Error(`Webhook request failed with status code ${res.statusCode}: ${responseData}`));
-                }
-            });
-        });
-
-        req.on('error', (error) => {
-            reject(error);
-        });
-
-        // Send the data
-        req.write(JSON.stringify(data));
-        req.end();
-    });
-}
