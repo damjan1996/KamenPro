@@ -4,8 +4,8 @@ import SibApiV3Sdk from 'sib-api-v3-sdk';
 // Direkter Test der Brevo-API
 async function testBrevoAPI() {
     try {
-        // API-Schlüssel hier direkt einsetzen für den Test (nur zu Testzwecken, nicht in Produktion)
-        const API_KEY = process.env.BRE;
+        // API-Schlüssel direkt einsetzen für den Test (nur zu Testzwecken, nicht in Produktion)
+        const API_KEY = "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";
 
         // Initialize Brevo API client
         const defaultClient = SibApiV3Sdk.ApiClient.instance;
