@@ -1,9 +1,10 @@
 // src/pages/contact/components/ContactForm.tsx
-import { useState, useEffect, useRef, ChangeEvent, FormEvent } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 import { Container } from '../../../components/ui/Container';
-import { Check, ArrowRight } from 'lucide-react';
+import { Check, ArrowRight, AlertCircle } from 'lucide-react';
 
-interface FormState {
+// Typdefinitionen
+interface FormData {
     name: string;
     email: string;
     phone: string;
@@ -12,180 +13,131 @@ interface FormState {
 }
 
 interface FormErrors {
-    [key: string]: string;
+    name?: string;
+    email?: string;
+    phone?: string;
+    subject?: string;
+    message?: string;
 }
 
 export const ContactFormSection = () => {
-    const [isVisible, setIsVisible] = useState(false);
-    const [formState, setFormState] = useState<FormState>({
+    // Formularstatus mit definierten Typen
+    const [formData, setFormData] = useState<FormData>({
         name: '',
         email: '',
         phone: '',
         subject: '',
         message: ''
     });
-    const [focused, setFocused] = useState('');
-    const [submitted, setSubmitted] = useState(false);
+
     const [errors, setErrors] = useState<FormErrors>({});
-    const sectionRef = useRef<HTMLElement | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+    const [apiError, setApiError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                const [entry] = entries;
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        const currentRef = sectionRef.current;
-
-        if (currentRef) {
-            observer.observe(currentRef);
-        }
-
-        return () => {
-            if (currentRef) {
-                observer.unobserve(currentRef);
-            }
-        };
-    }, []);
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    // Eingabeänderung mit richtiger Typisierung
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { id, value } = e.target;
-        setFormState(prev => ({
+        setFormData(prev => ({
             ...prev,
             [id]: value
         }));
     };
 
-    const handleFocus = (field: string) => {
-        setFocused(field);
-    };
-
-    const handleBlur = () => {
-        setFocused('');
-    };
-
-    const validateForm = () => {
+    // Formularvalidierung
+    const validateForm = (): boolean => {
         const newErrors: FormErrors = {};
 
-        if (!formState.name.trim()) newErrors.name = 'Ime je obavezno';
-        if (!formState.email.trim()) {
+        if (!formData.name.trim()) newErrors.name = 'Ime je obavezno';
+        if (!formData.email.trim()) {
             newErrors.email = 'Email je obavezan';
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email)) {
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
             newErrors.email = 'Email format nije validan';
         }
-        if (!formState.message.trim()) newErrors.message = 'Poruka je obavezna';
+        if (!formData.message.trim()) newErrors.message = 'Poruka je obavezna';
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e: FormEvent) => {
+    // Formular absenden
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (validateForm()) {
-            // Ovde bi išao kod za stvarno slanje forme
-            console.log('Form submitted:', formState);
+            try {
+                setIsLoading(true);
+                setApiError(null);
 
-            // Simulacija uspešnog slanja
-            setSubmitted(true);
-            setTimeout(() => {
-                setFormState({
+                // API-Anfrage vorbereiten
+                const requestData = {
+                    name: formData.name,
+                    email: formData.email,
+                    phone: formData.phone,
+                    message: formData.message,
+                    productName: formData.subject ? `Kontakt forma - ${formData.subject}` : 'Kontakt forma',
+                    productCode: 'CONTACT',
+                    quantity: 1
+                };
+
+                // API-Anfrage senden
+                const response = await fetch('/api/send-inquiry', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                // Antwort verarbeiten
+                const responseText = await response.text();
+
+                if (!response.ok) {
+                    let errorMessage = 'Došlo je do greške pri slanju poruke.';
+
+                    try {
+                        const errorData = JSON.parse(responseText);
+                        if (errorData && errorData.error) {
+                            errorMessage = errorData.error;
+                        }
+                    } catch (e) {
+                        console.error('Error parsing response:', e);
+                    }
+
+                    throw new Error(errorMessage);
+                }
+
+                // Erfolgreiche Übermittlung
+                setIsSubmitted(true);
+
+                // Formular zurücksetzen
+                setFormData({
                     name: '',
                     email: '',
                     phone: '',
                     subject: '',
                     message: ''
                 });
-                setSubmitted(false);
-            }, 3000);
+
+                // Nach 6 Sekunden die Erfolgsmeldung zurücksetzen
+                setTimeout(() => {
+                    setIsSubmitted(false);
+                }, 6000);
+
+            } catch (err: unknown) {
+                // Korrekte Behandlung des unknown Typs
+                if (err instanceof Error) {
+                    setApiError(err.message);
+                } else {
+                    setApiError('Es ist ein unbekannter Fehler aufgetreten');
+                }
+            } finally {
+                setIsLoading(false);
+            }
         }
     };
 
-    const inputClasses = (field: string) => {
-        return `w-full px-4 py-3 border ${errors[field]
-            ? 'border-red-300 focus:border-red-500 focus:ring-1 focus:ring-red-200'
-            : focused === field
-                ? 'border-amber-400 ring-1 ring-amber-200'
-                : 'border-stone-200 focus:border-amber-500 focus:ring-1 focus:ring-amber-200'} 
-            rounded-sm transition-all duration-300 bg-white hover:bg-white/95 font-light text-stone-800`;
-    };
-
-    // Pomoćna funkcija za dobijanje klasa animacije
-    const getAnimationClasses = (delay: string = '') => `
-        transition-all duration-700 ${delay} ease-out transform 
-        ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
-    `.trim();
-
-    // Komponente za formularska polja
-    const FormField = ({
-                           id,
-                           label,
-                           type = 'text',
-                           placeholder,
-                           value,
-                           delay,
-                           isTextarea = false,
-                           rows = 5,
-                           options = []
-                       }: {
-        id: keyof FormState;
-        label: string;
-        type?: string;
-        placeholder?: string;
-        value: string;
-        delay: string;
-        isTextarea?: boolean;
-        rows?: number;
-        options?: Array<{value: string; label: string}>;
-    }) => (
-        <div className={getAnimationClasses(delay)}>
-            <label htmlFor={id} className="block text-sm font-medium text-stone-700 mb-1">{label}</label>
-            {isTextarea ? (
-                <textarea
-                    id={id}
-                    rows={rows}
-                    value={value}
-                    onChange={handleChange}
-                    onFocus={() => handleFocus(id)}
-                    onBlur={handleBlur}
-                    className={inputClasses(id)}
-                    placeholder={placeholder}
-                ></textarea>
-            ) : type === 'select' ? (
-                <select
-                    id={id}
-                    value={value}
-                    onChange={handleChange}
-                    onFocus={() => handleFocus(id)}
-                    onBlur={handleBlur}
-                    className={inputClasses(id)}
-                >
-                    {options.map(option => (
-                        <option key={option.value} value={option.value}>{option.label}</option>
-                    ))}
-                </select>
-            ) : (
-                <input
-                    type={type}
-                    id={id}
-                    value={value}
-                    onChange={handleChange}
-                    onFocus={() => handleFocus(id)}
-                    onBlur={handleBlur}
-                    className={inputClasses(id)}
-                    placeholder={placeholder}
-                />
-            )}
-            {errors[id] && <p className="mt-1 text-sm text-red-600">{errors[id]}</p>}
-        </div>
-    );
-
-    // Komponenta za prikaz uspeha nakon slanja forme
+    // Komponente für Erfolgreiche Sendung
     const SuccessMessage = () => (
         <div className="py-12 text-center">
             <div className="mx-auto w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mb-6">
@@ -196,47 +148,11 @@ export const ContactFormSection = () => {
         </div>
     );
 
-    // Komponenta za brzu kontakt opciju
-    const ContactOption = ({
-                               href,
-                               title,
-                               content,
-                               isClickable = true
-                           }: {
-        href?: string;
-        title: string;
-        content: string;
-        isClickable?: boolean
-    }) => {
-        const baseClasses = "p-4 bg-stone-50 rounded-lg border border-stone-200 hover:border-amber-200 hover:shadow-sm transition-all duration-300 text-center";
-
-        const content_el = (
-            <>
-                <h3 className="font-medium text-stone-800 mb-1 transition-colors duration-300 group-hover:text-amber-600">{title}</h3>
-                <p className="text-stone-600 font-light text-sm">{content}</p>
-            </>
-        );
-
-        return isClickable && href ? (
-            <a href={href} className={`${baseClasses} group`}>
-                {content_el}
-            </a>
-        ) : (
-            <div className={baseClasses}>
-                {content_el}
-            </div>
-        );
-    };
-
     return (
-        <section
-            ref={sectionRef}
-            id="kontakt-forma"
-            className="py-16 md:py-24 bg-white overflow-hidden font-sans"
-        >
+        <section id="kontakt-forma" className="py-16 md:py-24 bg-white font-sans">
             <Container>
                 <div className="max-w-3xl mx-auto">
-                    <div className={`text-center mb-12 ${getAnimationClasses()}`}>
+                    <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-4 uppercase tracking-wide">
                             Pošaljite nam <span className="font-medium">poruku</span>
                         </h2>
@@ -247,69 +163,121 @@ export const ContactFormSection = () => {
                         </p>
                     </div>
 
-                    <div className={`bg-stone-50 rounded-lg shadow-md p-6 md:p-8 ${getAnimationClasses('delay-200')}`}>
-                        {submitted ? (
+                    <div className="bg-stone-50 rounded-lg shadow-md p-6 md:p-8">
+                        {isSubmitted ? (
                             <SuccessMessage />
                         ) : (
-                            <form className="space-y-6" onSubmit={handleSubmit}>
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                {apiError && (
+                                    <div className="p-4 bg-red-50 border border-red-200 rounded-lg flex items-start mb-6">
+                                        <AlertCircle className="w-5 h-5 text-red-500 mr-3 mt-0.5 flex-shrink-0" />
+                                        <div>
+                                            <h4 className="font-medium text-red-700 mb-1">Greška</h4>
+                                            <p className="text-red-600 text-sm">{apiError}</p>
+                                        </div>
+                                    </div>
+                                )}
+
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <FormField
-                                        id="name"
-                                        label="Ime i prezime"
-                                        placeholder="Vaše ime i prezime"
-                                        value={formState.name}
-                                        delay="delay-300"
-                                    />
-                                    <FormField
-                                        id="email"
-                                        label="Email adresa"
-                                        type="email"
-                                        placeholder="vasa.adresa@email.com"
-                                        value={formState.email}
-                                        delay="delay-400"
+                                    {/* Name */}
+                                    <div>
+                                        <label htmlFor="name" className="block text-sm font-medium text-stone-700 mb-1">
+                                            Ime i prezime
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="name"
+                                            value={formData.name}
+                                            onChange={handleInputChange}
+                                            className={`w-full px-4 py-3 border rounded-sm ${errors.name ? 'border-red-300' : 'border-stone-200'}`}
+                                            placeholder="Vaše ime i prezime"
+                                            disabled={isLoading}
+                                        />
+                                        {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
+                                    </div>
+
+                                    {/* Email */}
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium text-stone-700 mb-1">
+                                            Email adresa
+                                        </label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            value={formData.email}
+                                            onChange={handleInputChange}
+                                            className={`w-full px-4 py-3 border rounded-sm ${errors.email ? 'border-red-300' : 'border-stone-200'}`}
+                                            placeholder="vasa.adresa@email.com"
+                                            disabled={isLoading}
+                                        />
+                                        {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
+                                    </div>
+                                </div>
+
+                                {/* Phone */}
+                                <div>
+                                    <label htmlFor="phone" className="block text-sm font-medium text-stone-700 mb-1">
+                                        Telefon
+                                    </label>
+                                    <input
+                                        type="tel"
+                                        id="phone"
+                                        value={formData.phone}
+                                        onChange={handleInputChange}
+                                        className="w-full px-4 py-3 border border-stone-200 rounded-sm"
+                                        placeholder="Vaš broj telefona"
+                                        disabled={isLoading}
                                     />
                                 </div>
 
-                                <FormField
-                                    id="phone"
-                                    label="Telefon"
-                                    type="tel"
-                                    placeholder="Vaš broj telefona"
-                                    value={formState.phone}
-                                    delay="delay-500"
-                                />
+                                {/* Subject */}
+                                <div>
+                                    <label htmlFor="subject" className="block text-sm font-medium text-stone-700 mb-1">
+                                        Tema
+                                    </label>
+                                    <select
+                                        id="subject"
+                                        value={formData.subject}
+                                        onChange={handleInputChange}
+                                        className="w-full px-4 py-3 border border-stone-200 rounded-sm"
+                                        disabled={isLoading}
+                                    >
+                                        <option value="">Izaberite temu</option>
+                                        <option value="info">Informacije o proizvodima</option>
+                                        <option value="quote">Zatražite ponudu</option>
+                                        <option value="project">Konsultacije za projekat</option>
+                                        <option value="installation">Ugradnja dekorativnih obloga</option>
+                                        <option value="other">Drugo</option>
+                                    </select>
+                                </div>
 
-                                <FormField
-                                    id="subject"
-                                    label="Tema"
-                                    type="select"
-                                    value={formState.subject}
-                                    delay="delay-600"
-                                    options={[
-                                        { value: "", label: "Izaberite temu" },
-                                        { value: "info", label: "Informacije o proizvodima" },
-                                        { value: "quote", label: "Zatražite ponudu" },
-                                        { value: "project", label: "Konsultacije za projekat" },
-                                        { value: "installation", label: "Ugradnja dekorativnih obloga" },
-                                        { value: "other", label: "Drugo" }
-                                    ]}
-                                />
+                                {/* Message */}
+                                <div>
+                                    <label htmlFor="message" className="block text-sm font-medium text-stone-700 mb-1">
+                                        Poruka
+                                    </label>
+                                    <textarea
+                                        id="message"
+                                        rows={5}
+                                        value={formData.message}
+                                        onChange={handleInputChange}
+                                        className={`w-full px-4 py-3 border rounded-sm ${errors.message ? 'border-red-300' : 'border-stone-200'}`}
+                                        placeholder="Vaša poruka..."
+                                        disabled={isLoading}
+                                    ></textarea>
+                                    {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message}</p>}
+                                </div>
 
-                                <FormField
-                                    id="message"
-                                    label="Poruka"
-                                    placeholder="Vaša poruka..."
-                                    value={formState.message}
-                                    delay="delay-700"
-                                    isTextarea={true}
-                                />
-
-                                <div className={`text-center ${getAnimationClasses('delay-800')}`}>
+                                {/* Submit Button */}
+                                <div className="text-center">
                                     <button
                                         type="submit"
-                                        className="group inline-flex items-center bg-amber-500 text-stone-900 px-6 py-3 rounded-sm hover:bg-amber-400 transition-all duration-300 text-sm uppercase tracking-wider font-light shadow-md hover:shadow-lg"
+                                        className={`group inline-flex items-center bg-amber-500 text-stone-900 px-6 py-3 rounded-sm hover:bg-amber-400 transition-all duration-300 text-sm uppercase tracking-wider font-light shadow-md hover:shadow-lg ${
+                                            isLoading ? 'opacity-70 cursor-not-allowed' : ''
+                                        }`}
+                                        disabled={isLoading}
                                     >
-                                        <span>Pošaljite poruku</span>
+                                        <span>{isLoading ? 'Slanje poruke...' : 'Pošaljite poruku'}</span>
                                         <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                                     </button>
                                 </div>
@@ -317,27 +285,26 @@ export const ContactFormSection = () => {
                         )}
                     </div>
 
-                    <div className={`mt-8 text-center text-stone-500 text-sm font-light ${getAnimationClasses('delay-900')}`}>
+                    <div className="mt-8 text-center text-stone-500 text-sm font-light">
                         <p>Vaši podaci su sigurni i neće biti deljeni sa trećim licima.</p>
                     </div>
 
-                    {/* Dodatne informacije i brze kontakt opcije */}
-                    <div className={`mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 ${getAnimationClasses('delay-1000')}`}>
-                        <ContactOption
-                            href="tel:+38765678634"
-                            title="Pozovite nas"
-                            content="065 678 634"
-                        />
-                        <ContactOption
-                            href="mailto:info@kamenpro.rs"
-                            title="Pošaljite email"
-                            content="info@kamenpro.rs"
-                        />
-                        <ContactOption
-                            title="Radno vreme"
-                            content="Pon - Sub: 09:00 - 18:00"
-                            isClickable={false}
-                        />
+                    {/* Contact Options */}
+                    <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <a href="tel:+38765678634" className="p-4 bg-stone-50 rounded-lg border border-stone-200 hover:border-amber-200 hover:shadow-sm transition-all duration-300 text-center group">
+                            <h3 className="font-medium text-stone-800 mb-1 transition-colors duration-300 group-hover:text-amber-600">Pozovite nas</h3>
+                            <p className="text-stone-600 font-light text-sm">+387 65 678 634</p>
+                        </a>
+
+                        <a href="mailto:info@kamenpro.net" className="p-4 bg-stone-50 rounded-lg border border-stone-200 hover:border-amber-200 hover:shadow-sm transition-all duration-300 text-center group">
+                            <h3 className="font-medium text-stone-800 mb-1 transition-colors duration-300 group-hover:text-amber-600">Pošaljite email</h3>
+                            <p className="text-stone-600 font-light text-sm">info@kamenpro.net</p>
+                        </a>
+
+                        <div className="p-4 bg-stone-50 rounded-lg border border-stone-200 text-center">
+                            <h3 className="font-medium text-stone-800 mb-1">Radno vreme</h3>
+                            <p className="text-stone-600 font-light text-sm">Pon - Sub: 09:00 - 18:00</p>
+                        </div>
                     </div>
                 </div>
             </Container>

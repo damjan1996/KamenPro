@@ -80,7 +80,7 @@ export function ProductCTA() {
                                     </div>
                                     <div>
                                         <h3 className="font-medium text-stone-800">Pozovite nas</h3>
-                                        <p className="text-stone-600 font-light">065 678 634 - Željko Savić</p>
+                                        <p className="text-stone-600 font-light">+387 65 678 634 - Željko Savić</p>
                                         <p className="text-sm text-stone-500 font-light">Pon - Sub: 09:00 - 18:00</p>
                                     </div>
                                 </div>
@@ -90,7 +90,7 @@ export function ProductCTA() {
                                     </div>
                                     <div>
                                         <h3 className="font-medium text-stone-800">Pošaljite nam email</h3>
-                                        <p className="text-stone-600 font-light">info@kamenpro.rs</p>
+                                        <p className="text-stone-600 font-light">info@kamenpro.net</p>
                                         <p className="text-sm text-stone-500 font-light">Odgovaramo u roku od 24h</p>
                                     </div>
                                 </div>

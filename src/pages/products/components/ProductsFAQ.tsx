@@ -176,7 +176,7 @@ export function ProductsFAQ() {
                                     onMouseLeave={() => setHoveredButton(null)}
                                 >
                                     <Phone className="mr-2 h-4 w-4" />
-                                    065 678 634
+                                    +387 65 678 634
                                 </a>
                             </div>
                         </div>

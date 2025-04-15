@@ -249,7 +249,7 @@ export function InstallationInfo() {
                             href="tel:+38765678634"
                             className="px-6 py-3 border border-stone-400 text-stone-800 rounded-sm hover:bg-stone-50 transition-all duration-300 inline-flex items-center justify-center text-sm uppercase tracking-wider font-light"
                         >
-                            Pozvati: 065 678 634
+                            Pozvati: +387 65 678 634
                         </a>
                     </div>
                 </div>

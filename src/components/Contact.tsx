@@ -181,8 +181,8 @@ export function Contact() {
                       <div className="ml-3">
                         <h3 className="text-base font-medium text-stone-800">Email</h3>
                         <p className="mt-1 text-stone-600">
-                          <a href="mailto:info@kamenpro.ba" className="hover:text-amber-500">
-                            info@kamenpro.ba
+                          <a href="mailto:info@kamenpro.net" className="hover:text-amber-500">
+                            info@kamenpro.net
                           </a>
                         </p>
                       </div>

@@ -278,7 +278,7 @@ export function BusinessHoursSection() {
                                     <h3 className="font-medium text-amber-800 mb-2">Posebna napomena</h3>
                                     <p className="text-amber-700 text-sm font-light">
                                         Zakazivanje posete van radnog vremena moguće je uz prethodnu najavu.
-                                        Kontaktirajte nas telefonom na 065 678 634 (Željko) najmanje 24 sata unapred.
+                                        Kontaktirajte nas telefonom na +387 65 678 634 (Željko) najmanje 24 sata unapred.
                                     </p>
                                 </div>
                             </div>

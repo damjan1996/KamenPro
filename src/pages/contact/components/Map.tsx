@@ -172,7 +172,7 @@ export function MapSection() {
                                         <div className="text-amber-600 mt-1 flex-shrink-0">
                                             <Phone className="w-4 h-4" />
                                         </div>
-                                        <p className="text-stone-600 text-sm font-light">065 678 634 - Željko Savić</p>
+                                        <p className="text-stone-600 text-sm font-light">+387 65 678 634 - Željko Savić</p>
                                     </div>
                                 </div>
                                 <a
@@ -232,7 +232,7 @@ export function MapSection() {
                         <InfoCard
                             number="3"
                             title="Kontakt"
-                            content="Za sva pitanja i konsultacije kontaktirajte nas na 065 678 634 ili posetite naš izložbeni prostor."
+                            content="Za sva pitanja i konsultacije kontaktirajte nas na +387 65 678 634 ili posetite naš izložbeni prostor."
                         />
                     </div>
                 </div>
