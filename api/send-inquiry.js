@@ -83,12 +83,7 @@ export default async function handler(req, res) {
 
         // Use fetch to send directly to Brevo API
         try {
-            // Check if API key is available
             const apiKey = process.env.BREVO_API_KEY;
-            if (!apiKey) {
-                console.error('BREVO_API_KEY is not set in environment variables');
-                throw new Error('Email service configuration missing');
-            }
 
             // Prepare data for Brevo API
             const emailData = {
@@ -155,16 +150,38 @@ export default async function handler(req, res) {
                 console.error('Error from Brevo API:', response.status, responseData);
 
                 // Attempt alternate delivery to avoid data loss
-                console.log('Inquiry details for backup purposes:');
-                console.log(JSON.stringify({
-                    customerName: safeName,
-                    customerEmail: safeEmail,
-                    customerPhone: safePhone,
-                    productDetails: `${safeProductName} (${safeProductCode})`,
-                    quantity: safeQuantity,
-                    message: safeMessage,
-                    timestamp: new Date().toISOString()
-                }, null, 2));
+                console.log('Attempting alternate delivery method...');
+
+                // Backup email to another address
+                const backupEmailData = {
+                    ...emailData,
+                    to: [
+                        {
+                            email: "savic.damjan@gmx.de", // Alternativ-Email
+                            name: "KamenPro Backup"
+                        }
+                    ]
+                };
+
+                try {
+                    const backupResponse = await fetch('https://api.brevo.com/v3/smtp/email', {
+                        method: 'POST',
+                        headers: {
+                            'accept': 'application/json',
+                            'api-key': apiKey,
+                            'content-type': 'application/json'
+                        },
+                        body: JSON.stringify(backupEmailData)
+                    });
+
+                    if (backupResponse.ok) {
+                        console.log('Backup email sent successfully');
+                    } else {
+                        console.error('Backup email also failed');
+                    }
+                } catch (backupError) {
+                    console.error('Error sending backup email:', backupError);
+                }
             }
         } catch (emailError) {
             console.error('Error sending email:', emailError);
