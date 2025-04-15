@@ -16,8 +16,8 @@ type FormErrors = {
     [key: string]: string;
 }
 
-// Absoluter API-Endpunkt anstelle eines relativen Pfads
-const API_URL = 'https://www.kamenpro.net/api/send-inquiry';
+// Alternative API-Route verwenden
+const API_URL = 'https://www.kamenpro.net/api/contact';
 
 export const ContactFormSection: React.FC = () => {
     // State mit expliziten Typdefinitionen
@@ -70,15 +70,13 @@ export const ContactFormSection: React.FC = () => {
                 setIsLoading(true);
                 setApiError(null);
 
-                // API-Anfrage vorbereiten
+                // Vereinfachte API-Anfrage (passend zur neuen API-Route)
                 const requestData = {
                     name: formData.name,
                     email: formData.email,
                     phone: formData.phone || "Nije unet",
                     message: formData.message,
-                    productName: formData.subject ? `Kontakt forma - ${formData.subject}` : 'Kontakt forma',
-                    productCode: 'CONTACT',
-                    quantity: 1
+                    subject: formData.subject || 'Opšti upit',
                 };
 
                 // Debug-Info
