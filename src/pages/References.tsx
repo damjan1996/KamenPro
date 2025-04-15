@@ -3,7 +3,6 @@ import { Seo } from "../components/Seo";
 import {
   Hero,
   CategoriesSection,
-  FeaturedProjectsSection,
   ProcessSection,
   ClientFeedbackSection,
   CTASection
@@ -19,7 +18,6 @@ export default function References() {
         />
         <Hero />
         <CategoriesSection />
-        <FeaturedProjectsSection />
         <ProcessSection />
         <ClientFeedbackSection />
         <CTASection />
