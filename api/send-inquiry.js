@@ -1,5 +1,5 @@
 // api/send-inquiry.js
-const nodemailer = require('nodemailer');
+const SibApiV3Sdk = require('sib-api-v3-sdk');
 
 // Vercel Serverless Function
 module.exports = async (req, res) => {
@@ -42,6 +42,7 @@ module.exports = async (req, res) => {
             email,
             phone,
             message,
+            productId,
             productName,
             productCode,
             quantity
@@ -67,7 +68,7 @@ module.exports = async (req, res) => {
         const safeName = name ? String(name).replace(/[<>]/g, '') : 'Unknown';
         const safeEmail = email ? String(email).replace(/[<>]/g, '') : 'Unknown';
         const safePhone = phone ? String(phone).replace(/[<>]/g, '') : 'Unknown';
-        const safeMessage = message ? String(message).replace(/\n/g, '<br>').replace(/[<>]/g, '') : 'No message';
+        const safeMessage = message ? String(message).replace(/[<>]/g, '') : 'No message';
 
         // Log the inquiry to console (will be visible in Vercel logs)
         console.log('INQUIRY RECEIVED:');
@@ -80,7 +81,7 @@ module.exports = async (req, res) => {
         console.log(`Message: ${safeMessage}`);
         console.log('---------------------');
 
-        // HTML email content
+        // HTML template for email content
         const htmlContent = `
         <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px;">
             <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Novi upit za proizvod</h2>
@@ -107,55 +108,54 @@ module.exports = async (req, res) => {
         </div>
         `;
 
+        // Send email using Brevo API
         try {
-            // Alternative configuration for Hostinger
-            const transporter = nodemailer.createTransport({
-                host: process.env.SMTP_HOST,
-                port: parseInt(process.env.SMTP_PORT || '465'),
-                secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
-                auth: {
-                    user: process.env.SMTP_USER,
-                    pass: process.env.SMTP_PASSWORD,
-                },
-                // More aggressive timeouts for Hostinger
-                connectionTimeout: 15000,
-                greetingTimeout: 15000,
-                socketTimeout: 20000,
-                // Debug flags
-                debug: true,
-                logger: true
-            });
+            // Initialize Brevo API client
+            const defaultClient = SibApiV3Sdk.ApiClient.instance;
+            const apiKey = defaultClient.authentications['api-key'];
+            apiKey.apiKey = process.env.BREVO_API_KEY;
 
-            // Set up email options
-            const mailOptions = {
-                from: `"KamenPro Web" <${process.env.SMTP_USER}>`,
-                to: process.env.SMTP_USER,
-                subject: `Upit za proizvod: ${safeProductName} (${safeProductCode})`,
-                html: htmlContent,
-                replyTo: safeEmail,
-                text: `Novi upit za proizvod ${safeProductName} (${safeProductCode}) od ${safeName}. Email: ${safeEmail}, Telefon: ${safePhone}. Poruka: ${message}`,
+            const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+
+            // Create sender object
+            const sender = {
+                name: "KamenPro Web",
+                email: "info@kamenpro.net"
             };
 
-            try {
-                // Testing SMTP connection first
-                await transporter.verify();
-                console.log('SMTP connection verified successfully');
+            // Create recipient objects
+            const recipients = [
+                {
+                    email: "info@kamenpro.net",
+                    name: "KamenPro"
+                }
+            ];
 
-                // Send email
-                console.log('Attempting to send email via SMTP');
-                const info = await transporter.sendMail(mailOptions);
-                console.log('Email sent successfully:', info.messageId);
-            } catch (emailError) {
-                console.error('SMTP error:', emailError);
-                // We continue even if email fails
-            }
-        } catch (smtpError) {
-            console.error('SMTP configuration error:', smtpError);
-            // We continue even if SMTP setup fails
+            // Create replyTo object
+            const replyTo = {
+                email: safeEmail,
+                name: safeName
+            };
+
+            // Create email send request
+            const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+            sendSmtpEmail.sender = sender;
+            sendSmtpEmail.to = recipients;
+            sendSmtpEmail.replyTo = replyTo;
+            sendSmtpEmail.subject = `Upit za proizvod: ${safeProductName} (${safeProductCode})`;
+            sendSmtpEmail.htmlContent = htmlContent;
+            sendSmtpEmail.textContent = `Novi upit za proizvod ${safeProductName} (${safeProductCode}) od ${safeName}. Email: ${safeEmail}, Telefon: ${safePhone}. Poruka: ${safeMessage}`;
+
+            console.log('Sending email via Brevo API...');
+            const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
+            console.log('Email sent successfully with Brevo. MessageId:', data.messageId);
+        } catch (emailError) {
+            console.error('Error sending email with Brevo:', emailError);
+            // We continue even if email fails - don't return error to user
         }
 
         // Return success regardless of email sending result
-        // This way the user doesn't see an error even if email sending fails
+        // This way the user gets a good experience even if there are email issues
         return res.status(200).json({
             success: true,
             message: 'Vaš upit je uspešno poslat.'
