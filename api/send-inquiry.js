@@ -83,7 +83,7 @@ export default async function handler(req, res) {
 
         // Use fetch to send directly to Brevo API
         try {
-            const apiKey = process.env.BREVO_API_KEY;
+            const apiKey = process.env.Bre_Key;
 
             // Prepare data for Brevo API
             const emailData = {
