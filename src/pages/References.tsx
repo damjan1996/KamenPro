@@ -1,6 +1,7 @@
 // src/pages/References.tsx
 import { Seo } from "../components/Seo";
-// Direkter Import der Komponenten aus ihren Dateien
+
+// Direkter Import der Komponenten aus ihren jeweiligen Dateien
 import { Hero } from "./references/components/Hero";
 import { CategoriesSection } from "./references/components/Categories";
 import { FeaturedProjectsSection } from "./references/components/FeaturedProjects";

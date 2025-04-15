@@ -1,8 +1,4 @@
 // src/pages/references/index.tsx
-// Direkte Re-Exports, um sicherzustellen, dass alle Komponenten korrekt exportiert werden
-export { Hero } from "./components/Hero";
-export { CategoriesSection } from "./components/Categories";
-export { FeaturedProjectsSection } from "./components/FeaturedProjects";
-export { ProcessSection } from "./components/Process";
-export { ClientFeedbackSection } from "./components/ClientFeedback";
-export { CTASection } from "./components/CTASection";
+// Diese Datei ist jetzt leer und wird nicht mehr verwendet.
+// Sie wurde beibehalten, um Kompatibilität mit bestehenden Imports zu gewährleisten.
+// Die Komponenten werden jetzt direkt aus ihren jeweiligen Dateien importiert.
