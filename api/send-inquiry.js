@@ -15,6 +15,7 @@ module.exports = async (req, res) => {
 
     // Only allow POST requests
     if (req.method !== 'POST') {
+        console.log(`Method ${req.method} not allowed, only POST is accepted`);
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
@@ -25,12 +26,14 @@ module.exports = async (req, res) => {
             try {
                 body = JSON.parse(body);
             } catch (e) {
+                console.error('Invalid JSON in request body', e);
                 return res.status(400).json({ error: 'Invalid JSON in request body' });
             }
         }
 
         // Check if body exists and is not empty
         if (!body || Object.keys(body).length === 0) {
+            console.log('Empty request body received');
             return res.status(400).json({ error: 'Nema podataka u zahtevu.' });
         }
 
@@ -45,12 +48,16 @@ module.exports = async (req, res) => {
             quantity
         } = body;
 
+        console.log('Received inquiry data:', { name, email, phone, productName, productCode });
+
         // Validate required fields
         if (!name || !email || !phone || !message || !productName || !productCode) {
+            console.log('Validation failed: Missing required fields');
             return res.status(400).json({ error: 'Svi potrebni podaci moraju biti popunjeni.' });
         }
 
         if (!email.includes('@') || !email.includes('.')) {
+            console.log('Validation failed: Invalid email format');
             return res.status(400).json({ error: 'Email adresa nije ispravna.' });
         }
 
@@ -67,6 +74,15 @@ module.exports = async (req, res) => {
             connectionTimeout: 5000,
             greetingTimeout: 5000,
             socketTimeout: 5000,
+        });
+
+        // Debug SMTP configuration information
+        console.log('SMTP Configuration:', {
+            host: process.env.SMTP_HOST,
+            port: process.env.SMTP_PORT,
+            secure: process.env.SMTP_SECURE === 'true',
+            user: process.env.SMTP_USER,
+            password: process.env.SMTP_PASSWORD ? '[REDACTED]' : 'not set'
         });
 
         // Sanitize input data
@@ -116,7 +132,10 @@ module.exports = async (req, res) => {
         };
 
         // Send the email
+        console.log('Attempting to send email via SMTP');
         const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully:', info.messageId);
+
         return res.status(200).json({
             success: true,
             message: 'Vaš upit je uspešno poslat.'

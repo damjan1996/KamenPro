@@ -69,7 +69,7 @@ export const ContactFormSection: React.FC = () => {
                 const requestData = {
                     name: formData.name,
                     email: formData.email,
-                    phone: formData.phone,
+                    phone: formData.phone || "Nije unet",
                     message: formData.message,
                     productName: formData.subject ? `Kontakt forma - ${formData.subject}` : 'Kontakt forma',
                     productCode: 'CONTACT',
@@ -80,49 +80,70 @@ export const ContactFormSection: React.FC = () => {
                 const response = await fetch('/api/send-inquiry', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
                     body: JSON.stringify(requestData)
                 });
 
-                // Antwort verarbeiten
-                let responseData;
+                // Wir kopieren die Response, da wir sie potenziell zweimal lesen müssen
+                const clonedResponse = response.clone();
+
                 try {
                     // Versuche JSON-Antwort zu parsen
-                    responseData = await response.json();
-                } catch (e) {
-                    // Falls Parsing fehlschlägt, verwende Text-Antwort
-                    const text = await response.text();
-                    throw new Error(`Fehler bei der Verarbeitung der Antwort: ${text}`);
-                }
+                    const responseData = await response.json();
 
-                if (!response.ok) {
-                    let errorMessage = 'Došlo je do greške pri slanju poruke.';
-                    if (responseData && responseData.error) {
-                        errorMessage = responseData.error;
+                    if (!response.ok) {
+                        let errorMessage = 'Došlo je do greške pri slanju poruke.';
+                        if (responseData && responseData.error) {
+                            errorMessage = responseData.error;
+                        }
+                        throw new Error(errorMessage);
                     }
-                    throw new Error(errorMessage);
+
+                    // Erfolgreiche Übermittlung
+                    setIsSubmitted(true);
+
+                    // Formular zurücksetzen
+                    setFormData({
+                        name: '',
+                        email: '',
+                        phone: '',
+                        subject: '',
+                        message: ''
+                    });
+
+                    // Nach 6 Sekunden die Erfolgsmeldung zurücksetzen
+                    setTimeout(() => {
+                        setIsSubmitted(false);
+                    }, 6000);
+
+                } catch (jsonError) {
+                    // Falls JSON-Parsing fehlschlägt, versuche Text-Antwort
+                    console.error('Error parsing JSON response:', jsonError);
+                    const text = await clonedResponse.text();
+
+                    if (!response.ok) {
+                        throw new Error(`Server error: ${text || response.statusText}`);
+                    } else {
+                        // Wenn Status OK ist, trotz JSON-Fehler, betrachten wir es als Erfolg
+                        setIsSubmitted(true);
+                        setFormData({
+                            name: '',
+                            email: '',
+                            phone: '',
+                            subject: '',
+                            message: ''
+                        });
+                        setTimeout(() => {
+                            setIsSubmitted(false);
+                        }, 6000);
+                    }
                 }
-
-                // Erfolgreiche Übermittlung
-                setIsSubmitted(true);
-
-                // Formular zurücksetzen
-                setFormData({
-                    name: '',
-                    email: '',
-                    phone: '',
-                    subject: '',
-                    message: ''
-                });
-
-                // Nach 6 Sekunden die Erfolgsmeldung zurücksetzen
-                setTimeout(() => {
-                    setIsSubmitted(false);
-                }, 6000);
 
             } catch (err) {
                 // Vereinfachte Fehlerbehandlung
+                console.error('Form submission error:', err);
                 setApiError(err instanceof Error ? err.message : 'Došlo je do nepoznate greške');
             } finally {
                 setIsLoading(false);
