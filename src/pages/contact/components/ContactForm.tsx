@@ -16,9 +16,8 @@ type FormErrors = {
     [key: string]: string;
 }
 
-// Beide API-Endpunkte definieren
-const CONTACT_API_URL = '/api/contact';
-const INQUIRY_API_URL = '/api/send-inquiry';
+// Vereinfachten API-Endpunkt verwenden
+const API_URL = '/api/simple-contact';
 
 export const ContactFormSection: React.FC = () => {
     // State mit expliziten Typdefinitionen
@@ -35,8 +34,6 @@ export const ContactFormSection: React.FC = () => {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [apiError, setApiError] = useState<string | null>(null);
     const [debugInfo, setDebugInfo] = useState<string | null>(null);
-    const [currentEndpoint, setCurrentEndpoint] = useState<string>(CONTACT_API_URL);
-    const [attemptCount, setAttemptCount] = useState<number>(0);
 
     // Event-Handler mit einfacheren Typen
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -72,43 +69,21 @@ export const ContactFormSection: React.FC = () => {
             try {
                 setIsLoading(true);
                 setApiError(null);
-                setAttemptCount(prev => prev + 1);
 
-                // Wenn beim ersten Versuch der erste Endpunkt verwendet wurde und ein Fehler auftrat,
-                // beim zweiten Versuch den anderen Endpunkt verwenden
-                if (attemptCount > 0 && currentEndpoint === CONTACT_API_URL) {
-                    setCurrentEndpoint(INQUIRY_API_URL);
-                }
+                // API-Anfrage vorbereiten
+                const requestData = {
+                    name: formData.name,
+                    email: formData.email,
+                    phone: formData.phone || "Nije unet",
+                    message: formData.message,
+                    subject: formData.subject || 'Opšti upit'
+                };
 
                 // Debug-Info
-                setDebugInfo(`Sending to: ${currentEndpoint}`);
-
-                // Anfrage-Daten vorbereiten je nach Endpunkt
-                let requestData;
-                if (currentEndpoint === CONTACT_API_URL) {
-                    // Daten für /api/contact
-                    requestData = {
-                        name: formData.name,
-                        email: formData.email,
-                        phone: formData.phone || "Nije unet",
-                        message: formData.message,
-                        subject: formData.subject || 'Opšti upit'
-                    };
-                } else {
-                    // Daten für /api/send-inquiry
-                    requestData = {
-                        name: formData.name,
-                        email: formData.email,
-                        phone: formData.phone || "Nije unet",
-                        message: formData.message,
-                        productName: formData.subject ? `Kontakt forma - ${formData.subject}` : 'Kontakt forma',
-                        productCode: 'CONTACT',
-                        quantity: 1
-                    };
-                }
+                setDebugInfo(`Sending to: ${API_URL}`);
 
                 // API-Anfrage senden
-                const response = await fetch(currentEndpoint, {
+                const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -139,7 +114,6 @@ export const ContactFormSection: React.FC = () => {
 
                     // Erfolgreiche Übermittlung
                     setIsSubmitted(true);
-                    setAttemptCount(0); // Reset für nächstes Mal
 
                     // Formular zurücksetzen
                     setFormData({
@@ -168,8 +142,6 @@ export const ContactFormSection: React.FC = () => {
                     } else {
                         // Wenn Status OK ist, trotz JSON-Fehler, betrachten wir es als Erfolg
                         setIsSubmitted(true);
-                        setAttemptCount(0); // Reset für nächstes Mal
-
                         setFormData({
                             name: '',
                             email: '',
@@ -182,28 +154,11 @@ export const ContactFormSection: React.FC = () => {
                         }, 6000);
                     }
                 }
-
             } catch (err) {
-                // Wenn nach einem Fehler noch nicht der alternative Endpunkt versucht wurde
-                if (attemptCount === 1 && currentEndpoint === CONTACT_API_URL) {
-                    // Alternative API-Route (send-inquiry) im nächsten Versuch verwenden
-                    setCurrentEndpoint(INQUIRY_API_URL);
-                    setDebugInfo(prev => `${prev}\nRetrying with alternative endpoint: ${INQUIRY_API_URL}`);
-
-                    // Automatisch zweiten Versuch starten
-                    setIsLoading(false);
-                    handleSubmit(e);
-                    return;
-                }
-
-                // Vereinfachte Fehlerbehandlung wenn beide Endpunkte fehlgeschlagen sind
+                // Vereinfachte Fehlerbehandlung
                 console.error('Form submission error:', err);
                 setDebugInfo(prev => `${prev}\nError: ${err instanceof Error ? err.message : 'Unknown error'}`);
                 setApiError(err instanceof Error ? err.message : 'Došlo je do nepoznate greške');
-
-                // Für den nächsten Versuch zurück zum ersten Endpunkt
-                setCurrentEndpoint(CONTACT_API_URL);
-                setAttemptCount(0);
             } finally {
                 setIsLoading(false);
             }
