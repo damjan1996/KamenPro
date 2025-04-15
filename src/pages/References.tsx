@@ -1,5 +1,6 @@
 // src/pages/References.tsx
 import { Seo } from "../components/Seo";
+// Direkter Import der Komponenten ohne Dateiendung
 import {
     Hero,
     CategoriesSection,

@@ -6,4 +6,12 @@ import { ProcessSection } from "./components/Process";
 import { ClientFeedbackSection } from "./components/ClientFeedback";
 import { CTASection } from "./components/CTASection";
 
-export { Hero, CategoriesSection, FeaturedProjectsSection, ProcessSection, ClientFeedbackSection, CTASection };
+// Explizite named exports
+export {
+    Hero,
+    CategoriesSection,
+    FeaturedProjectsSection,
+    ProcessSection,
+    ClientFeedbackSection,
+    CTASection
+};
