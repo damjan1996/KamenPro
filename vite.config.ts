@@ -16,6 +16,16 @@ export default defineConfig({
   optimizeDeps: {
     include: ['lucide-react', 'framer-motion'],
   },
+  server: {
+    // API-Proxy for development - updated to use port 3000
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000', // Changed from 3001 to 3000
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
   build: {
     cssCodeSplit: true,
     rollupOptions: {

@@ -128,7 +128,7 @@ export function FeaturedProducts() {
         return [
             {
                 id: 1,
-                name: "Dolomit - White",
+                name: "Dolomite - White",
                 description: "Visokokvalitetne dekorativne kamene ploče u beloj boji za unutrašnje i spoljašnje zidove, sa prirodnom kamenom optikom.",
                 image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20I.jpg",
                 category: "Dekorativni kamen",
@@ -146,7 +146,7 @@ export function FeaturedProducts() {
             },
             {
                 id: 3,
-                name: "Dolomit - Coffee",
+                name: "Dolomite - Coffee",
                 description: "Dekorativne kamene ploče u kafa smeđoj boji koje stvaraju ugodan i elegantan ambijent u svakom prostoru.",
                 image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20I.jpg",
                 category: "Dekorativni kamen",

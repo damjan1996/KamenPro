@@ -103,7 +103,7 @@ export function CTASection() {
                                     onMouseLeave={() => setHoveredButton(null)}
                                 >
                                     <Phone className="mr-2 h-5 w-5" />
-                                    <span>065 678 634</span>
+                                    <span>+387 65 678 634</span>
                                     <ArrowRight className={`ml-2 h-5 w-5 transition-transform duration-300 ${hoveredButton === 'main' ? 'translate-x-1' : ''}`} />
                                 </a>
                             </div>

@@ -40,8 +40,8 @@ export function Footer() {
       { name: 'Kontakt', href: '/kontakt' },
     ],
     products: [
-      { name: 'Dolomit - White', href: '/proizvodi/d94aaee3-08fc-4c7f-b4f7-0066aab85532' },
-      { name: 'Dolomit - Anthracite', href: '/proizvodi/c7938607-e6e2-4bd7-8234-5266f7264ee4' },
+      { name: 'Dolomite - White', href: '/proizvodi/d94aaee3-08fc-4c7f-b4f7-0066aab85532' },
+      { name: 'Dolomite - Anthracite', href: '/proizvodi/c7938607-e6e2-4bd7-8234-5266f7264ee4' },
       { name: 'Kamen - White', href: '/proizvodi/2e6a102f-dd4e-4674-a913-ce7838e5103d' },
       { name: 'Kamen - Black', href: '/proizvodi/956a220c-70ab-48af-9318-19261198a582' },
       { name: 'Cigla - Rustik - White', href: '/proizvodi/d0e33ce8-2b22-4231-8157-9ef419da7e30' },
@@ -174,7 +174,7 @@ export function Footer() {
                   <span className="mr-3 mt-1">
                     <Mail className="h-5 w-5 text-amber-500 group-hover:text-amber-600 transition-colors" />
                   </span>
-                    <a href="mailto:info@kamenpro.rs" className="font-light hover:text-amber-600 transition-colors">info@kamenpro.rs</a>
+                    <a href="mailto:info@kamenpro.net" className="font-light hover:text-amber-600 transition-colors">info@kamenpro.net</a>
                   </li>
                   <li className="flex items-start group">
                   <span className="mr-3 mt-1">

@@ -46,7 +46,7 @@ export const ContactInfoSection = () => {
         {
             id: 'phone',
             title: 'Telefon',
-            items: ['065 678 634'],
+            items: ['+387 65 678 634'],
             subtext: 'Željko Savić',
             icon: <Phone className="w-5 h-5" />,
             action: 'tel:+38765678634',
@@ -55,10 +55,10 @@ export const ContactInfoSection = () => {
         {
             id: 'email',
             title: 'Email',
-            items: ['info@kamenpro.rs'],
+            items: ['info@kamenpro.net'],
             subtext: 'Odgovaramo u roku od 24h',
             icon: <Mail className="w-5 h-5" />,
-            action: 'mailto:info@kamenpro.rs',
+            action: 'mailto:info@kamenpro.net',
             actionText: 'Pošaljite email'
         },
         {
@@ -174,7 +174,7 @@ export const ContactInfoSection = () => {
                                 <span className="text-xs text-stone-600 font-light">Pozovite</span>
                             </a>
                             <a
-                                href="mailto:info@kamenpro.rs"
+                                href="mailto:info@kamenpro.net"
                                 className="flex flex-col items-center p-3 hover:bg-stone-50 rounded-lg transition-colors duration-200"
                             >
                                 <Mail className="w-5 h-5 text-amber-600 mb-1" />

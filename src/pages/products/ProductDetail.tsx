@@ -57,32 +57,36 @@ const ProductDetail: React.FC = () => {
 
     if (loading) {
         return (
-            <Container>
-                <div className="flex justify-center items-center min-h-[400px]">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
-                </div>
-            </Container>
+            <div className="pt-14 sm:pt-16 md:pt-18">
+                <Container>
+                    <div className="flex justify-center items-center min-h-[400px]">
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+                    </div>
+                </Container>
+            </div>
         );
     }
 
     if (error || !productDetail) {
         return (
-            <Container>
-                <div className="py-10">
-                    <Alert
-                        variant="error"
-                        title="Greška"
-                        description={error || 'Nepoznata greška'}
-                    >
-                        <button
-                            onClick={handleGoBack}
-                            className="mt-4 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded transition"
+            <div className="pt-14 sm:pt-16 md:pt-18">
+                <Container>
+                    <div className="py-10">
+                        <Alert
+                            variant="error"
+                            title="Greška"
+                            description={error || 'Nepoznata greška'}
                         >
-                            Nazad
-                        </button>
-                    </Alert>
-                </div>
-            </Container>
+                            <button
+                                onClick={handleGoBack}
+                                className="mt-4 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded transition"
+                            >
+                                Nazad
+                            </button>
+                        </Alert>
+                    </div>
+                </Container>
+            </div>
         );
     }
 
@@ -95,10 +99,11 @@ const ProductDetail: React.FC = () => {
                 description={product.opis.substring(0, 160)}
             />
 
-            <div className="py-6 md:py-12 bg-gray-50">
+            {/* Separate Breadcrumbs-Komponente mit eigenem Padding */}
+            <div className="pt-14 sm:pt-16 md:pt-18 bg-gray-50">
                 <Container>
-                    {/* Breadcrumbs - KORRIGIERTE PFADE */}
-                    <div className="mb-6">
+                    {/* Breadcrumbs mit zusätzlichem Padding nach oben */}
+                    <div className="py-4">
                         <nav className="flex text-sm text-gray-600" aria-label="Breadcrumb">
                             <ol className="inline-flex items-center space-x-1 md:space-x-3">
                                 <li className="inline-flex items-center">
@@ -127,7 +132,12 @@ const ProductDetail: React.FC = () => {
                             </ol>
                         </nav>
                     </div>
+                </Container>
+            </div>
 
+            {/* Hauptinhalt der Produktseite ohne zusätzliches Padding oben */}
+            <div className="py-6 md:py-12 bg-gray-50">
+                <Container>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
                         {/* Produktbilder */}
                         <div>
@@ -157,7 +167,7 @@ const ProductDetail: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* CTA Sektion - KORRIGIERTE PFADE */}
+                    {/* CTA Sektion */}
                     <div className="mt-12 bg-gray-100 p-6 rounded-lg">
                         <h2 className="text-xl font-bold mb-3">Imate pitanja?</h2>
                         <p className="mb-4">Kontaktirajte nas za više informacija o ovom proizvodu ili za posebne zahteve.</p>

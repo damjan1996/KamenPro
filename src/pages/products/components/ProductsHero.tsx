@@ -14,7 +14,7 @@ const FALLBACK_PRODUCTS: Product[] = [
     {
         id: "d94aaee3-08fc-4c7f-b4f7-0066aab85532",
         sifra: "DOL-WHT",
-        naziv: "Dolomit - White",
+        naziv: "Dolomite - White",
         cena_po_m2: 33.0,
         valuta: "BAM",
         opis: "Visokokvalitetne dekorativne kamene ploče u beloj boji za unutrašnje i spoljašnje zidove.",
@@ -106,7 +106,7 @@ export function ProductsHero() {
                 });
 
                 // Wir wollen nur zwei Produkte für die Hero-Sektion
-                // Ideal ist ein Dolomit und eine Cigla-Variante
+                // Ideal ist ein Dolomite und eine Cigla-Variante
                 const filteredProducts = enhancedProducts.filter(product =>
                     product.sifra === "DOL-WHT" || product.sifra === "CIG-RED"
                 );
@@ -280,7 +280,7 @@ export function ProductsHero() {
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                                         <div className="absolute bottom-3 left-3 right-3">
                                             <div className="text-white text-sm font-light">
-                                                {products[0]?.naziv || "Dolomit - White"}
+                                                {products[0]?.naziv || "Dolomite - White"}
                                             </div>
                                         </div>
                                     </div>

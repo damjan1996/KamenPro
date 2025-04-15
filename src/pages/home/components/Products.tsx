@@ -28,7 +28,7 @@ const FALLBACK_PRODUCTS: Product[] = [
     {
         id: "d94aaee3-08fc-4c7f-b4f7-0066aab85532",
         sifra: "DOL-WHT",
-        naziv: "Dolomit - White",
+        naziv: "Dolomite - White",
         cena_po_m2: 33.0,
         valuta: "BAM",
         opis: "Visokokvalitetne dekorativne kamene ploče u beloj boji za unutrašnje i spoljašnje zidove.",
@@ -42,7 +42,7 @@ const FALLBACK_PRODUCTS: Product[] = [
     {
         id: "1b2b9f32-932d-42e3-8be9-6a9cdd628808",
         sifra: "DOL-GRY",
-        naziv: "Dolomit - Grey",
+        naziv: "Dolomite - Grey",
         cena_po_m2: 35.0,
         valuta: "BAM",
         opis: "Visokokvalitetne dekorativne kamene ploče u sivoj boji za unutrašnje i spoljašnje zidove.",
@@ -56,7 +56,7 @@ const FALLBACK_PRODUCTS: Product[] = [
     {
         id: "f5e48404-064a-4415-862b-1e435b24d5b4",
         sifra: "DOL-COF",
-        naziv: "Dolomit - Coffee",
+        naziv: "Dolomite - Coffee",
         cena_po_m2: 35.0,
         valuta: "BAM",
         opis: "Visokokvalitetne dekorativne kamene ploče u kafa smeđoj boji za unutrašnje i spoljašnje zidove.",

@@ -24,9 +24,9 @@ const contactInfo: ContactItem[] = [
     {
         id: 2,
         title: 'Email',
-        content: ['info@kamenpro.rs'],
+        content: ['info@kamenpro.net'],
         icon: <Mail className="h-6 w-6" />,
-        action: 'mailto:info@kamenpro.rs',
+        action: 'mailto:info@kamenpro.net',
         actionText: 'Pošaljite email'
     },
     {

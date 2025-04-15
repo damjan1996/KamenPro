@@ -15,7 +15,7 @@ const mockProducts: Product[] = [
     {
         id: 'd94aaee3-08fc-4c7f-b4f7-0066aab85532',
         sifra: 'DOL-WHT',
-        naziv: 'Dolomit - White',
+        naziv: 'Dolomite - White',
         cena_po_m2: 33.0,
         valuta: 'BAM',
         opis: 'Visokokvalitetne dekorativne kamene ploče u beloj boji za unutrašnje i spoljašnje zidove. Izrađene od belog cementa sa specijalno razvijenim aditivima za maksimalnu izdržljivost i otpornost na vremenske uslove. Idealno za unutrašnje i spoljašnje zidove, kamine, akcentne zidove i dekorativne elemente.',
@@ -29,7 +29,7 @@ const mockProducts: Product[] = [
     {
         id: '1b2b9f32-932d-42e3-8be9-6a9cdd628808',
         sifra: 'DOL-GRY',
-        naziv: 'Dolomit - Grey',
+        naziv: 'Dolomite - Grey',
         cena_po_m2: 35.0,
         valuta: 'BAM',
         opis: 'Visokokvalitetne dekorativne kamene ploče u sivoj boji za unutrašnje i spoljašnje zidove. Izrađene od belog cementa sa specijalno razvijenim aditivima za maksimalnu izdržljivost i otpornost na vremenske uslove. Idealno za unutrašnje i spoljašnje zidove, kamine, akcentne zidove i dekorativne elemente.',
@@ -81,9 +81,9 @@ const mockImages: ProductImage[] = [
     {
         id: 'cebbe477-0bfd-4451-bb2d-366397bbecfb',
         proizvod_id: 'd94aaee3-08fc-4c7f-b4f7-0066aab85532',
-        url_slike: '/proizvodi/dolomit-white/proizvod.jpg',
+        url_slike: '/proizvodi/dolomite-white/proizvod.jpg',
         tip_slike: 'product',
-        alt_tekst: 'Dolomit White dekorativni kamen',
+        alt_tekst: 'Dolomite White dekorativni kamen',
         glavna_slika: true,
         redosled_prikaza: 1,
         datum_kreiranja: '2025-03-09T20:11:56.054528+00:00'
@@ -91,9 +91,9 @@ const mockImages: ProductImage[] = [
     {
         id: '9b69ae7e-0d7f-42f9-bd88-48720d1bf722',
         proizvod_id: 'd94aaee3-08fc-4c7f-b4f7-0066aab85532',
-        url_slike: '/proizvodi/dolomit-white/dimenzije.jpg',
+        url_slike: '/proizvodi/dolomite-white/dimenzije.jpg',
         tip_slike: 'dimensions',
-        alt_tekst: 'Dimenzije Dolomit White proizvoda',
+        alt_tekst: 'Dimenzije Dolomite White proizvoda',
         glavna_slika: false,
         redosled_prikaza: 2,
         datum_kreiranja: '2025-03-09T20:11:56.054528+00:00'

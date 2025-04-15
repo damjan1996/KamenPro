@@ -102,7 +102,7 @@ export const CTASection = () => {
                                 onMouseLeave={() => setHoveredButton(null)}
                             >
                                 <Phone className="w-5 h-5 mr-2" />
-                                <span className="font-medium">065 678 634</span>
+                                <span className="font-medium">+387 65 678 634</span>
                             </a>
                         </div>
                     </div>
@@ -149,7 +149,7 @@ export const CTASection = () => {
                         </div>
                         <div>
                             <h4 className="font-medium text-stone-800 mb-1">Email</h4>
-                            <a href="mailto:info@kamenpro.rs" className="text-amber-600 hover:text-amber-700 transition-colors">info@kamenpro.rs</a>
+                            <a href="mailto:info@kamenpro.net" className="text-amber-600 hover:text-amber-700 transition-colors">info@kamenpro.net</a>
                         </div>
                         <div>
                             <h4 className="font-medium text-stone-800 mb-1">Društvene mreže</h4>

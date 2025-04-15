@@ -160,7 +160,7 @@ export const Hero = () => {
                                     <ContactInfo
                                         icon={<Phone className="w-5 h-5 text-amber-400" />}
                                         title="Telefon"
-                                        content="065 678 634"
+                                        content="+387 65 678 634"
                                         subtext="Željko"
                                         link="tel:+38765678634"
                                     />
@@ -169,8 +169,8 @@ export const Hero = () => {
                                     <ContactInfo
                                         icon={<Mail className="w-5 h-5 text-amber-400" />}
                                         title="Email"
-                                        content="info@kamenpro.rs"
-                                        link="mailto:info@kamenpro.rs"
+                                        content="info@kamenpro.net"
+                                        link="mailto:info@kamenpro.net"
                                     />
 
                                     {/* Adresa */}
