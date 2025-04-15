@@ -1,11 +1,10 @@
 // src/components/layout/Header.tsx
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(true); // Initial auf true setzen
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [initialized, setInitialized] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
 
@@ -58,38 +57,14 @@ export function Header() {
     };
   }, [initialized]);
 
-  // Navigation items
+  // Navigation items - Nur die Hauptnavigationseinträge behalten
   const navigation = [
     { name: 'POČETNA', href: '/' },
-    {
-      name: 'O NAMA',
-      href: '/o-nama',
-      dropdown: [
-        { name: 'NAŠA PRIČA', href: '/o-nama/nasa-prica' },
-        { name: 'TIM', href: '/o-nama/tim' },
-        { name: 'MISIJA I VIZIJA', href: '/o-nama/misija-i-vizija' }
-      ]
-    },
-    {
-      name: 'PROIZVODI',
-      href: '/proizvodi',
-      dropdown: [
-        { name: 'KAMENE OBLOGE', href: '/proizvodi/kamene-obloge' },
-        { name: 'DEKORATIVNA CIGLA', href: '/proizvodi/dekorativna-cigla' },
-        { name: 'UGAONI ELEMENTI', href: '/proizvodi/ugaoni-elementi' }
-      ]
-    },
+    { name: 'O NAMA', href: '/o-nama' },
+    { name: 'PROIZVODI', href: '/proizvodi' },
     { name: 'REFERENCE', href: '/reference' },
     { name: 'KONTAKT', href: '/kontakt' },
   ];
-
-  const toggleDropdown = (name: string) => {
-    if (activeDropdown === name) {
-      setActiveDropdown(null);
-    } else {
-      setActiveDropdown(name);
-    }
-  };
 
   return (
       <>
@@ -117,47 +92,16 @@ export function Header() {
                   </a>
                 </div>
 
-                {/* Desktop Navigation */}
-                <div className="hidden lg:flex items-center space-x-6 xl:space-x-8">
+                {/* Desktop Navigation - Jetzt ohne Dropdowns */}
+                <div className="hidden lg:flex items-center space-x-4 xl:space-x-6 overflow-x-auto">
                   {navigation.map((item) => (
-                      <div key={item.name} className="relative group">
-                        {item.dropdown ? (
-                            <>
-                              <div className="flex items-center">
-                                <a
-                                    href={item.href}
-                                    className="relative text-white hover:text-amber-400 transition-all duration-300 font-light tracking-wider text-sm after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full"
-                                >
-                                  {item.name}
-                                </a>
-                                <button
-                                    onClick={() => toggleDropdown(item.name)}
-                                    className="ml-1 text-white hover:text-amber-400 transition-all duration-300"
-                                >
-                                  <ChevronDown className="h-4 w-4 transition-transform duration-200 ease-in-out group-hover:rotate-180" />
-                                </button>
-                              </div>
-                              <div className="absolute left-0 mt-2 w-auto min-w-56 bg-gray-900 rounded-sm shadow-lg overflow-hidden z-10 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-200">
-                                {item.dropdown.map((dropdownItem) => (
-                                    <a
-                                        key={dropdownItem.name}
-                                        href={dropdownItem.href}
-                                        className="block px-4 py-3 text-xs text-gray-300 hover:bg-gray-800 hover:text-amber-400 transition-colors duration-200 tracking-wider whitespace-nowrap"
-                                    >
-                                      {dropdownItem.name}
-                                    </a>
-                                ))}
-                              </div>
-                            </>
-                        ) : (
-                            <a
-                                href={item.href}
-                                className="relative text-white hover:text-amber-400 transition-all duration-300 font-light tracking-wider text-sm after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full"
-                            >
-                              {item.name}
-                            </a>
-                        )}
-                      </div>
+                      <a
+                          key={item.name}
+                          href={item.href}
+                          className="relative text-white hover:text-amber-400 transition-all duration-300 font-light tracking-wider text-sm whitespace-nowrap after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full"
+                      >
+                        {item.name}
+                      </a>
                   ))}
                   <a
                       href="/kontakt"
@@ -192,7 +136,7 @@ export function Header() {
             />
         )}
 
-        {/* Mobile Sidebar - Neu positioniert und mit zusätzlichem Schließen-Button */}
+        {/* Mobile Sidebar - Flache Navigation ohne Dropdown-Logik */}
         <div
             className={`fixed top-0 right-0 h-full w-4/5 max-w-xs bg-gray-900 z-50 shadow-xl overflow-y-auto overflow-x-hidden transform transition-transform duration-300 ease-in-out ${
                 isMenuOpen ? 'translate-x-0' : 'translate-x-full'
@@ -221,51 +165,13 @@ export function Header() {
             <div className="flex-1 space-y-1">
               {navigation.map((item) => (
                   <div key={item.name} className="border-b border-gray-800">
-                    {item.dropdown ? (
-                        <div className="flex flex-col">
-                          <div className="flex items-center justify-between">
-                            <a
-                                href={item.href}
-                                className="flex-1 py-4 px-4 text-white hover:text-amber-400 transition-colors font-light tracking-wider text-sm"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                              {item.name}
-                            </a>
-                            <button
-                                onClick={() => toggleDropdown(item.name)}
-                                className="p-4 text-white hover:text-amber-400 transition-colors"
-                            >
-                              <ChevronDown
-                                  className={`h-4 w-4 transition-transform duration-200 ${
-                                      activeDropdown === item.name ? 'rotate-180' : ''
-                                  }`}
-                              />
-                            </button>
-                          </div>
-                          {activeDropdown === item.name && (
-                              <div className="pl-4 pb-2 bg-gray-800 rounded-sm mb-2">
-                                {item.dropdown.map((dropdownItem) => (
-                                    <a
-                                        key={dropdownItem.name}
-                                        href={dropdownItem.href}
-                                        className="block py-3 px-4 text-xs text-gray-300 hover:text-amber-400 transition-colors font-light tracking-wider"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                      {dropdownItem.name}
-                                    </a>
-                                ))}
-                              </div>
-                          )}
-                        </div>
-                    ) : (
-                        <a
-                            href={item.href}
-                            className="block py-4 px-4 text-white hover:text-amber-400 hover:bg-gray-800 transition-colors font-light tracking-wider text-sm"
-                            onClick={() => setIsMenuOpen(false)}
-                        >
-                          {item.name}
-                        </a>
-                    )}
+                    <a
+                        href={item.href}
+                        className="block py-3 px-4 text-white hover:text-amber-400 hover:bg-gray-800 transition-colors font-light tracking-wider text-sm"
+                        onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.name}
+                    </a>
                   </div>
               ))}
             </div>
