@@ -16,8 +16,8 @@ type FormErrors = {
     [key: string]: string;
 }
 
-// API-URL für die Brevo API
-const API_URL = '/api/send-inquiry';
+// Absoluter API-Endpunkt anstelle eines relativen Pfads
+const API_URL = 'https://www.kamenpro.net/api/send-inquiry';
 
 export const ContactFormSection: React.FC = () => {
     // State mit expliziten Typdefinitionen
@@ -33,6 +33,7 @@ export const ContactFormSection: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [apiError, setApiError] = useState<string | null>(null);
+    const [debugInfo, setDebugInfo] = useState<string | null>(null);
 
     // Event-Handler mit einfacheren Typen
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -62,6 +63,7 @@ export const ContactFormSection: React.FC = () => {
     // Formular absenden mit expliziten Promise-Handling
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setDebugInfo(null);
 
         if (validateForm()) {
             try {
@@ -79,6 +81,9 @@ export const ContactFormSection: React.FC = () => {
                     quantity: 1
                 };
 
+                // Debug-Info
+                setDebugInfo(`Sending to: ${API_URL}`);
+
                 // API-Anfrage senden
                 const response = await fetch(API_URL, {
                     method: 'POST',
@@ -91,15 +96,20 @@ export const ContactFormSection: React.FC = () => {
 
                 // Wir kopieren die Response, da wir sie potenziell zweimal lesen müssen
                 const clonedResponse = response.clone();
+                setDebugInfo(prev => `${prev}\nResponse status: ${response.status}`);
 
                 try {
                     // Versuche JSON-Antwort zu parsen
                     const responseData = await response.json();
+                    setDebugInfo(prev => `${prev}\nResponse data: ${JSON.stringify(responseData).substring(0, 100)}...`);
 
                     if (!response.ok) {
                         let errorMessage = 'Došlo je do greške pri slanju poruke.';
                         if (responseData && responseData.error) {
                             errorMessage = responseData.error;
+                        }
+                        if (responseData && responseData.details) {
+                            setDebugInfo(prev => `${prev}\nError details: ${responseData.details}`);
                         }
                         throw new Error(errorMessage);
                     }
@@ -124,7 +134,10 @@ export const ContactFormSection: React.FC = () => {
                 } catch (jsonError) {
                     // Falls JSON-Parsing fehlschlägt, versuche Text-Antwort
                     console.error('Error parsing JSON response:', jsonError);
+                    setDebugInfo(prev => `${prev}\nJSON parsing error: ${jsonError}`);
+
                     const text = await clonedResponse.text();
+                    setDebugInfo(prev => `${prev}\nText response: ${text.substring(0, 100)}...`);
 
                     if (!response.ok) {
                         throw new Error(`Server error: ${text || response.statusText}`);
@@ -147,6 +160,7 @@ export const ContactFormSection: React.FC = () => {
             } catch (err) {
                 // Vereinfachte Fehlerbehandlung
                 console.error('Form submission error:', err);
+                setDebugInfo(prev => `${prev}\nError: ${err instanceof Error ? err.message : 'Unknown error'}`);
                 setApiError(err instanceof Error ? err.message : 'Došlo je do nepoznate greške');
             } finally {
                 setIsLoading(false);
@@ -187,6 +201,14 @@ export const ContactFormSection: React.FC = () => {
                                         <div>
                                             <h4 className="font-medium text-red-700 mb-1">Greška</h4>
                                             <p className="text-red-600 text-sm">{apiError}</p>
+                                            {debugInfo && (
+                                                <details className="mt-2">
+                                                    <summary className="text-xs text-red-400 cursor-pointer">Tehnički detalji</summary>
+                                                    <pre className="mt-1 text-xs bg-red-50 p-2 overflow-auto max-h-40 whitespace-pre-wrap">
+                                                        {debugInfo}
+                                                    </pre>
+                                                </details>
+                                            )}
                                         </div>
                                     </div>
                                 )}
