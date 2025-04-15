@@ -1,8 +1,8 @@
 // api/send-inquiry.js
-const SibApiV3Sdk = require('sib-api-v3-sdk');
+import fetch from 'node-fetch';
 
 // Vercel Serverless Function
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
     // Set CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -81,81 +81,114 @@ module.exports = async (req, res) => {
         console.log(`Message: ${safeMessage}`);
         console.log('---------------------');
 
-        // HTML template for email content
-        const htmlContent = `
-        <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px;">
-            <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Novi upit za proizvod</h2>
-            
-            <div style="margin: 20px 0;">
-                <p><strong>Proizvod:</strong> ${safeProductName} (${safeProductCode})</p>
-                <p><strong>Količina:</strong> ${safeQuantity} m²</p>
-            </div>
-            
-            <div style="margin: 20px 0;">
-                <p><strong>Ime i prezime:</strong> ${safeName}</p>
-                <p><strong>Email:</strong> ${safeEmail}</p>
-                <p><strong>Telefon:</strong> ${safePhone}</p>
-            </div>
-            
-            <div style="margin: 20px 0; background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
-                <p><strong>Poruka:</strong></p>
-                <p>${safeMessage}</p>
-            </div>
-            
-            <div style="font-size: 12px; margin-top: 30px; color: #777; border-top: 1px solid #eee; padding-top: 10px;">
-                <p>Ova poruka je automatski poslata sa web sajta KamenPro.</p>
-            </div>
-        </div>
-        `;
-
-        // Send email using Brevo API
+        // Use fetch to send directly to Brevo API
         try {
-            // Initialize Brevo API client
-            const defaultClient = SibApiV3Sdk.ApiClient.instance;
-            const apiKey = defaultClient.authentications['api-key'];
-            apiKey.apiKey = process.env.BREVO_API_KEY;
+            const apiKey = process.env.BREVO_API_KEY || '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';
 
-            const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-
-            // Create sender object
-            const sender = {
-                name: "KamenPro Web",
-                email: "info@kamenpro.net"
+            // Prepare data for Brevo API
+            const emailData = {
+                sender: {
+                    name: "KamenPro Website",
+                    email: "info@kamenpro.net"
+                },
+                to: [
+                    {
+                        email: "info@kamenpro.net",
+                        name: "KamenPro Team"
+                    }
+                ],
+                replyTo: {
+                    email: safeEmail,
+                    name: safeName
+                },
+                subject: `Upit za proizvod: ${safeProductName} (${safeProductCode})`,
+                htmlContent: `
+                    <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px;">
+                        <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Novi upit za proizvod</h2>
+                        
+                        <div style="margin: 20px 0;">
+                            <p><strong>Proizvod:</strong> ${safeProductName} (${safeProductCode})</p>
+                            <p><strong>Količina:</strong> ${safeQuantity} m²</p>
+                        </div>
+                        
+                        <div style="margin: 20px 0;">
+                            <p><strong>Ime i prezime:</strong> ${safeName}</p>
+                            <p><strong>Email:</strong> ${safeEmail}</p>
+                            <p><strong>Telefon:</strong> ${safePhone}</p>
+                        </div>
+                        
+                        <div style="margin: 20px 0; background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
+                            <p><strong>Poruka:</strong></p>
+                            <p>${safeMessage}</p>
+                        </div>
+                        
+                        <div style="font-size: 12px; margin-top: 30px; color: #777; border-top: 1px solid #eee; padding-top: 10px;">
+                            <p>Ova poruka je automatski poslata sa web sajta KamenPro.</p>
+                        </div>
+                    </div>
+                `,
+                textContent: `Novi upit za proizvod ${safeProductName} (${safeProductCode}) od ${safeName}. Email: ${safeEmail}, Telefon: ${safePhone}. Poruka: ${safeMessage}`
             };
 
-            // Create recipient objects
-            const recipients = [
-                {
-                    email: "info@kamenpro.net",
-                    name: "KamenPro"
-                }
-            ];
-
-            // Create replyTo object
-            const replyTo = {
-                email: safeEmail,
-                name: safeName
-            };
-
-            // Create email send request
-            const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
-            sendSmtpEmail.sender = sender;
-            sendSmtpEmail.to = recipients;
-            sendSmtpEmail.replyTo = replyTo;
-            sendSmtpEmail.subject = `Upit za proizvod: ${safeProductName} (${safeProductCode})`;
-            sendSmtpEmail.htmlContent = htmlContent;
-            sendSmtpEmail.textContent = `Novi upit za proizvod ${safeProductName} (${safeProductCode}) od ${safeName}. Email: ${safeEmail}, Telefon: ${safePhone}. Poruka: ${safeMessage}`;
-
+            // Send to Brevo using fetch
             console.log('Sending email via Brevo API...');
-            const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
-            console.log('Email sent successfully with Brevo. MessageId:', data.messageId);
+            const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+                method: 'POST',
+                headers: {
+                    'accept': 'application/json',
+                    'api-key': apiKey,
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(emailData)
+            });
+
+            const responseData = await response.json();
+
+            if (response.ok) {
+                console.log('Email sent successfully via Brevo:', responseData);
+            } else {
+                console.error('Error from Brevo API:', response.status, responseData);
+
+                // Attempt alternate delivery to avoid data loss
+                console.log('Attempting alternate delivery method...');
+
+                // Backup email to another address
+                const backupEmailData = {
+                    ...emailData,
+                    to: [
+                        {
+                            email: "savic.damjan@gmx.de", // Alternativ-Email
+                            name: "KamenPro Backup"
+                        }
+                    ]
+                };
+
+                try {
+                    const backupResponse = await fetch('https://api.brevo.com/v3/smtp/email', {
+                        method: 'POST',
+                        headers: {
+                            'accept': 'application/json',
+                            'api-key': apiKey,
+                            'content-type': 'application/json'
+                        },
+                        body: JSON.stringify(backupEmailData)
+                    });
+
+                    if (backupResponse.ok) {
+                        console.log('Backup email sent successfully');
+                    } else {
+                        console.error('Backup email also failed');
+                    }
+                } catch (backupError) {
+                    console.error('Error sending backup email:', backupError);
+                }
+            }
         } catch (emailError) {
-            console.error('Error sending email with Brevo:', emailError);
-            // We continue even if email fails - don't return error to user
+            console.error('Error sending email:', emailError);
+            // We continue even if email fails
         }
 
         // Return success regardless of email sending result
-        // This way the user gets a good experience even if there are email issues
         return res.status(200).json({
             success: true,
             message: 'Vaš upit je uspešno poslat.'
@@ -166,4 +199,4 @@ module.exports = async (req, res) => {
             error: 'Dogodila se greška prilikom slanja upita. Molimo pokušajte ponovo kasnije ili nas kontaktirajte telefonom.'
         });
     }
-};
+}
