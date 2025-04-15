@@ -86,20 +86,21 @@ export const ContactFormSection: React.FC = () => {
                 });
 
                 // Antwort verarbeiten
-                const responseText = await response.text();
+                let responseData;
+                try {
+                    // Versuche JSON-Antwort zu parsen
+                    responseData = await response.json();
+                } catch (e) {
+                    // Falls Parsing fehlschlägt, verwende Text-Antwort
+                    const text = await response.text();
+                    throw new Error(`Fehler bei der Verarbeitung der Antwort: ${text}`);
+                }
 
                 if (!response.ok) {
                     let errorMessage = 'Došlo je do greške pri slanju poruke.';
-
-                    try {
-                        const errorData = JSON.parse(responseText);
-                        if (errorData && errorData.error) {
-                            errorMessage = errorData.error;
-                        }
-                    } catch {
-                        console.error('Error parsing response');
+                    if (responseData && responseData.error) {
+                        errorMessage = responseData.error;
                     }
-
                     throw new Error(errorMessage);
                 }
 

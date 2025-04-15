@@ -1,0 +1,8 @@
+{
+  "name": "kamenpro-api",
+  "version": "1.0.0",
+  "description": "KamenPro API functions",
+  "dependencies": {
+    "nodemailer": "^6.10.1"
+  }
+}
