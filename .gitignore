@@ -23,5 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 
-# Local Netlify folder
-.netlify
+# Environment variables
+.env
+.env.*
+
+# Brevo test files with credentials
+brevo-test.js
