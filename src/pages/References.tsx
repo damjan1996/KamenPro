@@ -3,7 +3,7 @@ import { Seo } from "../components/Seo";
 import {
     Hero,
     CategoriesSection,
-    FeaturedProjectsSection,
+    // FeaturedProjectsSection entfernt
     ProcessSection,
     ClientFeedbackSection,
     CTASection
@@ -19,7 +19,7 @@ export default function References() {
             />
             <Hero />
             <CategoriesSection />
-            <FeaturedProjectsSection />
+            {/* FeaturedProjectsSection entfernt */}
             <ProcessSection />
             <ClientFeedbackSection />
             <CTASection />
