@@ -2,7 +2,7 @@
 import fetch from 'node-fetch';
 
 // Brevo API Key aus Umgebungsvariablen
-const BREVO_API_KEY = process.env.BREVO_API_KEY || "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";
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
 
 export default async function handler(req, res) {
     // CORS-Header setzen
