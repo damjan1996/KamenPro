@@ -1,5 +1,5 @@
 // api/contact.js
-import SibApiV3Sdk from 'sib-api-v3-sdk';
+import * as SibApiV3Sdk from 'sib-api-v3-sdk';
 
 // Brevo API Key direkt einsetzen
 const BREVO_API_KEY = "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";
@@ -79,71 +79,79 @@ export default async function handler(req, res) {
         console.log('---------------------');
 
         try {
-            // Initialize Brevo API client
-            const defaultClient = SibApiV3Sdk.ApiClient.instance;
-            const apiKey = defaultClient.authentications['api-key'];
-            apiKey.apiKey = BREVO_API_KEY;
-
-            const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-
-            // Create sender object
-            const sender = {
-                name: "KamenPro Website",
-                email: "info@kamenpro.net"  // Diese E-Mail muss in Brevo als verifizierter Absender eingerichtet sein
+            // Verwende eine direktere Methode mit fetch
+            const emailData = {
+                sender: {
+                    name: "KamenPro Website",
+                    email: "info@kamenpro.net"
+                },
+                to: [
+                    {
+                        email: "info@kamenpro.net",
+                        name: "KamenPro Team"
+                    }
+                ],
+                replyTo: {
+                    email: safeEmail,
+                    name: safeName
+                },
+                subject: `Kontaktanfrage: ${safeSubject}`,
+                htmlContent: `
+                    <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px;">
+                        <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Neue Kontaktanfrage</h2>
+                        
+                        <div style="margin: 20px 0;">
+                            <p><strong>Thema:</strong> ${safeSubject}</p>
+                        </div>
+                        
+                        <div style="margin: 20px 0;">
+                            <p><strong>Name:</strong> ${safeName}</p>
+                            <p><strong>E-Mail:</strong> ${safeEmail}</p>
+                            <p><strong>Telefon:</strong> ${safePhone}</p>
+                        </div>
+                        
+                        <div style="margin: 20px 0; background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
+                            <p><strong>Nachricht:</strong></p>
+                            <p>${safeMessage}</p>
+                        </div>
+                        
+                        <div style="font-size: 12px; margin-top: 30px; color: #777; border-top: 1px solid #eee; padding-top: 10px;">
+                            <p>Diese Nachricht wurde automatisch von der KamenPro-Website gesendet.</p>
+                        </div>
+                    </div>
+                `,
+                textContent: `Neue Kontaktanfrage: ${safeSubject} von ${safeName}. E-Mail: ${safeEmail}, Telefon: ${safePhone}. Nachricht: ${safeMessage}`
             };
 
-            // Create recipient objects
-            const recipients = [
-                {
-                    email: "info@kamenpro.net",  // Empfänger-E-Mail
-                    name: "KamenPro Team"
-                }
-            ];
+            console.log('Sende E-Mail über Brevo API via fetch...');
 
-            // Create SendSmtpEmail object
-            const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
-            sendSmtpEmail.sender = sender;
-            sendSmtpEmail.to = recipients;
-            sendSmtpEmail.replyTo = { email: safeEmail, name: safeName };
-            sendSmtpEmail.subject = `Kontaktanfrage: ${safeSubject}`;
-            sendSmtpEmail.htmlContent = `
-                <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px;">
-                    <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Neue Kontaktanfrage</h2>
-                    
-                    <div style="margin: 20px 0;">
-                        <p><strong>Thema:</strong> ${safeSubject}</p>
-                    </div>
-                    
-                    <div style="margin: 20px 0;">
-                        <p><strong>Name:</strong> ${safeName}</p>
-                        <p><strong>E-Mail:</strong> ${safeEmail}</p>
-                        <p><strong>Telefon:</strong> ${safePhone}</p>
-                    </div>
-                    
-                    <div style="margin: 20px 0; background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
-                        <p><strong>Nachricht:</strong></p>
-                        <p>${safeMessage}</p>
-                    </div>
-                    
-                    <div style="font-size: 12px; margin-top: 30px; color: #777; border-top: 1px solid #eee; padding-top: 10px;">
-                        <p>Diese Nachricht wurde automatisch von der KamenPro-Website gesendet.</p>
-                    </div>
-                </div>
-            `;
-            sendSmtpEmail.textContent = `Neue Kontaktanfrage: ${safeSubject} von ${safeName}. E-Mail: ${safeEmail}, Telefon: ${safePhone}. Nachricht: ${safeMessage}`;
-
-            console.log('Sende E-Mail über Brevo API...');
-            // Senden und verarbeiten der Antwort
-            const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
-            console.log('E-Mail erfolgreich gesendet! MessageId:', data.messageId);
-
-            // Erfolg zurückgeben
-            return res.status(200).json({
-                success: true,
-                message: 'Vaša poruka je uspešno poslata.',
-                messageId: data.messageId
+            // Direkter Zugriff auf die Brevo API
+            const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+                method: 'POST',
+                headers: {
+                    'api-key': BREVO_API_KEY,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(emailData)
             });
 
+            const responseData = await response.json();
+
+            if (response.ok) {
+                console.log('E-Mail erfolgreich gesendet!', responseData);
+                return res.status(200).json({
+                    success: true,
+                    message: 'Vaša poruka je uspešno poslata.',
+                    messageId: responseData.messageId
+                });
+            } else {
+                console.error('Fehler beim Senden der E-Mail:', response.status, responseData);
+                return res.status(500).json({
+                    error: 'Greška pri slanju poruke. Pokušajte ponovo ili nas kontaktirajte direktno.',
+                    details: `API Fehler: ${response.status} ${JSON.stringify(responseData)}`
+                });
+            }
         } catch (emailError) {
             console.error('Fehler beim Senden der E-Mail:', emailError);
 

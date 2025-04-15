@@ -1,42 +1,42 @@
 // api/send-inquiry.js
-import SibApiV3Sdk from 'sib-api-v3-sdk';
+import fetch from 'node-fetch';
 
-// Brevo API Key direkt einsetzen
+// Brevo API Key direkt einsetzen (nur für Tests)
 const BREVO_API_KEY = "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";
 
 // Vercel Serverless Function
 export default async function handler(req, res) {
-    // CORS-Header setzen
+    // Set CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    // OPTIONS-Anfragen für CORS-Preflight behandeln
+    // Handle OPTIONS requests for CORS preflight
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
     }
 
-    // Nur POST-Anfragen zulassen
+    // Only allow POST requests
     if (req.method !== 'POST') {
-        console.log(`Methode ${req.method} nicht erlaubt, nur POST wird akzeptiert`);
+        console.log(`Method ${req.method} not allowed, only POST is accepted`);
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
     try {
-        // Request-Body parsen, wenn es ein String ist
+        // Parse the request body if it's a string
         let body = req.body;
         if (typeof body === 'string') {
             try {
                 body = JSON.parse(body);
             } catch (e) {
-                console.error('Ungültiges JSON im Request-Body', e);
+                console.error('Invalid JSON in request body', e);
                 return res.status(400).json({ error: 'Invalid JSON in request body' });
             }
         }
 
-        // Prüfen, ob Body existiert und nicht leer ist
+        // Check if body exists and is not empty
         if (!body || Object.keys(body).length === 0) {
-            console.log('Leerer Request-Body erhalten');
+            console.log('Empty request body received');
             return res.status(400).json({ error: 'Nema podataka u zahtevu.' });
         }
 
@@ -51,20 +51,20 @@ export default async function handler(req, res) {
             quantity
         } = body;
 
-        console.log('Anfragedaten erhalten:', { name, email, phone, productName, productCode });
+        console.log('Received inquiry data:', { name, email, phone, productName, productCode });
 
-        // Pflichtfelder prüfen
+        // Validate required fields
         if (!name || !email || !phone || !message || !productName || !productCode) {
-            console.log('Validierung fehlgeschlagen: Pflichtfelder fehlen');
+            console.log('Validation failed: Missing required fields');
             return res.status(400).json({ error: 'Svi potrebni podaci moraju biti popunjeni.' });
         }
 
         if (!email.includes('@') || !email.includes('.')) {
-            console.log('Validierung fehlgeschlagen: Ungültiges E-Mail-Format');
+            console.log('Validation failed: Invalid email format');
             return res.status(400).json({ error: 'Email adresa nije ispravna.' });
         }
 
-        // Eingabedaten bereinigen
+        // Sanitize input data
         const safeProductName = productName ? String(productName).replace(/[<>]/g, '') : 'Unknown';
         const safeProductCode = productCode ? String(productCode).replace(/[<>]/g, '') : 'Unknown';
         const safeQuantity = quantity ? String(quantity).replace(/[<>]/g, '') : '1';
@@ -73,110 +73,115 @@ export default async function handler(req, res) {
         const safePhone = phone ? String(phone).replace(/[<>]/g, '') : 'Unknown';
         const safeMessage = message ? String(message).replace(/[<>]/g, '') : 'No message';
 
-        // Anfrage im Konsole loggen (wird in Vercel-Logs sichtbar sein)
-        console.log('ANFRAGE ERHALTEN:');
+        // Log the inquiry to console (will be visible in Vercel logs)
+        console.log('INQUIRY RECEIVED:');
         console.log('---------------------');
-        console.log(`Produkt: ${safeProductName} (${safeProductCode})`);
-        console.log(`Menge: ${safeQuantity}`);
-        console.log(`Kunde: ${safeName}`);
-        console.log(`E-Mail: ${safeEmail}`);
-        console.log(`Telefon: ${safePhone}`);
-        console.log(`Nachricht: ${safeMessage}`);
+        console.log(`Product: ${safeProductName} (${safeProductCode})`);
+        console.log(`Quantity: ${safeQuantity}`);
+        console.log(`Customer: ${safeName}`);
+        console.log(`Email: ${safeEmail}`);
+        console.log(`Phone: ${safePhone}`);
+        console.log(`Message: ${safeMessage}`);
         console.log('---------------------');
 
+        // Use fetch to send directly to Brevo API
         try {
-            // Initialize Brevo API client
-            const defaultClient = SibApiV3Sdk.ApiClient.instance;
-            const apiKey = defaultClient.authentications['api-key'];
-            apiKey.apiKey = BREVO_API_KEY;
-
-            const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-
-            // Create sender object
-            const sender = {
-                name: "KamenPro Website",
-                email: "info@kamenpro.net"  // Diese E-Mail muss in Brevo als verifizierter Absender eingerichtet sein
+            // Prepare data for Brevo API
+            const emailData = {
+                sender: {
+                    name: "KamenPro Website",
+                    email: "info@kamenpro.net"
+                },
+                to: [
+                    {
+                        email: "info@kamenpro.net",
+                        name: "KamenPro Team"
+                    }
+                ],
+                replyTo: {
+                    email: safeEmail,
+                    name: safeName
+                },
+                subject: `Upit za proizvod: ${safeProductName} (${safeProductCode})`,
+                htmlContent: `
+                    <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px;">
+                        <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Novi upit za proizvod</h2>
+                        
+                        <div style="margin: 20px 0;">
+                            <p><strong>Proizvod:</strong> ${safeProductName} (${safeProductCode})</p>
+                            <p><strong>Količina:</strong> ${safeQuantity} m²</p>
+                        </div>
+                        
+                        <div style="margin: 20px 0;">
+                            <p><strong>Ime i prezime:</strong> ${safeName}</p>
+                            <p><strong>Email:</strong> ${safeEmail}</p>
+                            <p><strong>Telefon:</strong> ${safePhone}</p>
+                        </div>
+                        
+                        <div style="margin: 20px 0; background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
+                            <p><strong>Poruka:</strong></p>
+                            <p>${safeMessage}</p>
+                        </div>
+                        
+                        <div style="font-size: 12px; margin-top: 30px; color: #777; border-top: 1px solid #eee; padding-top: 10px;">
+                            <p>Ova poruka je automatski poslata sa web sajta KamenPro.</p>
+                        </div>
+                    </div>
+                `,
+                textContent: `Novi upit za proizvod ${safeProductName} (${safeProductCode}) od ${safeName}. Email: ${safeEmail}, Telefon: ${safePhone}. Poruka: ${safeMessage}`
             };
 
-            // Create recipient objects
-            const recipients = [
-                {
-                    email: "info@kamenpro.net",  // Empfänger-E-Mail
-                    name: "KamenPro Team"
-                }
-            ];
-
-            // Create SendSmtpEmail object
-            const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
-            sendSmtpEmail.sender = sender;
-            sendSmtpEmail.to = recipients;
-            sendSmtpEmail.replyTo = { email: safeEmail, name: safeName };
-            sendSmtpEmail.subject = `Upit za proizvod: ${safeProductName} (${safeProductCode})`;
-            sendSmtpEmail.htmlContent = `
-                <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px;">
-                    <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Novi upit za proizvod</h2>
-                    
-                    <div style="margin: 20px 0;">
-                        <p><strong>Proizvod:</strong> ${safeProductName} (${safeProductCode})</p>
-                        <p><strong>Količina:</strong> ${safeQuantity} m²</p>
-                    </div>
-                    
-                    <div style="margin: 20px 0;">
-                        <p><strong>Ime i prezime:</strong> ${safeName}</p>
-                        <p><strong>Email:</strong> ${safeEmail}</p>
-                        <p><strong>Telefon:</strong> ${safePhone}</p>
-                    </div>
-                    
-                    <div style="margin: 20px 0; background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
-                        <p><strong>Poruka:</strong></p>
-                        <p>${safeMessage}</p>
-                    </div>
-                    
-                    <div style="font-size: 12px; margin-top: 30px; color: #777; border-top: 1px solid #eee; padding-top: 10px;">
-                        <p>Ova poruka je automatski poslata sa web sajta KamenPro.</p>
-                    </div>
-                </div>
-            `;
-            sendSmtpEmail.textContent = `Novi upit za proizvod ${safeProductName} (${safeProductCode}) od ${safeName}. Email: ${safeEmail}, Telefon: ${safePhone}. Poruka: ${safeMessage}`;
-
-            console.log('Sende E-Mail über Brevo API...');
-            // Senden und verarbeiten der Antwort
-            const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
-            console.log('E-Mail erfolgreich gesendet! MessageId:', data.messageId);
-
-            // Erfolg zurückgeben
-            return res.status(200).json({
-                success: true,
-                message: 'Vaš upit je uspešno poslat.',
-                messageId: data.messageId
+            // Send to Brevo using fetch
+            console.log('Sending email via Brevo API...');
+            const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+                method: 'POST',
+                headers: {
+                    'api-key': BREVO_API_KEY,
+                    'content-type': 'application/json',
+                    'accept': 'application/json'
+                },
+                body: JSON.stringify(emailData)
             });
 
+            const responseData = await response.json();
+
+            if (response.ok) {
+                console.log('Email sent successfully via Brevo:', responseData);
+                return res.status(200).json({
+                    success: true,
+                    message: 'Vaš upit je uspešno poslat.',
+                    messageId: responseData.messageId
+                });
+            } else {
+                console.error('Error from Brevo API:', response.status, responseData);
+
+                // Attempt alternate delivery to avoid data loss
+                console.log('Inquiry details for backup purposes:');
+                console.log(JSON.stringify({
+                    customerName: safeName,
+                    customerEmail: safeEmail,
+                    customerPhone: safePhone,
+                    productDetails: `${safeProductName} (${safeProductCode})`,
+                    quantity: safeQuantity,
+                    message: safeMessage,
+                    timestamp: new Date().toISOString()
+                }, null, 2));
+
+                return res.status(500).json({
+                    error: 'Greška pri slanju poruke. Pokušajte ponovo ili nas kontaktirajte direktno.',
+                    details: `API Fehler: ${response.status} ${JSON.stringify(responseData)}`
+                });
+            }
         } catch (emailError) {
-            console.error('Fehler beim Senden der E-Mail:', emailError);
-            // Bei Fehler detaillierte Fehlermeldung zurückgeben
-            const errorMessage = emailError.message || 'Unknown email sending error';
-            const errorStatus = emailError.status || 500;
-
-            // Versuch, wichtige Daten zu sichern
-            console.log('Anfragedaten für Backup-Zwecke:');
-            console.log(JSON.stringify({
-                customerName: safeName,
-                customerEmail: safeEmail,
-                customerPhone: safePhone,
-                productDetails: `${safeProductName} (${safeProductCode})`,
-                quantity: safeQuantity,
-                message: safeMessage,
-                timestamp: new Date().toISOString()
-            }, null, 2));
-
-            // Fehlermeldung an Client zurückgeben
-            return res.status(errorStatus).json({
-                error: `Greška pri slanju poruke: ${errorMessage}`,
+            console.error('Error sending email:', emailError);
+            // Return error message
+            return res.status(500).json({
+                error: 'Dogodila se greška prilikom slanja upita. Molimo pokušajte ponovo kasnije ili nas kontaktirajte telefonom.',
                 details: emailError.toString()
             });
         }
     } catch (error) {
-        console.error('API-Fehler:', error);
+        console.error('API error:', error);
         return res.status(500).json({
             error: 'Dogodila se greška prilikom slanja upita. Molimo pokušajte ponovo kasnije ili nas kontaktirajte telefonom.',
             details: error.toString()
