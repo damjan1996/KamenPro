@@ -1,4 +1,9 @@
 // src/pages/references/index.tsx
-// Diese Datei ist jetzt leer und wird nicht mehr verwendet.
-// Sie wurde beibehalten, um Kompatibilität mit bestehenden Imports zu gewährleisten.
-// Die Komponenten werden jetzt direkt aus ihren jeweiligen Dateien importiert.
+import { Hero } from "./components/Hero";
+import { CategoriesSection } from "./components/Categories";
+import { FeaturedProjectsSection } from "./components/FeaturedProjects";
+import { ProcessSection } from "./components/Process";
+import { ClientFeedbackSection } from "./components/ClientFeedback";
+import { CTASection } from "./components/CTASection";
+
+export { Hero, CategoriesSection, FeaturedProjectsSection, ProcessSection, ClientFeedbackSection, CTASection };
