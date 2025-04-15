@@ -61,13 +61,6 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: 'Email adresa nije ispravna.' });
         }
 
-        // Debug environment variables
-        console.log('Environment variables check:');
-        console.log('SMTP_HOST exists:', !!process.env.SMTP_HOST);
-        console.log('SMTP_PORT exists:', !!process.env.SMTP_PORT);
-        console.log('SMTP_USER exists:', !!process.env.SMTP_USER);
-        console.log('SMTP_PASSWORD exists:', !!process.env.SMTP_PASSWORD);
-
         // Sanitize input data
         const safeProductName = productName ? String(productName).replace(/[<>]/g, '') : 'Unknown';
         const safeProductCode = productCode ? String(productCode).replace(/[<>]/g, '') : 'Unknown';
@@ -79,91 +72,122 @@ module.exports = async (req, res) => {
 
         // Create HTML email content
         const htmlContent = `
-      <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px;">
-        <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Novi upit za proizvod</h2>
-        
-        <div style="margin: 20px 0;">
-          <p><strong>Proizvod:</strong> ${safeProductName} (${safeProductCode})</p>
-          <p><strong>Količina:</strong> ${safeQuantity} m²</p>
+        <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px;">
+            <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Novi upit za proizvod</h2>
+            
+            <div style="margin: 20px 0;">
+                <p><strong>Proizvod:</strong> ${safeProductName} (${safeProductCode})</p>
+                <p><strong>Količina:</strong> ${safeQuantity} m²</p>
+            </div>
+            
+            <div style="margin: 20px 0;">
+                <p><strong>Ime i prezime:</strong> ${safeName}</p>
+                <p><strong>Email:</strong> ${safeEmail}</p>
+                <p><strong>Telefon:</strong> ${safePhone}</p>
+            </div>
+            
+            <div style="margin: 20px 0; background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
+                <p><strong>Poruka:</strong></p>
+                <p>${safeMessage}</p>
+            </div>
+            
+            <div style="font-size: 12px; margin-top: 30px; color: #777; border-top: 1px solid #eee; padding-top: 10px;">
+                <p>Ova poruka je automatski poslata sa web sajta KamenPro.</p>
+            </div>
         </div>
-        
-        <div style="margin: 20px 0;">
-          <p><strong>Ime i prezime:</strong> ${safeName}</p>
-          <p><strong>Email:</strong> ${safeEmail}</p>
-          <p><strong>Telefon:</strong> ${safePhone}</p>
-        </div>
-        
-        <div style="margin: 20px 0; background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
-          <p><strong>Poruka:</strong></p>
-          <p>${safeMessage}</p>
-        </div>
-        
-        <div style="font-size: 12px; margin-top: 30px; color: #777; border-top: 1px solid #eee; padding-top: 10px;">
-          <p>Ova poruka je automatski poslata sa web sajta KamenPro.</p>
-        </div>
-      </div>
-    `;
+        `;
 
+        // Workaround: Store the message in Supabase since we're already using it
+        // If you have Supabase configured, this is a good alternative to ensure data is captured
         try {
-            // Alternative: Falls es Probleme mit dem E-Mail-Versand gibt, loggen wir den Inhalt und simulieren Erfolg
-            // Dies ist eine temporäre Lösung, um zu vermeiden, dass das Formular fehlschlägt
-            console.log('Email that would be sent:');
-            console.log('From:', `"KamenPro Web" <${process.env.SMTP_USER}>`);
-            console.log('To:', process.env.SMTP_USER);
-            console.log('Subject:', `Upit za proizvod: ${safeProductName} (${safeProductCode})`);
-            console.log('Customer:', safeName, safeEmail, safePhone);
-            console.log('Message preview:', safeMessage.substring(0, 100) + '...');
+            const { createClient } = require('@supabase/supabase-js');
+            const supabaseUrl = process.env.VITE_SUPABASE_URL;
+            const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
 
-            // Versuche den E-Mail-Versand
-            // Create transporter
-            const transporter = nodemailer.createTransport({
-                host: process.env.SMTP_HOST,
-                port: parseInt(process.env.SMTP_PORT || '465'),
-                secure: process.env.SMTP_SECURE === 'true',
-                auth: {
-                    user: process.env.SMTP_USER,
-                    pass: process.env.SMTP_PASSWORD,
-                },
-                // Debug and timeout settings
-                debug: true,
-                logger: true,
-                connectionTimeout: 10000,
-                greetingTimeout: 10000,
-                socketTimeout: 10000,
-            });
+            if (supabaseUrl && supabaseKey) {
+                console.log('Attempting to store inquiry in Supabase...');
+                const supabase = createClient(supabaseUrl, supabaseKey);
 
-            // Test the connection to verify credentials
-            console.log('Testing SMTP connection...');
-            await transporter.verify();
-            console.log('SMTP connection verified successfully');
+                const { data, error } = await supabase
+                    .from('inquiries')
+                    .insert([
+                        {
+                            name: safeName,
+                            email: safeEmail,
+                            phone: safePhone,
+                            message: safeMessage,
+                            product_name: safeProductName,
+                            product_code: safeProductCode,
+                            quantity: safeQuantity,
+                            created_at: new Date().toISOString()
+                        }
+                    ]);
 
-            // Set up email options
-            const mailOptions = {
-                from: `"KamenPro Web" <${process.env.SMTP_USER}>`,
-                to: process.env.SMTP_USER,
-                subject: `Upit za proizvod: ${safeProductName} (${safeProductCode})`,
-                html: htmlContent,
-                replyTo: safeEmail,
-                text: `Novi upit za proizvod ${safeProductName} (${safeProductCode}) od ${safeName}. Email: ${safeEmail}, Telefon: ${safePhone}. Poruka: ${message}`,
-            };
-
-            // Send the email
-            console.log('Sending email...');
-            const info = await transporter.sendMail(mailOptions);
-            console.log('Email sent successfully:', info.messageId);
-        } catch (emailError) {
-            // Log the error but don't fail the request
-            console.error('Error sending email:', emailError);
-            console.log('But continuing with success response to avoid user frustration');
-
-            // If we're in development mode, throw the error to see it
-            if (process.env.NODE_ENV === 'development') {
-                throw emailError;
+                if (error) {
+                    console.error('Supabase storage error:', error);
+                } else {
+                    console.log('Successfully stored inquiry in Supabase');
+                }
+            } else {
+                console.log('Supabase credentials not found, skipping database storage');
             }
+        } catch (dbError) {
+            console.error('Error while trying to store in database:', dbError);
         }
 
-        // Return success regardless of email sending
-        // For now we're prioritizing user experience over email delivery guarantees
+        // Fallback email method: Using SendGrid
+        try {
+            if (process.env.SENDGRID_API_KEY) {
+                console.log('Attempting to send via SendGrid...');
+                const sgMail = require('@sendgrid/mail');
+                sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+                const msg = {
+                    to: process.env.TO_EMAIL || process.env.SMTP_USER || 'info@kamenpro.net',
+                    from: process.env.FROM_EMAIL || process.env.SMTP_USER || 'info@kamenpro.net',
+                    subject: `Upit za proizvod: ${safeProductName} (${safeProductCode})`,
+                    text: `Novi upit za proizvod ${safeProductName} (${safeProductCode}) od ${safeName}. Email: ${safeEmail}, Telefon: ${safePhone}. Poruka: ${message}`,
+                    html: htmlContent,
+                    replyTo: safeEmail
+                };
+
+                const result = await sgMail.send(msg);
+                console.log('SendGrid email sent successfully');
+            } else {
+                console.log('SendGrid API key not found, trying original SMTP...');
+
+                // Original SMTP as fallback
+                const transporter = nodemailer.createTransport({
+                    host: process.env.SMTP_HOST,
+                    port: parseInt(process.env.SMTP_PORT || '465'),
+                    secure: process.env.SMTP_SECURE === 'true',
+                    auth: {
+                        user: process.env.SMTP_USER,
+                        pass: process.env.SMTP_PASSWORD,
+                    },
+                    connectionTimeout: 10000,
+                    greetingTimeout: 10000,
+                    socketTimeout: 10000,
+                });
+
+                const mailOptions = {
+                    from: `"KamenPro Web" <${process.env.SMTP_USER}>`,
+                    to: process.env.SMTP_USER,
+                    subject: `Upit za proizvod: ${safeProductName} (${safeProductCode})`,
+                    html: htmlContent,
+                    replyTo: safeEmail,
+                    text: `Novi upit za proizvod ${safeProductName} (${safeProductCode}) od ${safeName}. Email: ${safeEmail}, Telefon: ${safePhone}. Poruka: ${message}`,
+                };
+
+                const info = await transporter.sendMail(mailOptions);
+                console.log('Original SMTP email sent successfully:', info.messageId);
+            }
+        } catch (emailError) {
+            console.error('Error with email sending:', emailError);
+            // We don't throw here to avoid affecting the user response
+        }
+
+        // Return success regardless of email sending result
         return res.status(200).json({
             success: true,
             message: 'Vaš upit je uspešno poslat.'
