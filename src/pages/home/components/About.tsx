@@ -156,7 +156,7 @@ export function AboutSection() {
                         {/* Image - updated with the correct URL */}
                         <div className="relative rounded-lg overflow-hidden mb-6 shadow-lg group">
                             <img
-                                src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/About/products.png"
+                                src="/images/home/products.png"
                                 alt="KamenPro proizvodi"
                                 className="w-full h-48 md:h-56 object-cover transition-transform duration-700 group-hover:scale-105"
                             />

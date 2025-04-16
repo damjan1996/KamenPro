@@ -35,21 +35,21 @@ export const CategoriesSection = () => {
             id: 1,
             title: "Stambeni objekti",
             description: "Nudimo rešenja za enterijer stambenih objekata, obezbeđujući da svaki prostor odražava stil i ličnost vlasnika. Naše kamene obloge donose toplinu i karakter svakom domu.",
-            image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Values/stambeni%20prostor.jpg",
+            image: "/images/about/stambeni%20prostor.jpg",
             imageAlt: "Stambeni objekat sa dekorativnim kamenim oblogama"
         },
         {
             id: 2,
             title: "Poslovni objekti",
             description: "Naše kamene obloge stvaraju upečatljiv utisak u poslovnim prostorima, od elegantnih recepcija do reprezentativnih sala za sastanke. Kombinujemo estetiku i funkcionalnost za stvaranje produktivnog radnog okruženja.",
-            image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Values/radni%20prostor.jpg",
+            image: "/images/about/radni%20prostor.jpg",
             imageAlt: "Poslovni prostor sa dekorativnim kamenim oblogama"
         },
         {
             id: 3,
             title: "Ugostiteljski objekti",
             description: "Specijalizovani smo za stvaranje jedinstvenih ambijenata u hotelima i restoranima, gde naše kamene obloge doprinose autentičnom doživljaju. Svaki projekat odražava karakter i viziju brenda.",
-            image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/Projects/ugostiteljski-prostor.jpg",
+            image: "/images/home/ugostiteljski-prostor.jpg",
             imageAlt: "Ugostiteljski objekat sa dekorativnim kamenim oblogama"
         }
     ];

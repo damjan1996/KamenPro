@@ -31,7 +31,7 @@ export function MaterialInfo() {
             id: 1,
             name: "Beli cement sa aditivima",
             description: "Visokokvalitetna osnova za naše dekorativne obloge, uz dodatak specijalnih aditiva za očvršćivanje i trajnost.",
-            image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Material/cement.jpg"
+            image: "/images/products/cement.jpg"
         },
         {
             id: 2,

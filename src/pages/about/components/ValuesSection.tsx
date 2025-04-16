@@ -109,7 +109,7 @@ export function ValuesSection() {
                         {/* Slika koja prikazuje vrednosti u akciji */}
                         <div className="hidden lg:block relative overflow-hidden rounded-lg mt-12 shadow-md">
                             <img
-                                src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Values/proizvodni%20proces.jpg"
+                                src="/images/about/proizvodni%20proces.jpg"
                                 alt="KamenPro proizvodni proces"
                                 className="w-full h-72 object-cover hover:scale-105 transition-all duration-700"
                             />
@@ -177,7 +177,7 @@ export function ValuesSection() {
                                 <div className="group">
                                     <div className="bg-stone-100 aspect-square rounded-lg overflow-hidden mb-2 shadow-sm transition-all duration-300 group-hover:shadow-md">
                                         <img
-                                            src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Values/stambeni%20prostor.jpg"
+                                            src="/images/about/stambeni%20prostor.jpg"
                                             alt="Stambeni objekat"
                                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                         />
@@ -191,7 +191,7 @@ export function ValuesSection() {
                                 <div className="group">
                                     <div className="bg-stone-100 aspect-square rounded-lg overflow-hidden mb-2 shadow-sm transition-all duration-300 group-hover:shadow-md">
                                         <img
-                                            src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Values/radni%20prostor.jpg"
+                                            src="/images/about/radni%20prostor.jpg"
                                             alt="Poslovni prostor"
                                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                         />

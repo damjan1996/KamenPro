@@ -58,10 +58,10 @@ export function ProductAdvantages() {
     ];
 
     const useCases = [
-        { name: "Enterijer", image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Material/interijer.jpg" },
-        { name: "Eksterijer", image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Material/eksterijer.jpg" },
-        { name: "Kamini", image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Material/kamin.jpg" },
-        { name: "Stubovi", image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Material/stubovi.jpg" }
+        { name: "Enterijer", image: "/images/products/enterijer.jpg" },
+        { name: "Eksterijer", image: "/images/products/eksterijer.jpg" },
+        { name: "Kamini", image: "/images/products/kamin.jpg" },
+        { name: "Stubovi", image: "/images/products/stubovi.jpg" }
     ];
 
     return (

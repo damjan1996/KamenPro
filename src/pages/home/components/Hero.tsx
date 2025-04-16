@@ -29,7 +29,7 @@ export function Hero() {
             <div className="absolute inset-0 z-0 w-full">
                 <div className="absolute inset-0 bg-gradient-to-b from-black/80 to-black/50 z-10"></div>
                 <img
-                    src="/images/home_header.png"
+                    src="/images/home/hero.png"
                     alt="KamenPro dekorativne obloge"
                     className="w-full h-full object-cover object-center z-0 transform scale-105 transition-transform duration-10000 hover:scale-110"
                 />

@@ -19,25 +19,25 @@ export function CompanyHistory() {
             year: '2019',
             title: 'Osnivanje',
             description: 'KamenPro je osnovan kao samostalna zanatska radnja u Bijeljini. Sa jasnom vizijom kvaliteta i profesionalnosti, započeli smo proizvodnju dekorativnih kamenih obloga fokusirajući se na ručnu izradu i pažljiv odabir materijala.',
-            image: 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/History/osnivanje.jpg'
+            image: '/images/about/osnivanje.jpg'
         },
         {
             year: '2020',
             title: 'Razvoj asortimana',
             description: 'Proširili smo naš asortiman proizvoda dodajući nove vrste dekorativnih obloga i boja. Pored kamena, počeli smo sa proizvodnjom rustik cigle koja je brzo postala popularna među našim klijentima.',
-            image: 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/History/asortiman.jpg'
+            image: '/images/about/asortiman.jpg'
         },
         {
             year: '2022',
             title: 'Uspostavljanje partnerstava',
             description: 'Uspostavili smo partnerstva sa građevinskim firmama i prodavnicama, šireći našu mrežu distribucije. Naši proizvodi su postali prepoznatljivi po kvalitetu i izdržljivosti, a klijentska baza je kontinuirano rasla.',
-            image: 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/History/partnerstva.jpg'
+            image: '/images/about/partnerstva.jpg'
         },
         {
             year: '2025',
             title: 'Danas',
             description: 'Danas je KamenPro vodeći proizvođač dekorativnih kamenih obloga u regionu Bijeljine. Radimo na proširenju kapaciteta proizvodnje i kontinuirano unapređujemo kvalitet naših proizvoda, trudeći se da ispunimo i premašimo očekivanja naših klijenata.',
-            image: 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/History/danas.jpg'
+            image: '/images/about/danas.jpg'
         }
     ];
 

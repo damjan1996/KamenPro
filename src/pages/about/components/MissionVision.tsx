@@ -111,7 +111,7 @@ export function MissionVision() {
 
                             <div className="relative overflow-hidden mb-8 rounded-lg shadow-md">
                                 <img
-                                    src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Vision/radionica%20ii.jpg"
+                                    src="/images/about/radionica%20ii.jpg"
                                     alt="KamenPro radionica"
                                     className="w-full h-64 object-cover hover:scale-105 transition-transform duration-700"
                                 />

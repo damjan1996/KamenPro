@@ -121,7 +121,7 @@ export function ProductionCapabilities() {
                         <div className="relative rounded-lg overflow-hidden shadow-md">
                             {/* Main Image */}
                             <img
-                                src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Production/radionica%20iii.jpg"
+                                src="/images/about/radionica%20iii.jpg"
                                 alt="KamenPro radionica"
                                 className="w-full h-full object-cover aspect-video"
                             />

@@ -58,7 +58,7 @@ export function Hero() {
             <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/60 z-10"></div>
                 <img
-                    src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/References/Hero/hero.jpg"
+                    src="/images/references/hero.jpg"
                     alt="KamenPro reference i projekti"
                     className="w-full h-full object-cover object-center z-0 transition-transform duration-10000 ease-out"
                     style={{
@@ -128,7 +128,7 @@ export function Hero() {
                             <div className="space-y-4">
                                 <div className="relative h-64 overflow-hidden rounded-lg shadow-md group">
                                     <img
-                                        src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/Projects/stambeni-prostor.jpg"
+                                        src="/images/about/stambeni prostor.jpg"
                                         alt="Stambeni objekat"
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
@@ -143,7 +143,7 @@ export function Hero() {
                             <div className="space-y-4">
                                 <div className="relative h-64 overflow-hidden rounded-lg shadow-md group mt-8">
                                     <img
-                                        src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/Projects/poslovni-prostor.jpg"
+                                        src="/images/about/radni prostor.jpg"
                                         alt="Poslovni prostor"
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />

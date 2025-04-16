@@ -20,7 +20,7 @@ export const ClientFeedbackSection = () => {
             role: 'Vlasnik kuće',
             content: 'Dekorativni kamen koji smo postavili u dnevnu sobu potpuno je transformisao i ulepšao naš prostor. Kvalitet je izvanredan, a profesionalni saveti koje smo dobili od KamenPro tima bili su neprocenjivi za konačan rezultat ovog projekta.',
             rating: 5,
-            image: 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/References/Clients/02.png',
+            image: '/images/references/02.png',
             project: 'Stambeni objekat u Bijeljini'
         },
         {
@@ -29,16 +29,16 @@ export const ClientFeedbackSection = () => {
             role: 'Vlasnik restorana',
             content: 'Naš restoran je dobio autentičan i topao ambijent zahvaljujući dekorativnim kamenim oblogama. Gosti često komentarišu jedinstveni izgled prostora. KamenPro proizvodi su izdržljivi i laki za održavanje, što je presudno za ugostiteljski objekat.',
             rating: 5,
-            image: 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/References/Clients/03.png',
+            image: '/images/references/03.png',
             project: 'Restoran u centru Bijeljine'
         },
         {
             id: 3,
             name: 'Marija Petrović',
             role: 'Dizajner enterijera',
-            content: 'Kao dizajner, često biram KamenPro za svoje projekte. Njihove dekorativne obloge su visokokvalitetne i nude raznovrsnost tekstura i boja koje se lako uklapaju u različite stilove enterijera. Posebno cenim njihovu profesionalnost i pouzdanost.',
+            content: 'Kao dizajner, često biram KamenPro za svoje projekte. Njihove dekorativne obloge su visokokvalitetne i nude raznovrsnost tekstura i boja koje se lako uklapaju u različite stilove enterijera. Cenim njihovu profesionalnost i pouzdanost.',
             rating: 5,
-            image: 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/References/Clients/04.png',
+            image: '/images/references/04.png',
             project: 'Brojni stambeni i poslovni objekti'
         },
         {
@@ -47,7 +47,7 @@ export const ClientFeedbackSection = () => {
             role: 'Vlasnik vile',
             content: 'Kamene obloge na fasadi i u enterijeru naše vile su tačno ono što smo želeli. Proces od izbora do ugradnje bio je jednostavan zahvaljujući stručnim savetima KamenPro tima. Preporučujem ih svima koji traže kvalitet i autentičnost.',
             rating: 5,
-            image: 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/References/Clients/01.png',
+            image: '/images/references/01.png',
             project: 'Vila na Jahorini'
         }
     ];

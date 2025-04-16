@@ -78,7 +78,7 @@ export function OurStoryHero() {
             <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/60 z-10"></div>
                 <img
-                    src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Hero/pozadina.jpg"
+                    src="/images/about/pozadina.jpg"
                     alt="KamenPro dekorativne kamene obloge"
                     className="w-full h-full object-cover object-center z-0 transition-transform duration-10000 ease-out"
                     style={{
@@ -167,7 +167,7 @@ export function OurStoryHero() {
 
                                 <div className="relative aspect-video rounded-lg overflow-hidden mb-4 shadow-md">
                                     <img
-                                        src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Hero/radionica.jpg"
+                                        src="/images/about/radionica.jpg"
                                         alt="KamenPro radionica"
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />

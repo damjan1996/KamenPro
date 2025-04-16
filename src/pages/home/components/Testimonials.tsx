@@ -20,7 +20,7 @@ const testimonials: Testimonial[] = [
         role: 'Dizajner enterijera',
         content: 'KamenPro je naš prvi izbor za projekte koji zahtevaju kvalitetne kamene obloge. Raznovrsnost dezena i tekstura koje nude je impresivna. Njihova sposobnost da ispune i najzahtevnije dizajnerske ideje je izuzetna.',
         rating: 5,
-        image: 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/Testimonials/ana-jovanovic.jpg'
+        image: '/images/home/ana-jovanovic.jpg'
     },
     {
         id: 2,
@@ -28,7 +28,7 @@ const testimonials: Testimonial[] = [
         role: 'Vlasnik restorana',
         content: 'Naš restoran je dobio potpuno novi izgled zahvaljujući dekorativnim panelima. Gosti često komentarišu koliko je ambijent autentičan. KamenPro obloge doprinele su jedinstvenom identitetu našeg prostora.',
         rating: 4,
-        image: 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/Testimonials/stefan-petrovic.jpg'
+        image: '/images/home/stefan-petrovic.jpg'
     },
     {
         id: 3,
@@ -36,7 +36,7 @@ const testimonials: Testimonial[] = [
         role: 'Arhitekta',
         content: 'Saradnja sa KamenPro timom je bila izvanredna. Njihovi proizvodi su vrhunskog kvaliteta i instalacija je bila brza i profesionalna. Posebno sam impresioniran pažnjom koja se posvećuje detaljima i završnoj obradi.',
         rating: 5,
-        image: 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/Testimonials/marko-nikolic.jpg'
+        image: '/images/home/marko-nikolic.jpg'
     }
 ];
 

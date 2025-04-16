@@ -11,7 +11,7 @@ const projects = [
         subtitle: "Uređenje domova",
         description:
             "Nudimo rešenja za enterijer stambenih objekata, obezbeđujući da svaki prostor odražava stil i ličnost vlasnika. Od izbora materijala i završne obrade do planiranja prostora i osvetljenja, brinemo o svakom detalju kako bismo stvorili gostoprimljivo i udobno okruženje.",
-        image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/Projects/stambeni-prostor.jpg",
+        image: "/images/home/stambeni-prostor.jpg",
     },
     {
         id: 2,
@@ -19,7 +19,7 @@ const projects = [
         subtitle: "Profesionalna okruženja",
         description:
             "Naše kamene obloge stvaraju upečatljiv utisak u poslovnim prostorima, od elegantnih recepcija do reprezentativnih sala za sastanke. Kombinujemo estetiku i funkcionalnost za stvaranje produktivnog radnog okruženja.",
-        image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/Projects/poslovni-prostor.jpg",
+        image: "/images/home/poslovni-prostor.jpg",
     },
     {
         id: 3,
@@ -27,7 +27,7 @@ const projects = [
         subtitle: "Hoteli i restorani",
         description:
             "Specijalizovani smo za stvaranje jedinstvenih ambijenata u hotelima i restoranima, gde naše kamene obloge doprinose autentičnom doživljaju. Svaki projekat odražava karakter i viziju brenda.",
-        image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/Projects/ugostiteljski-prostor.jpg",
+        image: "/images/home/ugostiteljski-prostor.jpg",
     },
 ];
 

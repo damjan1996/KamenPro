@@ -160,7 +160,7 @@ export function InstallationInfo() {
                     }`}>
                         <div className="relative rounded-lg overflow-hidden mb-8 shadow-md group">
                             <img
-                                src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Installation/proces%20ugradnje.jpg"
+                                src="/images/products/proces%20ugradnje.jpg"
                                 alt="Proces ugradnje dekorativnih obloga"
                                 className="w-full h-64 md:h-72 object-cover transition-transform duration-700 group-hover:scale-105"
                             />
@@ -224,7 +224,7 @@ export function InstallationInfo() {
                         </div>
                         <div className="rounded-lg overflow-hidden shadow-md">
                             <img
-                                src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Installation/alat.jpg"
+                                src="/images/products/alat.jpg"
                                 alt="Alat potreban za ugradnju"
                                 className="w-full h-64 object-cover"
                             />
