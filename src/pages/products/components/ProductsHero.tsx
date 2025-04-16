@@ -331,17 +331,6 @@ export function ProductsHero() {
                 </div>
             </Container>
 
-            {/* Indikator za skrolovanje */}
-            <div className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center transition-opacity duration-500 cursor-pointer ${
-                scrollProgress > 0.2 ? 'opacity-0' : 'opacity-70'
-            }`}
-                 onClick={() => window.scrollTo({top: window.innerHeight, behavior: 'smooth'})}>
-                <span className="font-light text-white/70 text-sm mb-2">Skrolujte nadole</span>
-                <div className="w-6 h-10 rounded-full border border-white/30 flex items-center justify-center p-1">
-                    <div className="w-1 h-2 bg-white rounded-full animate-scroll"></div>
-                </div>
-            </div>
-
             <style>{`
                 @keyframes scroll {
                     0% { transform: translateY(0); opacity: 1; }

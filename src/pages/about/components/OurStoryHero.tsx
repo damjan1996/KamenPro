@@ -3,21 +3,10 @@ import { useState, useEffect, useRef } from 'react';
 import { Container } from '../../../components/ui/Container';
 import { ArrowRight } from 'lucide-react';
 
-interface StoryFeature {
-    text: string;
-}
-
 export function OurStoryHero() {
     const [isVisible, setIsVisible] = useState(false);
     const [scrollProgress, setScrollProgress] = useState(0);
     const sectionRef = useRef<HTMLElement | null>(null);
-
-    // Liste der Features für den linken unteren Bereich
-    const features: StoryFeature[] = [
-        { text: "Otporno na vremenske uslove" },
-        { text: "Vatrootporno" },
-        { text: "Dugotrajno" }
-    ];
 
     useEffect(() => {
         // Inicijalna animacija pri učitavanju
@@ -60,14 +49,6 @@ export function OurStoryHero() {
             }
         };
     }, []);
-
-    // Helper-Funktion zum Rendern von Features
-    const renderFeature = (feature: StoryFeature, index: number) => (
-        <div key={index} className="flex items-center space-x-3 text-white/80">
-            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-            <span className="font-light text-sm">{feature.text}</span>
-        </div>
-    );
 
     return (
         <section
@@ -197,37 +178,6 @@ export function OurStoryHero() {
             {/* Karakteristike */}
             <div className="absolute bottom-12 left-12 hidden lg:block">
                 <div className="flex flex-col items-start space-y-3">
-                    {features.map(renderFeature)}
-                </div>
-            </div>
-
-            {/* Kružni element sa tekstom */}
-            <div className="absolute bottom-8 right-8 hidden md:flex items-center justify-center">
-                <div className="relative w-32 h-32">
-                    <svg viewBox="0 0 100 100" className="w-full h-full rotate-animation">
-                        <path
-                            id="circlePath"
-                            d="M50,90 a40,40 0 1,1 0,-80 a40,40 0 1,1 0,80"
-                            fill="none"
-                            stroke="none"
-                        />
-                        <text fontSize="8" fill="white" opacity="0.6" className="font-light">
-                            <textPath href="#circlePath" startOffset="0%">
-                                prirodno • estetično • dugotrajno • kvalitetno • prirodno •
-                            </textPath>
-                        </text>
-                    </svg>
-                </div>
-            </div>
-
-            {/* Indikator za skrolovanje */}
-            <div className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center transition-opacity duration-500 cursor-pointer ${
-                scrollProgress > 0.2 ? 'opacity-0' : 'opacity-70'
-            }`}
-                 onClick={() => window.scrollTo({top: window.innerHeight, behavior: 'smooth'})}>
-                <span className="font-light text-white/70 text-sm mb-2">Skrolujte nadole</span>
-                <div className="w-6 h-10 rounded-full border border-white/30 flex items-center justify-center p-1">
-                    <div className="w-1 h-2 bg-white rounded-full animate-scroll"></div>
                 </div>
             </div>
 
