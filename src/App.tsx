@@ -1,6 +1,6 @@
 // src/App.tsx
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
@@ -16,10 +16,26 @@ const NotFound = lazy(() => import('./pages/NotFound').then(module => ({ default
 // Neue ProductDetail Komponente mit Lazy Loading
 const ProductDetail = lazy(() => import('./pages/products/ProductDetail'));
 
+// RouteTracker Komponente für Analytics
+function RouteTracker() {
+    const location = useLocation();
+
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.gtag) {
+            window.gtag('config', 'G-HKZ64S51GN', {
+                page_path: location.pathname + location.search,
+            });
+        }
+    }, [location]);
+
+    return null;
+}
+
 function App() {
     return (
         <Router>
             <ErrorBoundary>
+                <RouteTracker />
                 <Header />
                 <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Učitavanje...</div>}>
                     <main className="flex-grow">
@@ -27,7 +43,6 @@ function App() {
                             <Route path="/" element={<Home />} />
                             <Route path="/o-nama" element={<About />} />
                             <Route path="/proizvodi" element={<Products />} />
-                            {/* Neue Route für Produktdetails */}
                             <Route path="/proizvodi/:productId" element={<ProductDetail />} />
                             <Route path="/reference" element={<References />} />
                             <Route path="/kontakt" element={<Contact />} />
