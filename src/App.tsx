@@ -83,7 +83,7 @@ function App() {
 
                 <CookieConsent
                     location="bottom"
-                    buttonText="Prihvati"
+                    buttonText="Prihvati sve"
                     cookieName="cookieConsent"
                     style={{
                         background: "rgba(0, 0, 0, 0.85)",
@@ -92,8 +92,8 @@ function App() {
                         padding: "16px"
                     }}
                     buttonStyle={{
-                        background: "#d97706", // amber-600 (ähnlich wie der Seiten-Button)
-                        color: "#111827", // gray-900
+                        background: "#d97706",
+                        color: "#111827",
                         fontSize: "14px",
                         borderRadius: "2px",
                         padding: "8px 20px",
@@ -101,14 +101,15 @@ function App() {
                         letterSpacing: "0.05em",
                         textTransform: "uppercase"
                     }}
-                    expires={150} // 150 Tage
+                    expires={150}
                     onAccept={() => {
                         localStorage.setItem('cookieConsent', 'true');
+                        localStorage.setItem('analyticsCookies', 'true');
                         setCookieConsent(true);
                         loadGoogleAnalytics();
                     }}
                     enableDeclineButton
-                    declineButtonText="Odbij"
+                    declineButtonText="Samo neophodni"
                     declineButtonStyle={{
                         fontSize: "14px",
                         padding: "8px 20px",
@@ -122,6 +123,7 @@ function App() {
                     }}
                     onDecline={() => {
                         localStorage.setItem('cookieConsent', 'false');
+                        localStorage.setItem('analyticsCookies', 'false');
                         setCookieConsent(false);
                     }}
                     cookieSecurity={true}
@@ -131,12 +133,37 @@ function App() {
                     }}
                     buttonWrapperClasses="flex flex-wrap gap-3 items-center"
                 >
-          <span className="text-base font-light tracking-wide">
-            Ova web stranica koristi kolačiće kako bi vam pružila bolje korisničko iskustvo.
-          </span>
-                    <span className="text-sm opacity-80 block mt-2 font-light tracking-wide">
-            Koristimo kolačiće za osnovne funkcije web stranice i za analitičke svrhe. Možete prihvatiti sve kolačiće ili ih odbiti.
-          </span>
+  <span className="text-base font-light tracking-wide">
+    Ova web stranica koristi kolačiće kako bi vam pružila bolje korisničko iskustvo.
+  </span>
+                    <div className="text-sm opacity-80 block mt-3 font-light tracking-wide">
+                        <div className="mb-2 flex items-start">
+                            <div className="w-5 h-5 rounded-sm border border-white/30 flex items-center justify-center mr-2 mt-0.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                </svg>
+                            </div>
+                            <div>
+                                <strong className="font-medium">Neophodni kolačići:</strong> Omogućavaju osnovne funkcije web stranice (uključujući Supabase za autentikaciju i osnovne funkcije).
+                            </div>
+                        </div>
+                        <div className="mb-2 flex items-start">
+                            <div className="w-5 h-5 rounded-sm border border-white/30 flex items-center justify-center mr-2 mt-0.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                </svg>
+                            </div>
+                            <div>
+                                <strong className="font-medium">Analitički kolačići:</strong> Pomažu nam da razumemo kako koristite našu web stranicu (Google Analytics).
+                            </div>
+                        </div>
+                    </div>
+                    <a
+                        href="/privatnost"
+                        className="text-sm underline hover:text-amber-400 transition-colors block mt-2 tracking-wide"
+                    >
+                        Saznajte više u našoj politici privatnosti
+                    </a>
                 </CookieConsent>
             </ErrorBoundary>
         </Router>

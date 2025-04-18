@@ -20,6 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
             if (typeof window !== 'undefined' && window.gtag) {
                 window.gtag('config', 'G-HKZ64S51GN', {
                     page_path: url,
+                    anonymize_ip: true
                 })
             }
         }
