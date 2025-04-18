@@ -17,6 +17,12 @@ const NotFound = lazy(() => import('./pages/NotFound').then(module => ({ default
 // Neue ProductDetail Komponente mit Lazy Loading
 const ProductDetail = lazy(() => import('./pages/products/ProductDetail'));
 
+// Cookie-Kategorien und Einstellungen
+type CookieSettings = {
+    necessary: boolean;
+    analytics: boolean;
+}
+
 // Google Analytics nur laden, wenn Zustimmung gegeben wurde
 function loadGoogleAnalytics() {
     const script = document.createElement('script');
@@ -30,7 +36,9 @@ function loadGoogleAnalytics() {
     };
 
     window.gtag('js', new Date());
-    window.gtag('config', 'G-HKZ64S51GN');
+    window.gtag('config', 'G-HKZ64S51GN', {
+        anonymize_ip: true // DSGVO-konforme IP-Anonymisierung
+    });
 }
 
 // RouteTracker Komponente für Analytics
@@ -41,6 +49,7 @@ function RouteTracker() {
         if (typeof window !== 'undefined' && window.gtag) {
             window.gtag('config', 'G-HKZ64S51GN', {
                 page_path: location.pathname + location.search,
+                anonymize_ip: true
             });
         }
     }, [location]);
@@ -49,22 +58,58 @@ function RouteTracker() {
 }
 
 function App() {
-    const [cookieConsent, setCookieConsent] = useState(false);
+    const [cookieSettings, setCookieSettings] = useState<CookieSettings>({
+        necessary: true, // Immer true, da notwendig
+        analytics: false
+    });
 
     // Prüfen ob bereits Zustimmung gegeben wurde
     useEffect(() => {
-        const consent = localStorage.getItem('cookieConsent') === 'true';
-        setCookieConsent(consent);
+        try {
+            const savedSettings = localStorage.getItem('cookieSettings');
+            if (savedSettings) {
+                const parsedSettings = JSON.parse(savedSettings) as CookieSettings;
+                setCookieSettings(parsedSettings);
 
-        if (consent) {
-            loadGoogleAnalytics();
+                // Nur Analytics laden, wenn zugestimmt wurde
+                if (parsedSettings.analytics) {
+                    loadGoogleAnalytics();
+                }
+            }
+        } catch (error) {
+            console.error('Error loading cookie settings:', error);
         }
     }, []);
+
+    // Hilfsfunktion zum Speichern der Cookie-Einstellungen
+    const saveCookieSettings = (settings: CookieSettings) => {
+        localStorage.setItem('cookieSettings', JSON.stringify(settings));
+        setCookieSettings(settings);
+    };
+
+    // Alle Cookies akzeptieren
+    const acceptAllCookies = () => {
+        const settings = {
+            necessary: true,
+            analytics: true
+        };
+        saveCookieSettings(settings);
+        loadGoogleAnalytics();
+    };
+
+    // Nur notwendige Cookies akzeptieren
+    const acceptNecessaryCookies = () => {
+        const settings = {
+            necessary: true,
+            analytics: false
+        };
+        saveCookieSettings(settings);
+    };
 
     return (
         <Router>
             <ErrorBoundary>
-                {cookieConsent && <RouteTracker />}
+                {cookieSettings.analytics && <RouteTracker />}
                 <Header />
                 <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Učitavanje...</div>}>
                     <main className="flex-grow">
@@ -102,12 +147,7 @@ function App() {
                         textTransform: "uppercase"
                     }}
                     expires={150}
-                    onAccept={() => {
-                        localStorage.setItem('cookieConsent', 'true');
-                        localStorage.setItem('analyticsCookies', 'true');
-                        setCookieConsent(true);
-                        loadGoogleAnalytics();
-                    }}
+                    onAccept={acceptAllCookies}
                     enableDeclineButton
                     declineButtonText="Samo neophodni"
                     declineButtonStyle={{
@@ -121,11 +161,7 @@ function App() {
                         letterSpacing: "0.05em",
                         textTransform: "uppercase"
                     }}
-                    onDecline={() => {
-                        localStorage.setItem('cookieConsent', 'false');
-                        localStorage.setItem('analyticsCookies', 'false');
-                        setCookieConsent(false);
-                    }}
+                    onDecline={acceptNecessaryCookies}
                     cookieSecurity={true}
                     contentStyle={{
                         flex: "1 0 300px",
@@ -133,9 +169,9 @@ function App() {
                     }}
                     buttonWrapperClasses="flex flex-wrap gap-3 items-center"
                 >
-  <span className="text-base font-light tracking-wide">
-    Ova web stranica koristi kolačiće kako bi vam pružila bolje korisničko iskustvo.
-  </span>
+          <span className="text-base font-light tracking-wide">
+            Ova web stranica koristi kolačiće kako bi vam pružila bolje korisničko iskustvo.
+          </span>
                     <div className="text-sm opacity-80 block mt-3 font-light tracking-wide">
                         <div className="mb-2 flex items-start">
                             <div className="w-5 h-5 rounded-sm border border-white/30 flex items-center justify-center mr-2 mt-0.5">

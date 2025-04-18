@@ -6,8 +6,8 @@ import '../styles/globals.css' // Passe diesen Pfad ggf. an
 // Für TypeScript: Definiere den window-Typ mit gtag
 declare global {
     interface Window {
-        gtag: (command: string, target: string, config?: Record<string, unknown>) => void;
         dataLayer: unknown[];
+        gtag: (command: string, ...args: unknown[]) => void;
     }
 }
 
