@@ -62,8 +62,7 @@ export function Header() {
     { name: 'POČETNA', href: '/' },
     { name: 'O NAMA', href: '/o-nama' },
     { name: 'PROIZVODI', href: '/proizvodi' },
-    { name: 'REFERENCE', href: '/reference' },
-    { name: 'KONTAKT', href: '/kontakt' },
+    { name: 'REFERENCE', href: '/reference' }
   ];
 
   return (
