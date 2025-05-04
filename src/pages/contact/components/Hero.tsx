@@ -108,7 +108,7 @@ export const Hero = () => {
             <div className="absolute top-1/4 right-[10%] w-32 h-32 rounded-full border border-white/20 opacity-30 custom-animate-pulse hidden lg:block"></div>
             <div className="absolute bottom-1/4 left-[10%] w-48 h-48 rounded-full border border-white/10 opacity-20 custom-animate-pulse hidden lg:block" style={{ animationDelay: '1s' }}></div>
 
-            <Container className="relative z-20">
+            <Container className="relative z-20 pt-16 sm:pt-20 md:pt-24">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
                     {/* Leva strana - Glavni tekst */}
                     <div>
