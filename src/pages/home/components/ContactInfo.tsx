@@ -18,7 +18,7 @@ const contactInfo: ContactItem[] = [
         title: 'Pozovite nas',
         content: ['+387 65 678 634'],
         icon: <Phone className="h-6 w-6" />,
-        action: 'tel:+38165678634',
+        action: 'tel:+38765678634',
         actionText: 'Pozovite odmah'
     },
     {
