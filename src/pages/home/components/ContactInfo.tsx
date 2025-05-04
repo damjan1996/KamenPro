@@ -1,7 +1,19 @@
 // src/components/home/components/ContactInfoSection.tsx
 import { useState, useEffect, useRef } from "react";
-import { Phone, Mail, MapPin, ExternalLink } from "lucide-react";
+import { Phone, Mail, MapPin, ExternalLink, ArrowRight, AlertCircle, Check } from "lucide-react";
 import { Container } from "../../../components/ui/Container";
+
+interface FormData {
+    name: string;
+    email: string;
+    phone: string;
+    subject: string;
+    message: string;
+}
+
+interface FormErrors {
+    [key: string]: string;
+}
 
 interface ContactItem {
     id: number;
@@ -34,7 +46,7 @@ const contactInfo: ContactItem[] = [
         title: 'Lokacija',
         content: ['Bijeljina', 'Republika Srpska, BiH'],
         icon: <MapPin className="h-6 w-6" />,
-        action: 'https://maps.google.com',
+        action: 'https://www.google.com/maps/place/Patkova%C4%8Da,+Bosnien+und+Herzegowina/@44.7310864,19.2181241,15z/data=!3m1!4b1!4m6!3m5!1s0x475be870bd8d2f95:0x37bb3398d4447f3d!8m2!3d44.7305556!4d19.2281741!16s%2Fm%2F0cc7vf_?entry=ttu&g_ep=EgoyMDI1MDQzMC4xIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D',
         actionText: 'Pogledajte na mapi'
     }
 ];
@@ -43,6 +55,19 @@ export function ContactInfoSection() {
     const [isVisible, setIsVisible] = useState(false);
     const [hoveredCard, setHoveredCard] = useState<number | null>(null);
     const sectionRef = useRef<HTMLElement | null>(null);
+
+    // Form states
+    const [formData, setFormData] = useState<FormData>({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: ''
+    });
+    const [errors, setErrors] = useState<FormErrors>({});
+    const [isLoading, setIsLoading] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [apiError, setApiError] = useState<string | null>(null);
 
     useEffect(() => {
         const currentRef = sectionRef.current;
@@ -67,6 +92,83 @@ export function ContactInfoSection() {
         };
     }, []);
 
+    // Form handlers
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { id, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [id]: value
+        }));
+    };
+
+    const validateForm = () => {
+        const newErrors: FormErrors = {};
+
+        if (!formData.name.trim()) newErrors.name = 'Ime je obavezno';
+        if (!formData.email.trim()) {
+            newErrors.email = 'Email je obavezan';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            newErrors.email = 'Email format nije validan';
+        }
+        if (!formData.message.trim()) newErrors.message = 'Poruka je obavezna';
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (validateForm()) {
+            try {
+                setIsLoading(true);
+                setApiError(null);
+
+                const requestData = {
+                    name: formData.name,
+                    email: formData.email,
+                    phone: formData.phone || "Nije unet",
+                    message: formData.message,
+                    productName: formData.subject || "Kontakt upit",
+                    productCode: "KONTAKT",
+                    productId: "kontakt-forma",
+                    quantity: "1"
+                };
+
+                const response = await fetch('/api/send-inquiry', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Došlo je do greške pri slanju poruke.');
+                }
+
+                setIsSubmitted(true);
+                setFormData({
+                    name: '',
+                    email: '',
+                    phone: '',
+                    subject: '',
+                    message: ''
+                });
+
+                setTimeout(() => {
+                    setIsSubmitted(false);
+                }, 6000);
+
+            } catch (err) {
+                setApiError(err instanceof Error ? err.message : 'Došlo je do nepoznate greške');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+    };
+
     return (
         <section
             ref={sectionRef}
@@ -86,6 +188,131 @@ export function ContactInfoSection() {
                     <p className="text-stone-600 max-w-xl mx-auto font-light">
                         Dostupni smo za sva vaša pitanja i konsultacije. Javite nam se i pomozite vam da transformišete vaš prostor.
                     </p>
+                </div>
+
+                {/* Contact Form */}
+                <div className={`max-w-3xl mx-auto mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                    <div className="bg-stone-50 rounded-lg shadow-md p-6 md:p-8">
+                        {isSubmitted ? (
+                            <div className="py-12 text-center">
+                                <div className="mx-auto w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mb-6">
+                                    <Check className="w-8 h-8 text-amber-600" />
+                                </div>
+                                <h3 className="text-2xl font-medium text-stone-800 mb-2">Hvala na poruci!</h3>
+                                <p className="text-stone-600 font-light">Vaša poruka je uspešno poslata. Uskoro ćemo vas kontaktirati.</p>
+                            </div>
+                        ) : (
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                {apiError && (
+                                    <div className="p-4 bg-red-50 border border-red-200 rounded-lg flex items-start mb-6">
+                                        <AlertCircle className="w-5 h-5 text-red-500 mr-3 mt-0.5 flex-shrink-0" />
+                                        <div>
+                                            <h4 className="font-medium text-red-700 mb-1">Greška</h4>
+                                            <p className="text-red-600 text-sm">{apiError}</p>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label htmlFor="name" className="block text-sm font-medium text-stone-700 mb-1">
+                                            Ime i prezime
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="name"
+                                            value={formData.name}
+                                            onChange={handleInputChange}
+                                            className={`w-full px-4 py-3 border rounded-sm ${errors.name ? 'border-red-300' : 'border-stone-200'} focus:ring-2 focus:ring-amber-200 focus:border-amber-400 transition-all`}
+                                            placeholder="Vaše ime i prezime"
+                                            disabled={isLoading}
+                                        />
+                                        {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium text-stone-700 mb-1">
+                                            Email adresa
+                                        </label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            value={formData.email}
+                                            onChange={handleInputChange}
+                                            className={`w-full px-4 py-3 border rounded-sm ${errors.email ? 'border-red-300' : 'border-stone-200'} focus:ring-2 focus:ring-amber-200 focus:border-amber-400 transition-all`}
+                                            placeholder="vasa.adresa@email.com"
+                                            disabled={isLoading}
+                                        />
+                                        {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label htmlFor="phone" className="block text-sm font-medium text-stone-700 mb-1">
+                                        Telefon
+                                    </label>
+                                    <input
+                                        type="tel"
+                                        id="phone"
+                                        value={formData.phone}
+                                        onChange={handleInputChange}
+                                        className="w-full px-4 py-3 border border-stone-200 rounded-sm focus:ring-2 focus:ring-amber-200 focus:border-amber-400 transition-all"
+                                        placeholder="Vaš broj telefona"
+                                        disabled={isLoading}
+                                    />
+                                </div>
+
+                                <div>
+                                    <label htmlFor="subject" className="block text-sm font-medium text-stone-700 mb-1">
+                                        Tema
+                                    </label>
+                                    <select
+                                        id="subject"
+                                        value={formData.subject}
+                                        onChange={handleInputChange}
+                                        className="w-full px-4 py-3 border border-stone-200 rounded-sm focus:ring-2 focus:ring-amber-200 focus:border-amber-400 transition-all"
+                                        disabled={isLoading}
+                                    >
+                                        <option value="">Izaberite temu</option>
+                                        <option value="info">Informacije o proizvodima</option>
+                                        <option value="quote">Zatražite ponudu</option>
+                                        <option value="project">Konsultacije za projekat</option>
+                                        <option value="installation">Ugradnja dekorativnih obloga</option>
+                                        <option value="other">Drugo</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label htmlFor="message" className="block text-sm font-medium text-stone-700 mb-1">
+                                        Poruka
+                                    </label>
+                                    <textarea
+                                        id="message"
+                                        rows={5}
+                                        value={formData.message}
+                                        onChange={handleInputChange}
+                                        className={`w-full px-4 py-3 border rounded-sm ${errors.message ? 'border-red-300' : 'border-stone-200'} focus:ring-2 focus:ring-amber-200 focus:border-amber-400 transition-all`}
+                                        placeholder="Vaša poruka..."
+                                        disabled={isLoading}
+                                    ></textarea>
+                                    {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message}</p>}
+                                </div>
+
+                                <div className="text-center">
+                                    <button
+                                        type="submit"
+                                        className={`group inline-flex items-center bg-amber-500 text-stone-900 px-6 py-3 rounded-sm hover:bg-amber-400 transition-all duration-300 text-sm uppercase tracking-wider font-light shadow-md hover:shadow-lg ${
+                                            isLoading ? 'opacity-70 cursor-not-allowed' : ''
+                                        }`}
+                                        disabled={isLoading}
+                                    >
+                                        <span>{isLoading ? 'Slanje poruke...' : 'Pošaljite poruku'}</span>
+                                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                    </button>
+                                </div>
+                            </form>
+                        )}
+                    </div>
                 </div>
 
                 {/* Contact Cards */}
@@ -144,12 +371,8 @@ export function ContactInfoSection() {
                     <h3 className="text-xl font-medium mb-4 text-stone-800">Radno vreme</h3>
                     <div className="flex justify-center space-x-8 md:space-x-16">
                         <div>
-                            <p className="text-stone-600 font-light">Ponedeljak - Petak</p>
+                            <p className="text-stone-600 font-light">Ponedeljak - Subota</p>
                             <p className="text-stone-800 font-medium">09:00 - 18:00</p>
-                        </div>
-                        <div>
-                            <p className="text-stone-600 font-light">Subota</p>
-                            <p className="text-stone-800 font-medium">09:00 - 15:00</p>
                         </div>
                         <div>
                             <p className="text-stone-600 font-light">Nedelja</p>
