@@ -131,20 +131,31 @@ function App() {
                     buttonText="Prihvati sve"
                     cookieName="cookieConsent"
                     style={{
-                        background: "rgba(0, 0, 0, 0.85)",
-                        backdropFilter: "blur(8px)",
+                        background: "rgba(0, 0, 0, 0.95)",
                         borderTop: "1px solid rgba(255, 255, 255, 0.1)",
-                        padding: "16px"
+                        position: "fixed",
+                        bottom: "0",
+                        left: "0",
+                        right: "0",
+                        zIndex: 99999,
+                        padding: "24px",
+                        boxShadow: "0 -2px 10px rgba(0, 0, 0, 0.2)",
+                        backdropFilter: "blur(8px)"
                     }}
                     buttonStyle={{
                         background: "#d97706",
                         color: "#111827",
                         fontSize: "14px",
                         borderRadius: "2px",
-                        padding: "8px 20px",
-                        fontWeight: 300,
+                        padding: "12px 32px",
+                        fontWeight: 500,
                         letterSpacing: "0.05em",
-                        textTransform: "uppercase"
+                        textTransform: "uppercase",
+                        marginLeft: "16px"
+                    }}
+                    contentStyle={{
+                        flex: "1",
+                        textAlign: "left"
                     }}
                     expires={150}
                     onAccept={acceptAllCookies}
@@ -152,54 +163,51 @@ function App() {
                     declineButtonText="Samo neophodni"
                     declineButtonStyle={{
                         fontSize: "14px",
-                        padding: "8px 20px",
+                        padding: "12px 32px",
                         borderRadius: "2px",
                         border: "1px solid rgba(255, 255, 255, 0.5)",
                         background: "transparent",
                         color: "white",
-                        fontWeight: 300,
+                        fontWeight: 500,
                         letterSpacing: "0.05em",
-                        textTransform: "uppercase"
+                        textTransform: "uppercase",
+                        marginLeft: "12px"
                     }}
                     onDecline={acceptNecessaryCookies}
                     cookieSecurity={true}
-                    contentStyle={{
-                        flex: "1 0 300px",
-                        margin: "8px 0"
-                    }}
-                    buttonWrapperClasses="flex flex-wrap gap-3 items-center"
+                    buttonWrapperClasses="flex items-center justify-end mt-4"
+                    disableButtonStyles={false}
+                    overlay={false}
+                    hideOnAccept={true}
+                    acceptOnScroll={false}
                 >
-          <span className="text-base font-light tracking-wide">
-            Ova web stranica koristi kolačiće kako bi vam pružila bolje korisničko iskustvo.
-          </span>
-                    <div className="text-sm opacity-80 block mt-3 font-light tracking-wide">
-                        <div className="mb-2 flex items-start">
-                            <div className="w-5 h-5 rounded-sm border border-white/30 flex items-center justify-center mr-2 mt-0.5">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
+                    <div style={{ color: "white", fontSize: "16px", fontWeight: "300" }}>
+                        <span className="block mb-4">
+                            Ova web stranica koristi kolačiće kako bi vam pružila bolje korisničko iskustvo.
+                        </span>
+                        <div className="text-sm opacity-80 mb-6">
+                            <div className="mb-2 flex items-start">
+                                <div className="w-5 h-5 rounded-sm border border-white/30 flex items-center justify-center mr-2 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <strong className="font-medium">Neophodni kolačići:</strong> Omogućavaju osnovne funkcije web stranice.
+                                </div>
                             </div>
-                            <div>
-                                <strong className="font-medium">Neophodni kolačići:</strong> Omogućavaju osnovne funkcije web stranice (uključujući Supabase za autentikaciju i osnovne funkcije).
-                            </div>
-                        </div>
-                        <div className="mb-2 flex items-start">
-                            <div className="w-5 h-5 rounded-sm border border-white/30 flex items-center justify-center mr-2 mt-0.5">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
-                            </div>
-                            <div>
-                                <strong className="font-medium">Analitički kolačići:</strong> Pomažu nam da razumemo kako koristite našu web stranicu (Google Analytics).
+                            <div className="mb-2 flex items-start">
+                                <div className="w-5 h-5 rounded-sm border border-white/30 flex items-center justify-center mr-2 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <strong className="font-medium">Analitički kolačići:</strong> Pomažu nam da razumemo kako koristite našu web stranicu.
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <a
-                        href="/privatnost"
-                        className="text-sm underline hover:text-amber-400 transition-colors block mt-2 tracking-wide"
-                    >
-                        Saznajte više u našoj politici privatnosti
-                    </a>
                 </CookieConsent>
             </ErrorBoundary>
         </Router>
