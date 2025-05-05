@@ -12,6 +12,7 @@ interface Testimonial {
     image: string;
 }
 
+// Recenzije klijenata
 const testimonials: Testimonial[] = [
     {
         id: 1,
@@ -48,15 +49,20 @@ export function TestimonialsSection() {
     const sectionRef = useRef<HTMLElement | null>(null);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
+    // Handle slide transition
     const handleSlideChange = useCallback((newIndex: number) => {
         if (isTransitioning) return;
+
         setIsTransitioning(true);
         setActiveIndex(newIndex);
+
+        // Reset transition state after animation completes
         setTimeout(() => {
             setIsTransitioning(false);
-        }, 700);
+        }, 700); // Match the duration of your CSS transitions
     }, [isTransitioning]);
 
+    // IntersectionObserver für Sichtbarkeitserkennung
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -80,6 +86,7 @@ export function TestimonialsSection() {
         };
     }, []);
 
+    // Auto-Rotation der Testimonials
     useEffect(() => {
         if (isVisible && isPlaying && !isTransitioning) {
             intervalRef.current = setInterval(() => {
@@ -121,6 +128,7 @@ export function TestimonialsSection() {
         handleSlideChange((activeIndex - 1 + testimonials.length) % testimonials.length);
     };
 
+    // Helper für Rating-Sterne Rendering
     const renderStars = (rating: number, size = 'small') => {
         const starSize = size === 'small' ? 'h-4 w-4' : 'h-5 w-5';
         return [...Array(5)].map((_, i) => (
@@ -139,6 +147,7 @@ export function TestimonialsSection() {
             aria-labelledby="testimonials-heading"
         >
             <Container>
+                {/* Header */}
                 <div className={`transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                     <div className="max-w-4xl mx-auto mb-16">
                         <h2
@@ -155,6 +164,7 @@ export function TestimonialsSection() {
                     </div>
                 </div>
 
+                {/* Featured Testimonial */}
                 <div
                     className={`mb-16 md:mb-24 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                     style={{ transitionDelay: '300ms' }}
@@ -167,6 +177,7 @@ export function TestimonialsSection() {
                         aria-roledescription="carousel"
                         aria-label="Istaknute recenzije klijenata"
                     >
+                        {/* Quote Icon */}
                         <div className="absolute top-8 left-8 text-stone-100" aria-hidden="true">
                             <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M11.5 4.5c2.5 0 4.5 2 4.5 4.5s-2 4.5-4.5 4.5H11v1.5c0 1.25.75 2.5 2 3l-.5 1.5c-2-.5-3.5-2.5-3.5-4.5V9C9 6.5 11 4.5 13.5 4.5h-2z" />
@@ -174,7 +185,9 @@ export function TestimonialsSection() {
                             </svg>
                         </div>
 
+                        {/* Content */}
                         <div className="flex flex-col md:flex-row gap-8 items-center mb-6 relative z-10">
+                            {/* Testimonial Image Container */}
                             <div className="w-full md:w-1/3 relative h-64 md:h-64">
                                 {testimonials.map((testimonial, index) => (
                                     activeIndex === index && (
@@ -192,22 +205,25 @@ export function TestimonialsSection() {
                                 ))}
                             </div>
 
+                            {/* Testimonial Text */}
                             <div className="w-full md:w-2/3 relative min-h-[200px]">
                                 {testimonials.map((testimonial, index) => (
                                     activeIndex === index && (
                                         <div
                                             key={testimonial.id}
                                             className="h-full"
-                                            aria-live="polite"
                                         >
+                                            {/* Rating Stars */}
                                             <div className="flex items-center mb-4" aria-label={`Ocena: ${testimonial.rating} od 5`}>
                                                 {renderStars(testimonial.rating, 'large')}
                                             </div>
 
+                                            {/* Quote */}
                                             <blockquote className="text-lg md:text-xl text-stone-700 mb-6 leading-relaxed font-light">
                                                 "{testimonial.content}"
                                             </blockquote>
 
+                                            {/* Author */}
                                             <div>
                                                 <p className="font-medium text-lg text-stone-800">{testimonial.name}</p>
                                                 <p className="text-stone-500 font-light">{testimonial.role}</p>
@@ -218,8 +234,9 @@ export function TestimonialsSection() {
                             </div>
                         </div>
 
+                        {/* Navigation Controls */}
                         <div className="flex justify-between items-center mt-8 relative z-20">
-                            <div className="flex gap-2" role="group" aria-label="Navigacija recenzija">
+                            <div className="flex gap-2" role="tablist" aria-label="Pregled recenzija">
                                 {testimonials.map((_, index) => (
                                     <button
                                         key={index}
@@ -227,11 +244,11 @@ export function TestimonialsSection() {
                                         className={`w-8 h-1.5 rounded-full transition-all duration-300 ${
                                             activeIndex === index ? 'bg-amber-500 w-10' : 'bg-stone-200 hover:bg-stone-300'
                                         }`}
-                                        aria-label={`Prikaži recenziju ${index + 1} od ${testimonials.length}`}
-                                        aria-pressed={activeIndex === index}
-                                        type="button"
+                                        aria-label={`Prikaži recenziju ${index + 1}`}
+                                        aria-selected={activeIndex === index}
+                                        role="tab"
                                         disabled={isTransitioning}
-                                    />
+                                    ></button>
                                 ))}
                             </div>
 
@@ -240,7 +257,6 @@ export function TestimonialsSection() {
                                     onClick={prevTestimonial}
                                     className="w-10 h-10 rounded-full flex items-center justify-center border border-stone-200 text-stone-500 hover:bg-amber-500 hover:border-amber-500 hover:text-white transition-all duration-300 relative z-20"
                                     aria-label="Prethodna recenzija"
-                                    type="button"
                                     disabled={isTransitioning}
                                 >
                                     <ChevronLeft className="w-5 h-5" aria-hidden="true" />
@@ -249,7 +265,6 @@ export function TestimonialsSection() {
                                     onClick={nextTestimonial}
                                     className="w-10 h-10 rounded-full flex items-center justify-center border border-stone-200 text-stone-500 hover:bg-amber-500 hover:border-amber-500 hover:text-white transition-all duration-300 relative z-20"
                                     aria-label="Sledeća recenzija"
-                                    type="button"
                                     disabled={isTransitioning}
                                 >
                                     <ChevronRight className="w-5 h-5" aria-hidden="true" />
@@ -259,6 +274,7 @@ export function TestimonialsSection() {
                     </div>
                 </div>
 
+                {/* Testimonial Cards */}
                 <div
                     className={`grid md:grid-cols-3 gap-6 transition-all duration-1000 ${
                         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
@@ -277,22 +293,17 @@ export function TestimonialsSection() {
                             onMouseEnter={() => setHoveredCard(testimonial.id)}
                             onMouseLeave={() => setHoveredCard(null)}
                             onClick={() => handleSlideChange(testimonials.findIndex(t => t.id === testimonial.id))}
-                            role="button"
-                            tabIndex={0}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                    e.preventDefault();
-                                    handleSlideChange(testimonials.findIndex(t => t.id === testimonial.id));
-                                }
-                            }}
-                            aria-label={`Klikni za prikaz recenzije od ${testimonial.name}`}
+                            style={{ cursor: 'pointer' }}
                         >
+                            {/* Rating Stars */}
                             <div className="flex items-center mb-4" aria-label={`Ocena: ${testimonial.rating} od 5`}>
                                 {renderStars(testimonial.rating)}
                             </div>
 
+                            {/* Content */}
                             <p className="text-stone-600 mb-6 line-clamp-4 font-light">{testimonial.content}</p>
 
+                            {/* Author */}
                             <div className="flex items-center">
                                 <div
                                     className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 transition-colors duration-300 ${

@@ -99,8 +99,7 @@ export function AboutSection() {
     return (
         <section
             ref={sectionRef}
-            className="py-16 md:py-20 bg-stone-100 overflow-hidden font-sans about-section"
-            id="about"
+            className="py-16 md:py-20 bg-stone-100 overflow-hidden font-sans"
         >
             <Container>
                 {/* Heading */}

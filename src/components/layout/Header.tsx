@@ -4,22 +4,30 @@ import { useState, useEffect, useRef } from 'react';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(true);
+  const [scrolled, setScrolled] = useState(true); // Initial auf true setzen
   const [initialized, setInitialized] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
 
+  // Initialisierung des Headers
   useEffect(() => {
+    // Setze den Header initial auf "scrolled" für korrekte Positionierung
     setScrolled(true);
+
+    // Nach dem ersten Render die korrekte Scroll-Position berechnen
     const checkScrollPosition = () => {
       setScrolled(window.scrollY > 20);
       setInitialized(true);
     };
+
+    // Verzögerung, um sicherzustellen, dass der DOM vollständig geladen ist
     const timer = setTimeout(() => {
       checkScrollPosition();
     }, 100);
+
     return () => clearTimeout(timer);
   }, []);
 
+  // Handle body scroll when menu is open
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -31,8 +39,10 @@ export function Header() {
     };
   }, [isMenuOpen]);
 
+  // Handle scroll effect for header
   useEffect(() => {
     if (!initialized) return;
+
     const handleScroll = () => {
       if (window.scrollY > 20) {
         setScrolled(true);
@@ -40,12 +50,14 @@ export function Header() {
         setScrolled(false);
       }
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [initialized]);
 
+  // Navigation items - Nur die Hauptnavigationseinträge behalten
   const navigation = [
     { name: 'POČETNA', href: '/' },
     { name: 'O NAMA', href: '/o-nama' },
@@ -65,8 +77,10 @@ export function Header() {
               }`}
               style={{ fontFamily: 'Inter, sans-serif' }}
           >
+            {/* Angepasster Container für Mobile */}
             <div className="max-w-full mx-auto px-3 sm:px-6 lg:container lg:px-8">
-              <nav className="flex items-center justify-between h-14 sm:h-16 md:h-18">
+              <nav className="flex items-center justify-between h-14 sm:h-16 md:h-18"> {/* Erhöhte Header-Höhe */}
+                {/* Logo - mit angepasster Größe für Mobile */}
                 <div className="flex-shrink-0">
                   <a
                       href="/"
@@ -77,6 +91,7 @@ export function Header() {
                   </a>
                 </div>
 
+                {/* Desktop Navigation - Jetzt ohne Dropdowns */}
                 <div className="hidden lg:flex items-center space-x-4 xl:space-x-6 overflow-x-auto">
                   {navigation.map((item) => (
                       <a
@@ -95,16 +110,16 @@ export function Header() {
                   </a>
                 </div>
 
+                {/* Mobile Menu Button - immer sichtbar */}
                 <button
                     className="lg:hidden p-1.5 sm:p-2 rounded-sm hover:bg-gray-800 transition-colors duration-300 z-60"
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                     aria-label={isMenuOpen ? 'Zatvori meni' : 'Otvori meni'}
-                    type="button"
                 >
                   {isMenuOpen ? (
-                      <X className="h-5 w-5 sm:h-6 sm:w-6 text-white" aria-hidden="true" />
+                      <X className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                   ) : (
-                      <Menu className="h-5 w-5 sm:h-6 sm:w-6 text-white" aria-hidden="true" />
+                      <Menu className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                   )}
                 </button>
               </nav>
@@ -112,30 +127,28 @@ export function Header() {
           </header>
         </div>
 
+        {/* Mobile Sidebar Overlay - beim Klick wird die Sidebar geschlossen */}
         {isMenuOpen && (
             <div
                 className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40 transition-opacity duration-300"
                 onClick={() => setIsMenuOpen(false)}
-                aria-hidden="true"
             />
         )}
 
+        {/* Mobile Sidebar - Flache Navigation ohne Dropdown-Logik */}
         <div
             className={`fixed top-0 right-0 h-full w-4/5 max-w-xs bg-gray-900 z-50 shadow-xl overflow-y-auto overflow-x-hidden transform transition-transform duration-300 ease-in-out ${
                 isMenuOpen ? 'translate-x-0' : 'translate-x-full'
             }`}
             style={{ fontFamily: 'Inter, sans-serif' }}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Navigacioni meni"
         >
+          {/* Schließen-Button oben rechts in der Sidebar */}
           <button
               className="absolute top-4 right-4 p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors duration-300 z-60"
               onClick={() => setIsMenuOpen(false)}
               aria-label="Zatvori meni"
-              type="button"
           >
-            <X className="h-5 w-5 text-white" aria-hidden="true" />
+            <X className="h-5 w-5 text-white" />
           </button>
 
           <div className="flex flex-col h-full pt-16 pb-6 px-4">
@@ -148,7 +161,7 @@ export function Header() {
                 <span className="ml-1">PRO</span>
               </a>
             </div>
-            <nav className="flex-1" aria-label="Glavni meni">
+            <div className="flex-1 space-y-1">
               {navigation.map((item) => (
                   <div key={item.name} className="border-b border-gray-800">
                     <a
@@ -160,7 +173,7 @@ export function Header() {
                     </a>
                   </div>
               ))}
-            </nav>
+            </div>
             <div className="pt-6 border-t border-gray-800">
               <a
                   href="/kontakt"

@@ -6,8 +6,6 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
   }
 
   html, body {
@@ -16,13 +14,12 @@
     position: relative;
     font-family: 'Inter', sans-serif;
     color: #1a202c;
-    /* Verbesserte Scroll-Performance auf iOS */
+  }
+
+  /* Überarbeitete Version ohne position: fixed */
+  body {
+    /* Entfernt: position: fixed - das blockiert das Scrollen */
     -webkit-overflow-scrolling: touch;
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    /* Vermeide iOS Safari Scroll-Ruckel */
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {

@@ -1,6 +1,6 @@
 // src/pages/products/components/ProductsHero.tsx
 import { useState, useEffect, useRef } from "react";
-import { Container } from '../../../components/ui/Container';
+import { Container } from "../../../components/ui/Container";
 import { ArrowRight } from "lucide-react";
 import { getAllProducts, getAllCategories, Product, Category } from "../../../lib/api";
 
@@ -179,11 +179,10 @@ export function ProductsHero() {
         <section
             ref={sectionRef}
             className="relative min-h-[85vh] flex items-center overflow-hidden font-sans"
-            aria-labelledby="products-hero-heading"
         >
             {/* Pozadinska slika sa gradijentom */}
             <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/60 z-10" aria-hidden="true"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/60 z-10"></div>
                 <img
                     src="/images/products/pozadina%20ii.jpg"
                     alt="KamenPro dekorativne kamene obloge"
@@ -196,8 +195,8 @@ export function ProductsHero() {
             </div>
 
             {/* Dekorativni elementi */}
-            <div className="absolute top-1/4 right-[10%] w-32 h-32 rounded-full border border-white/20 opacity-30 animate-pulse hidden lg:block" aria-hidden="true"></div>
-            <div className="absolute bottom-1/4 left-[10%] w-48 h-48 rounded-full border border-white/10 opacity-20 animate-pulse hidden lg:block" style={{ animationDelay: '1s' }} aria-hidden="true"></div>
+            <div className="absolute top-1/4 right-[10%] w-32 h-32 rounded-full border border-white/20 opacity-30 animate-pulse hidden lg:block"></div>
+            <div className="absolute bottom-1/4 left-[10%] w-48 h-48 rounded-full border border-white/10 opacity-20 animate-pulse hidden lg:block" style={{ animationDelay: '1s' }}></div>
 
             <Container className="relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
@@ -207,11 +206,11 @@ export function ProductsHero() {
                             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                         }`}>
                             <div className="flex items-center space-x-4 mb-6">
-                                <div className="h-[2px] w-10 bg-amber-500" aria-hidden="true"></div>
+                                <div className="h-[2px] w-10 bg-amber-500"></div>
                                 <span className="font-light uppercase tracking-widest text-amber-100 text-sm">Naša ponuda</span>
                             </div>
 
-                            <h1 id="products-hero-heading" className="text-4xl sm:text-5xl md:text-6xl font-light text-white mb-6 tracking-wide leading-tight">
+                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-light text-white mb-6 tracking-wide leading-tight">
                                 <span className="block">Dekorativne</span>
                                 <span className="block font-medium text-amber-400">kamene obloge</span>
                             </h1>
@@ -235,14 +234,14 @@ export function ProductsHero() {
                                 className="group inline-flex items-center bg-amber-500 text-stone-900 px-6 py-3 rounded-sm hover:bg-amber-400 transition-all duration-300 text-sm uppercase tracking-wider font-light shadow-md hover:shadow-lg"
                             >
                                 <span>Pogledajte proizvode</span>
-                                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                             </a>
                             <a
                                 href="/kontakt"
                                 className="group inline-flex items-center ml-4 border border-white/70 text-white px-6 py-3 rounded-sm hover:bg-white/10 transition-all duration-300 text-sm uppercase tracking-wider font-light"
                             >
                                 <span>Kontaktirajte nas</span>
-                                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                             </a>
                         </div>
                     </div>
@@ -252,12 +251,11 @@ export function ProductsHero() {
                         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                     }`}>
                         {loading ? (
-                            <div className="flex justify-center items-center min-h-[300px]" aria-busy="true">
+                            <div className="flex justify-center items-center min-h-[300px]">
                                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-                                <span className="sr-only">Učitavanje proizvoda...</span>
                             </div>
                         ) : error ? (
-                            <div className="p-6 bg-black/30 backdrop-blur-sm rounded-lg text-white/90 text-center" role="alert">
+                            <div className="p-6 bg-black/30 backdrop-blur-sm rounded-lg text-white/90 text-center">
                                 <p>{error}</p>
                             </div>
                         ) : (
@@ -279,7 +277,7 @@ export function ProductsHero() {
                                             alt={products[0]?.naziv || "Dekorativni kamen"}
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" aria-hidden="true"></div>
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                                         <div className="absolute bottom-3 left-3 right-3">
                                             <div className="text-white text-sm font-light">
                                                 {products[0]?.naziv || "Dolomite - White"}
@@ -295,7 +293,7 @@ export function ProductsHero() {
                                             alt={products[1]?.naziv || "Rustik cigla"}
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" aria-hidden="true"></div>
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                                         <div className="absolute bottom-3 left-3 right-3">
                                             <div className="text-white text-sm font-light">
                                                 {products[1]?.naziv || "Cigla - Rustik - Red"}
@@ -318,7 +316,7 @@ export function ProductsHero() {
 
                         <div className="mt-4 p-4 bg-amber-500/10 backdrop-blur-sm rounded-lg border border-amber-500/20">
                             <div className="flex items-center">
-                                <div className="mr-4" aria-hidden="true">
+                                <div className="mr-4">
                                     <div className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center text-white">
                                         <span className="text-lg font-medium">6+</span>
                                     </div>
