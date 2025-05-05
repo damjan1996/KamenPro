@@ -53,7 +53,7 @@ export function Footer() {
     social: [
       {
         name: 'Facebook',
-        href: 'https://facebook.com/KamenProBijeljina',
+        href: 'https://www.facebook.com/profile.php?id=61575722519014',
         icon: Facebook,
       },
       {
