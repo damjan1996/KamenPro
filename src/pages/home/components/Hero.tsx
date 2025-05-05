@@ -16,11 +16,48 @@ export function Hero() {
         };
     }, []);
 
+    useEffect(() => {
+        // Fallback: Automatisches Scrollen nach 10 Sekunden Inaktivität
+        let timeoutId: number;
+
+        const resetTimeout = () => {
+            clearTimeout(timeoutId);
+            timeoutId = window.setTimeout(() => {
+                // Sanftes Auto-Scroll wenn User nicht scrollt
+                window.scrollTo({
+                    top: window.innerHeight * 0.8,
+                    behavior: 'smooth'
+                });
+            }, 10000);
+        };
+
+        // Event-Listener für Benutzeraktivität
+        window.addEventListener('scroll', resetTimeout);
+        window.addEventListener('touchmove', resetTimeout);
+        window.addEventListener('mousemove', resetTimeout);
+
+        resetTimeout(); // Initialer Timer
+
+        return () => {
+            clearTimeout(timeoutId);
+            window.removeEventListener('scroll', resetTimeout);
+            window.removeEventListener('touchmove', resetTimeout);
+            window.removeEventListener('mousemove', resetTimeout);
+        };
+    }, []);
+
     const scrollToContent = () => {
-        window.scrollTo({
-            top: window.innerHeight,
-            behavior: "smooth"
-        });
+        const viewport = window.innerHeight;
+        const aboutSection = document.querySelector('.about-section');
+
+        if (aboutSection) {
+            aboutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            window.scrollTo({
+                top: viewport - 60,
+                behavior: "smooth"
+            });
+        }
     };
 
     return (
@@ -67,19 +104,40 @@ export function Hero() {
                             Besplatna konsultacija
                         </a>
                     </div>
+
+                    <a
+                        href="#about"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            scrollToContent();
+                        }}
+                        className="text-white text-sm mt-4 inline-flex items-center hover:text-amber-400 transition-colors duration-300"
+                    >
+                        <span>Više o nama</span>
+                        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
+                    </a>
                 </div>
             </Container>
 
-            {/* Scroll indicator with improved animation */}
+            {/* Scroll indicator - jetzt auch auf Mobile sichtbar */}
             <div
-                className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 cursor-pointer hidden md:block"
+                className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 cursor-pointer block"
                 onClick={scrollToContent}
             >
-                <div className="w-10 h-10 flex items-center justify-center rounded-full border border-white/30 backdrop-blur-sm bg-black/10 text-white hover:bg-black/20 hover:border-white/50 transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full border border-white/30 backdrop-blur-sm bg-black/10 text-white hover:bg-black/20 hover:border-white/50 transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 md:h-5 md:w-5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                     </svg>
                 </div>
+            </div>
+
+            {/* Swipe up indicator für Mobile */}
+            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 z-20 block md:hidden">
+                <p className="text-white text-xs opacity-70 animate-pulse">
+                    Skrolajte na dole
+                </p>
             </div>
         </section>
     );
