@@ -10,7 +10,10 @@
   }
 }
 
-/* Font Declarations */
+/* Google Fonts für Inter statt lokaler Dateien */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+
+/* Entfernt: Lokale Font Declarations, die Fehler verursachen
 @font-face {
   font-family: 'Inter';
   font-style: normal;
@@ -34,6 +37,7 @@
   font-display: swap;
   src: url('/fonts/Inter-Medium.woff2') format('woff2');
 }
+*/
 
 /* Hero Section Styles */
 .hero {

@@ -1,0 +1,992 @@
+[
+  {
+    "name": "Cigla - Rustik - Red - Dimenzije.jpg",
+    "path": "Cigla/Rustik/Red/Cigla - Rustik - Red - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/Red/Cigla%20-%20Rustik%20-%20Red%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "a07190b9-dc44-4ff8-b162-713afd5b0879",
+    "size": 206286,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Cigla - Rustik - Red - Kvadrat - Dimenzije.jpg",
+    "path": "Cigla/Rustik/Red/Cigla - Rustik - Red - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/Red/Cigla%20-%20Rustik%20-%20Red%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "27dd6efd-deba-4178-9bc8-797c64cf0418",
+    "size": 219288,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Cigla - Rustik - Red - Kvadrat.jpg",
+    "path": "Cigla/Rustik/Red/Cigla - Rustik - Red - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/Red/Cigla%20-%20Rustik%20-%20Red%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "d4c3f54b-89db-4d9e-bac4-d8a95ebc3c52",
+    "size": 211590,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Cigla - Rustik - Red.jpg",
+    "path": "Cigla/Rustik/Red/Cigla - Rustik - Red.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/Red/Cigla%20-%20Rustik%20-%20Red.jpg",
+    "exists": true,
+    "id": "6b3799dc-d41e-41c2-9531-731305978c81",
+    "size": 198942,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Cigla - Rustik - White - Dimenzije.jpg",
+    "path": "Cigla/Rustik/White/Cigla - Rustik - White - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/White/Cigla%20-%20Rustik%20-%20White%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "d1723964-b4a2-454f-9d4a-204fa352d510",
+    "size": 155521,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Cigla - Rustik - White - Kvadrat - Dimenzije.jpg",
+    "path": "Cigla/Rustik/White/Cigla - Rustik - White - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/White/Cigla%20-%20Rustik%20-%20White%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "4c95dac8-cfe5-4eab-a6be-03eff253035b",
+    "size": 166708,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Cigla - Rustik - White - Kvadrat.jpg",
+    "path": "Cigla/Rustik/White/Cigla - Rustik - White - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/White/Cigla%20-%20Rustik%20-%20White%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "baef4661-35de-48ea-b53c-3b62e2f27979",
+    "size": 158890,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Cigla - Rustik - White.jpg",
+    "path": "Cigla/Rustik/White/Cigla - Rustik - White.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/White/Cigla%20-%20Rustik%20-%20White.jpg",
+    "exists": true,
+    "id": "14e6745d-4124-46a2-83de-181f67473f59",
+    "size": 147759,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Anthracite I - Dimenzije.jpg",
+    "path": "Dolomite/Anthracite/Dolomite - Anthracite I - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20I%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "5b4c3566-2b57-4fc7-896d-50cb0b17a63e",
+    "size": 134502,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Anthracite I - Kvadrat - Dimenzije.jpg",
+    "path": "Dolomite/Anthracite/Dolomite - Anthracite I - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20I%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "d6a79bd8-6993-41dd-8e4f-3e04fe9243d5",
+    "size": 147252,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Anthracite I - Kvadrat.jpg",
+    "path": "Dolomite/Anthracite/Dolomite - Anthracite I - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20I%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "53618397-19f1-489f-8824-ec166bf4275f",
+    "size": 138776,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Anthracite I.jpg",
+    "path": "Dolomite/Anthracite/Dolomite - Anthracite I.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20I.jpg",
+    "exists": true,
+    "id": "f4d4627d-89d7-48c0-aba7-7e56b05397a4",
+    "size": 126801,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Anthracite II - Dimenzije.jpg",
+    "path": "Dolomite/Anthracite/Dolomite - Anthracite II - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20II%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "d43f433b-5ecc-4247-a4f3-87d91627fbc6",
+    "size": 134225,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Anthracite II - Kvadrat - Dimenzije.jpg",
+    "path": "Dolomite/Anthracite/Dolomite - Anthracite II - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20II%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "6d8271a5-d3e6-47e2-8e2d-a12a85905ecf",
+    "size": 146158,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Anthracite II - Kvadrat.jpg",
+    "path": "Dolomite/Anthracite/Dolomite - Anthracite II - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20II%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "f9bf9d75-1cd2-4046-90c9-ec8659ecc24c",
+    "size": 137726,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Anthracite II.jpg",
+    "path": "Dolomite/Anthracite/Dolomite - Anthracite II.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20II.jpg",
+    "exists": true,
+    "id": "b8936631-4910-4a40-b03f-3334cdf5073b",
+    "size": 126575,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Anthracite III - Dimenzije.jpg",
+    "path": "Dolomite/Anthracite/Dolomite - Anthracite III - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20III%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "6abd98fb-0d62-4f25-a79e-1481a432e83a",
+    "size": 141208,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Anthracite III - Kvadrat - Dimenzije.jpg",
+    "path": "Dolomite/Anthracite/Dolomite - Anthracite III - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20III%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "470ac2b2-8810-42ca-95d0-915e76b09a1e",
+    "size": 155138,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Anthracite III - Kvadrat.jpg",
+    "path": "Dolomite/Anthracite/Dolomite - Anthracite III - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20III%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "ed98036c-04d1-40f8-bdf2-960475a7c824",
+    "size": 146510,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Anthracite III.jpg",
+    "path": "Dolomite/Anthracite/Dolomite - Anthracite III.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20III.jpg",
+    "exists": true,
+    "id": "de3cc33a-d635-4432-a953-159228d8d857",
+    "size": 133532,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Brown I - Dimenzije.jpg",
+    "path": "Dolomite/Brown/Dolomite - Brown I - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20I%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "18eaa82e-2088-44c2-a991-565202fb02c1",
+    "size": 134422,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Brown I - Kvadrat - Dimenzije.jpg",
+    "path": "Dolomite/Brown/Dolomite - Brown I - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20I%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "a20951fc-175b-4516-88d5-4167e5627e7d",
+    "size": 146684,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Brown I - Kvadrat.jpg",
+    "path": "Dolomite/Brown/Dolomite - Brown I - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20I%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "53bef069-dd2a-4d0a-8833-d0ab79102e54",
+    "size": 137927,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Brown I.jpg",
+    "path": "Dolomite/Brown/Dolomite - Brown I.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20I.jpg",
+    "exists": true,
+    "id": "8b0401eb-8bfe-4042-94d3-34baa2233d0b",
+    "size": 126662,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Brown II - Dimenzije.jpg",
+    "path": "Dolomite/Brown/Dolomite - Brown II - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20II%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "afce9aba-b6d2-462e-8a58-400a8d35f6c8",
+    "size": 135844,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Brown II - Kvadrat - Dimenzije.jpg",
+    "path": "Dolomite/Brown/Dolomite - Brown II - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20II%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "043dc487-03e9-4e2d-934e-2e45153e0beb",
+    "size": 146734,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Brown II - Kvadrat.jpg",
+    "path": "Dolomite/Brown/Dolomite - Brown II - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20II%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "b5502ecb-0517-42bc-a9b1-815552bc3641",
+    "size": 137889,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Brown II.jpg",
+    "path": "Dolomite/Brown/Dolomite - Brown II.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20II.jpg",
+    "exists": true,
+    "id": "76b43f5e-21cc-4fe3-8fdd-2a4c1d48a257",
+    "size": 128274,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Brown III - Dimenzije.jpg",
+    "path": "Dolomite/Brown/Dolomite - Brown III - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20III%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "c46f91ad-3a9f-4d96-9983-6ef7df0eaadf",
+    "size": 136048,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Brown III - Kvadrat - Dimenzije.jpg",
+    "path": "Dolomite/Brown/Dolomite - Brown III - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20III%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "708e14f2-d527-49b7-8405-9c683e0f3136",
+    "size": 147310,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Brown III - Kvadrat.jpg",
+    "path": "Dolomite/Brown/Dolomite - Brown III - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20III%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "0a8af4cc-16c9-4652-9f77-8baf4c600467",
+    "size": 138455,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Brown III.jpg",
+    "path": "Dolomite/Brown/Dolomite - Brown III.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20III.jpg",
+    "exists": true,
+    "id": "ee01b325-ef7d-44e1-8755-29fd148aae37",
+    "size": 128339,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Coffee I - Dimenzije.jpg",
+    "path": "Dolomite/Coffee/Dolomite - Coffee I - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20I%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "ec28c7d5-b466-48f8-ba19-87ad67cca4bf",
+    "size": 141640,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Coffee I - Kvadrat - Dimenzije.jpg",
+    "path": "Dolomite/Coffee/Dolomite - Coffee I - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20I%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "a711b000-bdcd-4a7f-bf5d-c809c31673f3",
+    "size": 154736,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Coffee I - Kvadrat.jpg",
+    "path": "Dolomite/Coffee/Dolomite - Coffee I - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20I%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "14257e44-1c0d-4ae8-9cfa-6e5ec06f1be1",
+    "size": 146135,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Coffee I.jpg",
+    "path": "Dolomite/Coffee/Dolomite - Coffee I.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20I.jpg",
+    "exists": true,
+    "id": "77be6a4f-37ed-4fa8-a85c-00f51f19b140",
+    "size": 134182,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Coffee II - Dimenzije.jpg",
+    "path": "Dolomite/Coffee/Dolomite - Coffee II - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20II%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "6a268423-182a-4959-8a03-29669a57a5ab",
+    "size": 143221,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Coffee II - Kvadrat - Dimenzije.jpg",
+    "path": "Dolomite/Coffee/Dolomite - Coffee II - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20II%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "f5c05147-ea9b-4319-9178-63fabca1492c",
+    "size": 156719,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Coffee II - Kvadrat.jpg",
+    "path": "Dolomite/Coffee/Dolomite - Coffee II - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20II%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "4f55669d-8a9d-4a92-a78a-67704ccc0ec8",
+    "size": 148246,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Coffee II.jpg",
+    "path": "Dolomite/Coffee/Dolomite - Coffee II.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20II.jpg",
+    "exists": true,
+    "id": "a0b1ea41-9f8c-46e2-a2fd-a08572bd711e",
+    "size": 135716,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Coffee III - Dimenzije.jpg",
+    "path": "Dolomite/Coffee/Dolomite - Coffee III - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20III%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "028e8cdd-f9e6-4673-a7f6-ebed96365a72",
+    "size": 146897,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Coffee III - Kvadrat - Dimenzije.jpg",
+    "path": "Dolomite/Coffee/Dolomite - Coffee III - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20III%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "997263ad-07b2-485c-84d1-3bbd7b54a6e9",
+    "size": 159338,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Coffee III - Kvadrat.jpg",
+    "path": "Dolomite/Coffee/Dolomite - Coffee III - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20III%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "128f1ea9-578e-4b6f-b0bd-bd57588421a7",
+    "size": 150789,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Coffee III.jpg",
+    "path": "Dolomite/Coffee/Dolomite - Coffee III.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20III.jpg",
+    "exists": true,
+    "id": "44a4651d-3fc5-4f91-a6fd-a34f4f138dac",
+    "size": 139338,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Grey I - Dimenzije.jpg",
+    "path": "Dolomite/Grey/Dolomite - Grey I - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Grey/Dolomite%20-%20Grey%20I%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "dc1905d2-bb5d-42d4-8e80-5e4f508bde68",
+    "size": 164175,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Grey I - Kvadrat - Dimenzije.jpg",
+    "path": "Dolomite/Grey/Dolomite - Grey I - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Grey/Dolomite%20-%20Grey%20I%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "e8ac53ba-c34f-4a28-a0ee-986ff9de9cd1",
+    "size": 179871,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Grey I - Kvadrat.jpg",
+    "path": "Dolomite/Grey/Dolomite - Grey I - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Grey/Dolomite%20-%20Grey%20I%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "d4473725-1ac5-41fb-b7a3-5506909c5460",
+    "size": 171939,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Grey I.jpg",
+    "path": "Dolomite/Grey/Dolomite - Grey I.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Grey/Dolomite%20-%20Grey%20I.jpg",
+    "exists": true,
+    "id": "efef4f24-c4f9-43f2-87d8-ba1bb901110d",
+    "size": 156945,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Grey II - Dimenzije.jpg",
+    "path": "Dolomite/Grey/Dolomite - Grey II - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Grey/Dolomite%20-%20Grey%20II%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "78213b81-5898-469b-b646-efc48a5ce7be",
+    "size": 158406,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Grey II - Kvadrat - Dimenzije.jpg",
+    "path": "Dolomite/Grey/Dolomite - Grey II - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Grey/Dolomite%20-%20Grey%20II%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "ac7b7426-6d12-4905-a9b2-33102aaa6e4b",
+    "size": 173785,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Grey II - Kvadrat.jpg",
+    "path": "Dolomite/Grey/Dolomite - Grey II - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Grey/Dolomite%20-%20Grey%20II%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "45f59fc9-d605-40c9-8807-633b985ba255",
+    "size": 165310,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Grey II.jpg",
+    "path": "Dolomite/Grey/Dolomite - Grey II.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Grey/Dolomite%20-%20Grey%20II.jpg",
+    "exists": true,
+    "id": "f8be05f5-3dfb-4c5c-8224-1e1bc17cf5b2",
+    "size": 151092,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Grey III - Dimenzije.jpg",
+    "path": "Dolomite/Grey/Dolomite - Grey III - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Grey/Dolomite%20-%20Grey%20III%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "e89be7a8-2387-4aee-873e-a628df9e8c73",
+    "size": 166458,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Grey III - Kvadrat - Dimenzije.jpg",
+    "path": "Dolomite/Grey/Dolomite - Grey III - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Grey/Dolomite%20-%20Grey%20III%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "74966eb6-29a4-4d25-85c9-ca9d9e359d2d",
+    "size": 181703,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Grey III - Kvadrat.jpg",
+    "path": "Dolomite/Grey/Dolomite - Grey III - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Grey/Dolomite%20-%20Grey%20III%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "5d7ccc1f-37ac-4ac0-88c1-d2dd74d6e143",
+    "size": 173603,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - Grey III.jpg",
+    "path": "Dolomite/Grey/Dolomite - Grey III.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Grey/Dolomite%20-%20Grey%20III.jpg",
+    "exists": true,
+    "id": "75763937-a0c5-4206-9622-90e897c6d4d3",
+    "size": 159226,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - White I - Dimenzije.jpg",
+    "path": "Dolomite/White/Dolomite - White I - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20I%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "a066488e-57f9-4e27-998e-21f4b57842f5",
+    "size": 125541,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - White I - Kvadrat - Dimenzije.jpg",
+    "path": "Dolomite/White/Dolomite - White I - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20I%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "cf327cfa-771d-4f50-9d85-85815de51123",
+    "size": 135666,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - White I - Kvadrat.jpg",
+    "path": "Dolomite/White/Dolomite - White I - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20I%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "cc5eec8f-8c4e-42ef-bdb8-27e6c3e325b3",
+    "size": 126787,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - White I.jpg",
+    "path": "Dolomite/White/Dolomite - White I.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20I.jpg",
+    "exists": true,
+    "id": "40d22d2c-e5c9-4dae-b052-c5720c45f7d6",
+    "size": 117849,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - White II - Dimenzije.jpg",
+    "path": "Dolomite/White/Dolomite - White II - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20II%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "6a8555b1-4d8a-49e8-9280-e75dc510b988",
+    "size": 117517,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - White II - Kvadrat - Dimenzije.jpg",
+    "path": "Dolomite/White/Dolomite - White II - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20II%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "7632c9d2-8bad-40f8-a1f0-3249b48e9d5f",
+    "size": 126795,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - White II - Kvadrat.jpg",
+    "path": "Dolomite/White/Dolomite - White II - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20II%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "aac7641a-be08-4a78-92e0-e0ca5e4c44e4",
+    "size": 117985,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - White II.jpg",
+    "path": "Dolomite/White/Dolomite - White II.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20II.jpg",
+    "exists": true,
+    "id": "52072f1c-3316-4e08-a198-46e13fdcd506",
+    "size": 109741,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - White III - Dimenzije.jpg",
+    "path": "Dolomite/White/Dolomite - White III - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20III%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "0d4c940f-85b6-43d9-9687-68acc09fd14e",
+    "size": 113138,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - White III - Kvadrat - Dimenzije.jpg",
+    "path": "Dolomite/White/Dolomite - White III - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20III%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "061c7816-5602-4961-833d-a142c6781bf9",
+    "size": 122948,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - White III - Kvadrat.jpg",
+    "path": "Dolomite/White/Dolomite - White III - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20III%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "745c6625-3fb3-4a2e-a166-270cdc9bf35e",
+    "size": 114049,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Dolomite - White III.jpg",
+    "path": "Dolomite/White/Dolomite - White III.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20III.jpg",
+    "exists": true,
+    "id": "e70e5893-0944-483f-a106-dcf647a88545",
+    "size": 105401,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Kamen - Anthracite - Dimenzije.jpg",
+    "path": "Kamen/Anthracite/Kamen - Anthracite - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Kamen/Anthracite/Kamen%20-%20Anthracite%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "2793485f-8f65-4161-955b-092ed10ee1b6",
+    "size": 141325,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Kamen - Anthracite - Kvadrat - Dimenzije.jpg",
+    "path": "Kamen/Anthracite/Kamen - Anthracite - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Kamen/Anthracite/Kamen%20-%20Anthracite%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "0db2a1a4-4ced-47b5-87fb-ceac228fb05c",
+    "size": 153361,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Kamen - Anthracite - Kvadrat.jpg",
+    "path": "Kamen/Anthracite/Kamen - Anthracite - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Kamen/Anthracite/Kamen%20-%20Anthracite%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "ce611f11-7300-48bf-9e93-8e0f082d9729",
+    "size": 144368,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Kamen - Anthracite.jpg",
+    "path": "Kamen/Anthracite/Kamen - Anthracite.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Kamen/Anthracite/Kamen%20-%20Anthracite.jpg",
+    "exists": true,
+    "id": "7c852629-52d0-4c0e-8291-32e162eb5c96",
+    "size": 133848,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Kamen - White - Dimenzije.jpg",
+    "path": "Kamen/White/Kamen - White - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Kamen/White/Kamen%20-%20White%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "5cf53aad-1455-45c4-918a-b416d95dd8fc",
+    "size": 136783,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Kamen - White - Kvadrat - Dimenzije.jpg",
+    "path": "Kamen/White/Kamen - White - Kvadrat - Dimenzije.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Kamen/White/Kamen%20-%20White%20-%20Kvadrat%20-%20Dimenzije.jpg",
+    "exists": true,
+    "id": "ace6a590-15d4-4625-b679-464c9456bf8b",
+    "size": 148047,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Kamen - White - Kvadrat.jpg",
+    "path": "Kamen/White/Kamen - White - Kvadrat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Kamen/White/Kamen%20-%20White%20-%20Kvadrat.jpg",
+    "exists": true,
+    "id": "fd5ef3b2-bc6b-4cea-a260-bf00ffe09aa8",
+    "size": 139119,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "Kamen - White.jpg",
+    "path": "Kamen/White/Kamen - White.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Kamen/White/Kamen%20-%20White.jpg",
+    "exists": true,
+    "id": "717b35be-96f0-4e92-8690-564862f1246d",
+    "size": 129327,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "pozadina.jpg",
+    "path": "Page/About/Hero/pozadina.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Hero/pozadina.jpg",
+    "exists": true,
+    "id": "01841fce-2b47-43d4-ae0b-5e6ec6598298",
+    "size": 197061,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "radionica.jpg",
+    "path": "Page/About/Hero/radionica.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Hero/radionica.jpg",
+    "exists": true,
+    "id": "4acef0c9-f979-4e14-94e2-3c995b053968",
+    "size": 248575,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "asortiman.jpg",
+    "path": "Page/About/History/asortiman.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/History/asortiman.jpg",
+    "exists": true,
+    "id": "c8cf9a93-9b34-481f-b2f7-94a3e562c4b5",
+    "size": 228949,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "danas.jpg",
+    "path": "Page/About/History/danas.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/History/danas.jpg",
+    "exists": true,
+    "id": "ac916c76-6ac2-41f7-8e74-6ab08c9efef1",
+    "size": 239183,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "osnivanje.jpg",
+    "path": "Page/About/History/osnivanje.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/History/osnivanje.jpg",
+    "exists": true,
+    "id": "6f85e41f-4102-458b-ba0e-21f3c4717318",
+    "size": 161644,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "partnerstva.jpg",
+    "path": "Page/About/History/partnerstva.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/History/partnerstva.jpg",
+    "exists": true,
+    "id": "d6b28838-6b70-43d4-9e06-453f199b3abb",
+    "size": 147308,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "radionica iii.jpg",
+    "path": "Page/About/Production/radionica iii.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Production/radionica%20iii.jpg",
+    "exists": true,
+    "id": "0d928721-e96a-429b-be54-3b6ba109a29f",
+    "size": 293392,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "proizvodni proces.jpg",
+    "path": "Page/About/Values/proizvodni proces.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Values/proizvodni%20proces.jpg",
+    "exists": true,
+    "id": "dd3dd5e8-dbde-4423-b2d8-145e43b1804a",
+    "size": 172697,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "radni prostor.jpg",
+    "path": "Page/About/Values/radni prostor.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Values/radni%20prostor.jpg",
+    "exists": true,
+    "id": "71581bd1-c488-4fa8-ac1d-55720c8a2dc0",
+    "size": 189625,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "stambeni prostor.jpg",
+    "path": "Page/About/Values/stambeni prostor.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Values/stambeni%20prostor.jpg",
+    "exists": true,
+    "id": "b842882d-0cd8-486f-aed7-5acea623a74a",
+    "size": 231017,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "radionica ii.jpg",
+    "path": "Page/About/Vision/radionica ii.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Vision/radionica%20ii.jpg",
+    "exists": true,
+    "id": "f7a226d5-6111-4fe6-94bb-6784ae8e9436",
+    "size": 204324,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "background contact.jpg",
+    "path": "Page/Contact/Hero/background contact.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Contact/Hero/background%20contact.jpg",
+    "exists": true,
+    "id": "65ccc7b7-39bb-443f-8b8a-635229a58797",
+    "size": 280133,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "products.png",
+    "path": "Page/Homepage/About/products.png",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/About/products.png",
+    "exists": true,
+    "id": "a46ac186-32bf-4b17-908e-500bf21863c8",
+    "size": 703893,
+    "type": "image/png"
+  },
+  {
+    "name": "poslovni-prostor.jpg",
+    "path": "Page/Homepage/Projects/poslovni-prostor.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/Projects/poslovni-prostor.jpg",
+    "exists": true,
+    "id": "33093da1-762c-4747-83e1-b497e67aa4e8",
+    "size": 123170,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "stambeni-prostor.jpg",
+    "path": "Page/Homepage/Projects/stambeni-prostor.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/Projects/stambeni-prostor.jpg",
+    "exists": true,
+    "id": "ddd96590-ef3a-4c1f-a187-91236fcadfd7",
+    "size": 204319,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "ugostiteljski-prostor.jpg",
+    "path": "Page/Homepage/Projects/ugostiteljski-prostor.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/Projects/ugostiteljski-prostor.jpg",
+    "exists": true,
+    "id": "e752a6cd-dfaf-42e4-b779-d7af11dcb683",
+    "size": 1208021,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "ana-jovanovic.jpg",
+    "path": "Page/Homepage/Testimonials/ana-jovanovic.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/Testimonials/ana-jovanovic.jpg",
+    "exists": true,
+    "id": "5e803220-5c47-4438-9434-310cb6ed2235",
+    "size": 73079,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "marko-nikolic.jpg",
+    "path": "Page/Homepage/Testimonials/marko-nikolic.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/Testimonials/marko-nikolic.jpg",
+    "exists": true,
+    "id": "d8f00819-bd83-4dd7-adde-615062129abb",
+    "size": 45630,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "stefan-petrovic.jpg",
+    "path": "Page/Homepage/Testimonials/stefan-petrovic.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Homepage/Testimonials/stefan-petrovic.jpg",
+    "exists": true,
+    "id": "df58fe38-f63f-40cb-80b6-d7ac3fe25eba",
+    "size": 47827,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "posebno.jpg",
+    "path": "Page/Products/Categories/posebno.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Categories/posebno.jpg",
+    "exists": true,
+    "id": "b4d05491-1ebc-4551-a5fe-04bf2bd10da8",
+    "size": 108665,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "ugaoni elementi iiii.jpg",
+    "path": "Page/Products/Categories/ugaoni elementi iiii.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Categories/ugaoni%20elementi%20iiii.jpg",
+    "exists": true,
+    "id": "9cd34e74-6207-4c16-ad71-ecba9060b1df",
+    "size": 55383,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "pozadina ii.jpg",
+    "path": "Page/Products/Hero/pozadina ii.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Hero/pozadina%20ii.jpg",
+    "exists": true,
+    "id": "eb4698b9-96e5-440f-b988-60b2715b0ce8",
+    "size": 242388,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "alat.jpg",
+    "path": "Page/Products/Installation/alat.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Installation/alat.jpg",
+    "exists": true,
+    "id": "f22a3265-a70f-4951-989c-fd83a5563098",
+    "size": 356417,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "proces ugradnje.jpg",
+    "path": "Page/Products/Installation/proces ugradnje.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Installation/proces%20ugradnje.jpg",
+    "exists": true,
+    "id": "2d1c3c51-13d4-4fe1-b971-62b6a7a1f25c",
+    "size": 290616,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "cement.jpg",
+    "path": "Page/Products/Material/cement.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Material/cement.jpg",
+    "exists": true,
+    "id": "569ef37c-0c19-4b8a-b5ae-57a4145ff680",
+    "size": 309416,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "eksterijer.jpg",
+    "path": "Page/Products/Material/eksterijer.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Material/eksterijer.jpg",
+    "exists": true,
+    "id": "76c659d1-07e5-4888-a8f7-d06ee67c0f17",
+    "size": 241230,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "enterijer.jpg",
+    "path": "Page/Products/Material/enterijer.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Material/enterijer.jpg",
+    "exists": true,
+    "id": "02e47b60-b515-424d-961f-70c83656abf9",
+    "size": 288409,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "kamin.jpg",
+    "path": "Page/Products/Material/kamin.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Material/kamin.jpg",
+    "exists": true,
+    "id": "20ef3308-6bae-4692-a0cf-68499307d6ac",
+    "size": 245185,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "stubovi.jpg",
+    "path": "Page/Products/Material/stubovi.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Material/stubovi.jpg",
+    "exists": true,
+    "id": "66534295-d6e0-418d-851d-c9b29e3b5b01",
+    "size": 241860,
+    "type": "image/jpeg"
+  },
+  {
+    "name": "01.png",
+    "path": "Page/References/Clients/01.png",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/References/Clients/01.png",
+    "exists": true,
+    "id": "32a2bf9e-8cba-426c-9fb5-dabf0417e644",
+    "size": 412893,
+    "type": "image/png"
+  },
+  {
+    "name": "02.png",
+    "path": "Page/References/Clients/02.png",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/References/Clients/02.png",
+    "exists": true,
+    "id": "7ebb9886-af97-48e8-a103-51e5c7b1ea00",
+    "size": 434005,
+    "type": "image/png"
+  },
+  {
+    "name": "03.png",
+    "path": "Page/References/Clients/03.png",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/References/Clients/03.png",
+    "exists": true,
+    "id": "330159fd-18ac-4222-a099-606b50f096d7",
+    "size": 549841,
+    "type": "image/png"
+  },
+  {
+    "name": "04.png",
+    "path": "Page/References/Clients/04.png",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/References/Clients/04.png",
+    "exists": true,
+    "id": "615077bc-63c7-462c-98f4-de06b1cc2dfe",
+    "size": 431962,
+    "type": "image/png"
+  },
+  {
+    "name": "hero.jpg",
+    "path": "Page/References/Hero/hero.jpg",
+    "url": "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/References/Hero/hero.jpg",
+    "exists": true,
+    "id": "525cf0c7-394d-4d73-a52e-b3676168eb95",
+    "size": 165882,
+    "type": "image/jpeg"
+  }
+]

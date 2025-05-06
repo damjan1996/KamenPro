@@ -157,7 +157,12 @@ export function FAQSection() {
                         opacity: activeIndex === index ? 1 : 0
                     }}
                 >
-                    <div ref={(el) => (answerRefs.current[index] = el)} className="px-6 pb-6">
+                    <div
+                        ref={(el) => {
+                            answerRefs.current[index] = el;
+                        }}
+                        className="px-6 pb-6"
+                    >
                         <div className="pt-2 border-t border-stone-100"></div>
                         <p className="mt-4 text-stone-600 leading-relaxed font-light">
                             {item.answer}

@@ -219,7 +219,9 @@ export function ProjectsSection() {
                             className="group relative overflow-hidden rounded-lg shadow-md bg-white"
                             onMouseEnter={() => setIsHovered(project.id)}
                             onMouseLeave={() => setIsHovered(null)}
-                            ref={(el) => (projectRefs.current[index] = el)}
+                            ref={(el) => {
+                                projectRefs.current[index] = el;
+                            }}
                         >
                             <img
                                 src={project.image}
