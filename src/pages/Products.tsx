@@ -2,10 +2,7 @@
 import { Seo } from "../components/Seo";
 import { ProductsHero } from "./products/components/ProductsHero";
 import { FeaturedProducts } from "./products/components/FeaturedProducts";
-import { MaterialInfo } from "./products/components/MaterialInfo";
 import { ProductAdvantages } from "./products/components/ProductAdvantages";
-import { InstallationInfo } from "./products/components/InstallationInfo";
-import { ProductsFAQ } from "./products/components/ProductsFAQ";
 import { ProductCTA } from "./products/components/ProductCTA";
 
 export default function Products() {
@@ -19,12 +16,7 @@ export default function Products() {
         />
         <ProductsHero />
         <FeaturedProducts />
-          <ProductAdvantages />
-
-          <InstallationInfo />
-
-        <MaterialInfo />
-        <ProductsFAQ />
+        <ProductAdvantages />
         <ProductCTA />
       </>
   );
