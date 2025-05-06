@@ -1,4 +1,4 @@
-// src/components/home/components/ProductsSection.tsx
+// src/pages/home/components/ProductsSection.tsx
 import { useState, useEffect, useRef } from "react";
 import { ArrowRight, ChevronRight, ChevronLeft } from "lucide-react";
 import { Container } from "../../../components/ui/Container";
@@ -84,6 +84,14 @@ const FALLBACK_CATEGORIES: Category[] = [
     }
 ];
 
+// Timeout-Wrapper für API-Calls
+const fetchWithTimeout = <T,>(promise: Promise<T>, timeout = 5000): Promise<T> => {
+    const timeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error('Request timeout')), timeout);
+    });
+    return Promise.race([promise, timeoutPromise]);
+};
+
 export function ProductsSection() {
     const [isVisible, setIsVisible] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
@@ -95,33 +103,35 @@ export function ProductsSection() {
 
     // Laden der Produktdaten aus der API mit Fehlerbehandlung
     useEffect(() => {
+        const startTime = Date.now();
         const fetchData = async () => {
             try {
                 setLoading(true);
+                setError(null);
 
-                // Versuche Kategorien zu laden
+                // Versuche Kategorien zu laden mit Timeout
                 let categoriesData: Category[] = [];
                 try {
-                    categoriesData = await getAllCategories();
+                    categoriesData = await fetchWithTimeout(getAllCategories(), 5000);
                     if (!categoriesData || categoriesData.length === 0) {
                         console.warn("Keine Kategorien gefunden, verwende Fallback-Daten");
                         categoriesData = FALLBACK_CATEGORIES;
                     }
                 } catch (err) {
-                    console.warn("Fehler beim Laden der Kategorien:", err);
+                    console.warn("Fehler oder Timeout beim Laden der Kategorien:", err);
                     categoriesData = FALLBACK_CATEGORIES;
                 }
 
-                // Versuche Produkte zu laden
+                // Versuche Produkte zu laden mit Timeout
                 let productsData: Product[] = [];
                 try {
-                    productsData = await getAllProducts();
+                    productsData = await fetchWithTimeout(getAllProducts(), 5000);
                     if (!productsData || productsData.length === 0) {
                         console.warn("Keine Produkte gefunden, verwende Fallback-Daten");
                         productsData = FALLBACK_PRODUCTS;
                     }
                 } catch (err) {
-                    console.warn("Fehler beim Laden der Produkte:", err);
+                    console.warn("Fehler oder Timeout beim Laden der Produkte:", err);
                     productsData = FALLBACK_PRODUCTS;
                 }
 
@@ -138,6 +148,14 @@ export function ProductsSection() {
                 });
 
                 setProducts(enhancedProducts);
+
+                // Hotjar-Event für erfolgreichen Ladevorgang
+                if (window.hj) {
+                    window.hj('event', 'products_loaded', {
+                        productCount: enhancedProducts.length,
+                        loadTime: Date.now() - startTime
+                    });
+                }
             } catch (err) {
                 console.error("Fehler beim Laden der Daten:", err);
                 setError("Došlo je do greške prilikom učitavanja podataka.");
@@ -149,6 +167,14 @@ export function ProductsSection() {
                     imageUrl: PRODUCT_IMAGES[product.sifra as keyof typeof PRODUCT_IMAGES] ||
                         `https://via.placeholder.com/600x400?text=${encodeURIComponent(product.naziv)}`
                 })));
+
+                // Hotjar-Event für Fehler
+                if (window.hj) {
+                    window.hj('event', 'products_error', {
+                        errorType: err instanceof Error ? err.name : 'Unknown',
+                        errorMessage: err instanceof Error ? err.message : 'Unknown error'
+                    });
+                }
             } finally {
                 setLoading(false);
             }
@@ -169,9 +195,13 @@ export function ProductsSection() {
                 const [entry] = entries;
                 if (entry.isIntersecting) {
                     setIsVisible(true);
+                    observer.unobserve(entry.target);
                 }
             },
-            { threshold: 0.2 }
+            {
+                threshold: 0, // Triggers as soon as any part of the element is visible
+                rootMargin: "200px 0px" // Load 200px before the element comes into view
+            }
         );
 
         if (currentRef) {
@@ -256,6 +286,12 @@ export function ProductsSection() {
                 ) : error ? (
                     <div className="p-6 bg-red-50 rounded-lg text-red-800 text-center">
                         <p>{error}</p>
+                        <button
+                            onClick={() => window.location.reload()}
+                            className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                        >
+                            Erneut versuchen
+                        </button>
                     </div>
                 ) : products.length === 0 ? (
                     <div className="p-6 bg-amber-50 rounded-lg text-amber-800 text-center">
@@ -369,9 +405,9 @@ export function ProductsSection() {
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                                             <div className="p-4">
-                        <span className="inline-block px-2 py-1 bg-white/90 text-stone-800 text-xs font-medium rounded mb-2">
-                          {`${product.cena_po_m2} ${product.valuta}/m²`}
-                        </span>
+                                            <span className="inline-block px-2 py-1 bg-white/90 text-stone-800 text-xs font-medium rounded mb-2">
+                                              {`${product.cena_po_m2} ${product.valuta}/m²`}
+                                            </span>
                                             </div>
                                         </div>
                                     </div>
