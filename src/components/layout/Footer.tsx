@@ -53,7 +53,7 @@ export function Footer() {
     social: [
       {
         name: 'Facebook',
-        href: 'https://www.facebook.com/profile.php?id=61575722519014',
+        href: 'https://www.facebook.com/people/KamenPro/61575722519014/',
         icon: Facebook,
       },
       {

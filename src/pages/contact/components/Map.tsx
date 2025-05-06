@@ -172,7 +172,7 @@ export function MapSection() {
                                         <div className="text-amber-600 mt-1 flex-shrink-0">
                                             <Phone className="w-4 h-4" />
                                         </div>
-                                        <p className="text-stone-600 text-sm font-light">+387 65 678 634 - Željko Savić</p>
+                                        <p className="text-stone-600 text-sm font-light">+387 65 678 634 - Željko</p>
                                     </div>
                                 </div>
                                 <a

@@ -1,7 +1,6 @@
 // src/pages/Products.tsx
 import { Seo } from "../components/Seo";
 import { ProductsHero } from "./products/components/ProductsHero";
-import { ProductCategories } from "./products/components/ProductCategories";
 import { FeaturedProducts } from "./products/components/FeaturedProducts";
 import { MaterialInfo } from "./products/components/MaterialInfo";
 import { ProductAdvantages } from "./products/components/ProductAdvantages";
@@ -19,11 +18,12 @@ export default function Products() {
             keywords="kamene obloge proizvodi, prirodni kamen prodaja, dekorativni kamen, zidne obloge od kamena"
         />
         <ProductsHero />
-        <ProductCategories />
         <FeaturedProducts />
+          <ProductAdvantages />
+
+          <InstallationInfo />
+
         <MaterialInfo />
-        <ProductAdvantages />
-        <InstallationInfo />
         <ProductsFAQ />
         <ProductCTA />
       </>

@@ -33,7 +33,7 @@ export function ProductCategories() {
             name: "Dekorativni kamen",
             image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20I.jpg",
             description: "Prirodan izgled sa različitim teksturama i bojama za unutrašnje i spoljašnje zidove",
-            link: "#dekorativni-kamen",
+            link: "/proizvodi/dekorativni-kamen", // Changed from fragment to actual route
             price: "33-40 BAM/m²"
         },
         {
@@ -41,7 +41,7 @@ export function ProductCategories() {
             name: "Rustik cigla",
             image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/Red/Cigla%20-%20Rustik%20-%20Red.jpg",
             description: "Klasičan izgled cigle koji donosi toplinu i karakter svakom prostoru",
-            link: "#rustik-cigla",
+            link: "/proizvodi/rustik-cigla", // Changed from fragment to actual route
             price: "25-30 BAM/m²"
         },
         {
@@ -49,7 +49,7 @@ export function ProductCategories() {
             name: "Ugaoni elementi",
             image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Categories/ugaoni%20elementi%20iiii.jpg",
             description: "Savršeno završavanje spoljnih uglova za besprekoran izgled",
-            link: "#ugaoni-elementi",
+            link: "/proizvodi/ugaoni-elementi", // Changed from fragment to actual route
             price: "Po dogovoru"
         },
         {
@@ -57,7 +57,7 @@ export function ProductCategories() {
             name: "Posebne porudžbine",
             image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/Products/Categories/posebno.jpg",
             description: "Prilagođene boje i dizajn prema vašim specifičnim potrebama",
-            link: "#posebne-porudzbine",
+            link: "/proizvodi/posebne-porudzbine", // Changed from fragment to actual route
             price: "Po dogovoru"
         }
     ];

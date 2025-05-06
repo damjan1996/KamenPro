@@ -1,3 +1,4 @@
+// src/pages/home/components/About.tsx
 import { Container } from "../../../components/ui/Container";
 import { useState, useEffect, useRef } from "react";
 import { Check, Shield, Clock, Phone } from "lucide-react";
@@ -51,18 +52,32 @@ export function AboutSection() {
 
     useEffect(() => {
         const currentRef = sectionRef.current;
+
+        // Verbesserte IntersectionObserver-Konfiguration
         const observer = new IntersectionObserver(
             (entries) => {
-                const [entry] = entries;
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setIsVisible(true);
+                        observer.unobserve(entry.target); // Unobserve nach einmaligem Trigger
+                    }
+                });
             },
-            { threshold: 0.1, rootMargin: "0px 0px -100px 0px" }
+            {
+                threshold: [0, 0.1, 0.25], // Mehrere Schwellenwerte für bessere Erkennung
+                rootMargin: '50px'  // Frühere Erkennung
+            }
         );
 
-        if (currentRef) {
-            observer.observe(currentRef);
+        // Error handling für IntersectionObserver
+        try {
+            if (currentRef) {
+                observer.observe(currentRef);
+            }
+        } catch (error) {
+            console.error('Error initializing IntersectionObserver:', error);
+            // Fallback: Immer anzeigen wenn Observer fehlschlägt
+            setIsVisible(true);
         }
 
         return () => {
@@ -138,7 +153,7 @@ export function AboutSection() {
                                 </div>
                                 <a
                                     href="tel:+38765678634"
-                                    className="flex items-center justify-center w-10 h-10 bg-amber-50 text-amber-600 rounded-full hover:bg-amber-500 hover:text-white transition-all duration-300"
+                                    className="flex items-center justify-center w-10 h-10 bg-amber-50 text-amber-600 rounded-full hover:bg-amber-500 hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
                                     aria-label="Pozovite nas"
                                 >
                                     <Phone className="w-4 h-4" />
@@ -159,6 +174,7 @@ export function AboutSection() {
                                 src="/images/home/products.png"
                                 alt="KamenPro proizvodi"
                                 className="w-full h-48 md:h-56 object-cover transition-transform duration-700 group-hover:scale-105"
+                                loading="lazy"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
                                 <div className="p-4 text-white transform transition-transform duration-300 group-hover:translate-y-0 translate-y-2">

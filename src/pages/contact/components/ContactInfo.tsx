@@ -47,7 +47,7 @@ export const ContactInfoSection = () => {
             id: 'phone',
             title: 'Telefon',
             items: ['+387 65 678 634'],
-            subtext: 'Željko Savić',
+            subtext: 'Željko',
             icon: <Phone className="w-5 h-5" />,
             action: 'tel:+38765678634',
             actionText: 'Pozovite nas'
