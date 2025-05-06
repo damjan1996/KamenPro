@@ -17,11 +17,11 @@ export default function Home() {
                 keywords="kamene obloge, prirodni kamen, zidne obloge, podne obloge, mermer, travertin"
             />
             <Hero />
-            <AboutSection />
             <ProductsSection />
+            <CTASection />
+            <AboutSection />
             <ProjectsSection />
             <TestimonialsSection />
-            <CTASection />
             <ContactInfoSection />
         </>
     );
