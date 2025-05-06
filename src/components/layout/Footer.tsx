@@ -1,7 +1,7 @@
 // src/components/layout/Footer.tsx
 import { useState, useEffect, useRef } from 'react';
 import { Container } from '../ui/Container';
-import { Facebook, Instagram, Mail, Phone, MapPin, ChevronUp } from 'lucide-react';
+import { Facebook, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 
 export function Footer() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -65,13 +65,6 @@ export function Footer() {
   };
 
   const currentYear = new Date().getFullYear();
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
 
   return (
       <footer
@@ -224,15 +217,6 @@ export function Footer() {
             </div>
           </div>
         </Container>
-
-        {/* Scroll to top button */}
-        <button
-            onClick={scrollToTop}
-            className="fixed bottom-6 right-6 w-10 h-10 bg-amber-500 text-white rounded-full flex items-center justify-center shadow-lg transform transition-transform hover:-translate-y-1 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-amber-400 z-50 opacity-90 hover:opacity-100"
-            aria-label="Scroll to top"
-        >
-          <ChevronUp className="h-5 w-5" />
-        </button>
       </footer>
   );
 }
