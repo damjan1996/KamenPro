@@ -80,7 +80,7 @@ export function ProductCTA() {
                                     </div>
                                     <div>
                                         <h3 className="font-medium text-stone-800">Pozovite nas</h3>
-                                        <p className="text-stone-600 font-light">+387 65 678 634 - Željko Savić</p>
+                                        <p className="text-stone-600 font-light">+387 65 678 634 - Željko</p>
                                         <p className="text-sm text-stone-500 font-light">Pon - Sub: 09:00 - 18:00</p>
                                     </div>
                                 </div>
@@ -180,26 +180,6 @@ export function ProductCTA() {
                                     >
                                         Pogledajte naše projekte
                                     </a>
-                                </div>
-                            </div>
-
-                            {/* Tim i slike proizvoda */}
-                            <div className={`mt-6 flex items-center justify-between ${getAnimationClasses('delay-600')}`}>
-                                <div className="flex items-center">
-                                    <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-sm">
-                                        <img
-                                            src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Team/zeljko-savic.jpg"
-                                            alt="Željko Savić"
-                                            className="w-full h-full object-cover"
-                                        />
-                                    </div>
-                                    <div className="ml-3">
-                                        <p className="text-sm font-medium text-stone-800">Željko Savić</p>
-                                        <p className="text-xs text-stone-500">Glavni kontakt</p>
-                                    </div>
-                                </div>
-                                <div className="text-sm text-amber-600 font-medium">
-                                    Od 2019. godine
                                 </div>
                             </div>
                         </div>

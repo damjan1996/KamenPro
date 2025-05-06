@@ -19,8 +19,8 @@ export default function Products() {
                 keywords="kamene obloge, prirodni kamen, zidne obloge, podne obloge, mermer, travertin"
             />
             <ProductsHero />
-            <ProductCategories />
             <FeaturedProducts />
+            <ProductCategories />
             <MaterialInfo />
             <ProductAdvantages />
             <InstallationInfo />
