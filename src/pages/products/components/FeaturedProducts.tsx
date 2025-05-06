@@ -1,7 +1,7 @@
 // src/pages/products/components/FeaturedProducts.tsx
 import React, { useState, useEffect, useRef } from "react";
 import { Container } from "../../../components/ui/Container";
-import { ArrowRight, Search, Filter, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { getAllProducts, getAllCategories } from "../../../lib/api";
 
 // Erweiterter Produkttyp für die Komponente
@@ -23,13 +23,9 @@ export function FeaturedProducts() {
     const [activeProduct, setActiveProduct] = useState<string | number | null>(null);
     const [isVisible, setIsVisible] = useState(false);
     const [products, setProducts] = useState<EnhancedProduct[]>([]);
-    const [filteredProducts, setFilteredProducts] = useState<EnhancedProduct[]>([]);
-    const [categories, setCategories] = useState<{id: string, name: string}[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const productsPerPage = 9;
     const sectionRef = useRef<HTMLElement>(null);
 
@@ -143,13 +139,6 @@ export function FeaturedProducts() {
                         categoryMap.set(category.id, category.naziv);
                     });
 
-                    // Kategorien für Filter vorbereiten
-                    const categoryOptions = apiCategories.map(category => ({
-                        id: category.id,
-                        name: category.naziv
-                    }));
-                    setCategories(categoryOptions);
-
                     // Alle Produkte transformieren
                     const enhancedProducts: EnhancedProduct[] = apiProducts.map((product) => {
                         // Bilder für den Produkt-Code abrufen
@@ -172,17 +161,16 @@ export function FeaturedProducts() {
                     });
 
                     setProducts(enhancedProducts);
-                    setFilteredProducts(enhancedProducts);
                 } else {
                     // Setze auf Fallback-Produkte, wenn keine API-Daten vorhanden sind
-                    setProducts(getFallbackProducts());
-                    setFilteredProducts(getFallbackProducts());
+                    const fallbackProducts = getFallbackProducts();
+                    setProducts(fallbackProducts);
                 }
             } catch (err) {
                 console.error("Fehler beim Laden der Daten:", err);
                 setError("Došlo je do greške prilikom učitavanja podataka.");
-                setProducts(getFallbackProducts());
-                setFilteredProducts(getFallbackProducts());
+                const fallbackProducts = getFallbackProducts();
+                setProducts(fallbackProducts);
             } finally {
                 setLoading(false);
             }
@@ -191,32 +179,11 @@ export function FeaturedProducts() {
         fetchData();
     }, []);
 
-    // Filter-Logik anwenden
-    useEffect(() => {
-        let result = [...products];
-
-        // Kategorie-Filter anwenden
-        if (selectedCategory) {
-            result = result.filter(product => product.categoryId === selectedCategory);
-        }
-
-        // Suchbegriff anwenden
-        if (searchTerm.trim() !== "") {
-            const searchLower = searchTerm.toLowerCase();
-            result = result.filter(product =>
-                product.name.toLowerCase().includes(searchLower) ||
-                product.description.toLowerCase().includes(searchLower) ||
-                product.code.toLowerCase().includes(searchLower)
-            );
-        }
-
-        setFilteredProducts(result);
-        setCurrentPage(1); // Bei Änderung der Filter zur ersten Seite zurückkehren
-    }, [searchTerm, selectedCategory, products]);
-
     // Fallback-Produkte für den Fall, dass die API-Anfrage fehlschlägt
+    // Reihenfolge neu angepasst: zuerst Dolomite, dann Kamen, zuletzt CIGLA
     const getFallbackProducts = (): EnhancedProduct[] => {
         return [
+            // 1. Dolomite Varianten
             {
                 id: 1,
                 name: "Dolomite - White",
@@ -228,54 +195,6 @@ export function FeaturedProducts() {
                 price: "33",
                 unit: "m²",
                 code: "DOL-WHT"
-            },
-            {
-                id: 2,
-                name: "Cigla - Rustik - Red",
-                description: "Dekorativne rustik cigle u crvenoj boji koje donose toplinu i karakter svakom prostoru, za unutrašnje i spoljašnje zidove.",
-                image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/Red/Cigla%20-%20Rustik%20-%20Red.jpg",
-                imageVariants: getProductImages("CIG-RED"),
-                category: "Dekorativna rustik cigla",
-                categoryId: "2",
-                price: "28",
-                unit: "m²",
-                code: "CIG-RED"
-            },
-            {
-                id: 3,
-                name: "Dolomite - Coffee",
-                description: "Dekorativne kamene ploče u kafa smeđoj boji koje stvaraju ugodan i elegantan ambijent u svakom prostoru.",
-                image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20I.jpg",
-                imageVariants: getProductImages("DOL-COF"),
-                category: "Dekorativni kamen",
-                categoryId: "1",
-                price: "35",
-                unit: "m²",
-                code: "DOL-COF"
-            },
-            {
-                id: 4,
-                name: "Dolomite - Anthracite",
-                description: "Dekorativne kamene ploče u antracit boji koje stvaraju moderan i sofisticiran izgled u svakom prostoru.",
-                image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20I.jpg",
-                imageVariants: getProductImages("DOL-ANT"),
-                category: "Dekorativni kamen",
-                categoryId: "1",
-                price: "33",
-                unit: "m²",
-                code: "DOL-ANT"
-            },
-            {
-                id: 5,
-                name: "Dolomite - Brown",
-                description: "Dekorativne kamene ploče u smeđoj boji koje pružaju topao i prirodan izgled svakom enterijeru i eksterijeru.",
-                image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20I.jpg",
-                imageVariants: getProductImages("DOL-BRN"),
-                category: "Dekorativni kamen",
-                categoryId: "1",
-                price: "34",
-                unit: "m²",
-                code: "DOL-BRN"
             },
             {
                 id: 6,
@@ -290,17 +209,42 @@ export function FeaturedProducts() {
                 code: "DOL-GRY"
             },
             {
-                id: 7,
-                name: "Cigla - Rustik - White",
-                description: "Dekorativne rustik cigle u beloj boji koje pružaju svetao i čist izgled svakom prostoru.",
-                image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/White/Cigla%20-%20Rustik%20-%20White.jpg",
-                imageVariants: getProductImages("CIG-WHT"),
-                category: "Dekorativna rustik cigla",
-                categoryId: "2",
-                price: "30",
+                id: 3,
+                name: "Dolomite - Coffee",
+                description: "Dekorativne kamene ploče u kafa smeđoj boji koje stvaraju ugodan i elegantan ambijent u svakom prostoru.",
+                image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20I.jpg",
+                imageVariants: getProductImages("DOL-COF"),
+                category: "Dekorativni kamen",
+                categoryId: "1",
+                price: "35",
                 unit: "m²",
-                code: "CIG-WHT"
+                code: "DOL-COF"
             },
+            {
+                id: 5,
+                name: "Dolomite - Brown",
+                description: "Dekorativne kamene ploče u smeđoj boji koje pružaju topao i prirodan izgled svakom enterijeru i eksterijeru.",
+                image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20I.jpg",
+                imageVariants: getProductImages("DOL-BRN"),
+                category: "Dekorativni kamen",
+                categoryId: "1",
+                price: "34",
+                unit: "m²",
+                code: "DOL-BRN"
+            },
+            {
+                id: 4,
+                name: "Dolomite - Anthracite",
+                description: "Dekorativne kamene ploče u antracit boji koje stvaraju moderan i sofisticiran izgled u svakom prostoru.",
+                image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20I.jpg",
+                imageVariants: getProductImages("DOL-ANT"),
+                category: "Dekorativni kamen",
+                categoryId: "1",
+                price: "33",
+                unit: "m²",
+                code: "DOL-ANT"
+            },
+            // 2. Kamen Varianten
             {
                 id: 8,
                 name: "Kamen - Anthracite",
@@ -324,6 +268,31 @@ export function FeaturedProducts() {
                 price: "35",
                 unit: "m²",
                 code: "KAM-WHT"
+            },
+            // 3. Cigla Varianten (an letzter Stelle)
+            {
+                id: 2,
+                name: "Cigla - Rustik - Red",
+                description: "Dekorativne rustik cigle u crvenoj boji koje donose toplinu i karakter svakom prostoru, za unutrašnje i spoljašnje zidove.",
+                image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/Red/Cigla%20-%20Rustik%20-%20Red.jpg",
+                imageVariants: getProductImages("CIG-RED"),
+                category: "Dekorativna rustik cigla",
+                categoryId: "2",
+                price: "28",
+                unit: "m²",
+                code: "CIG-RED"
+            },
+            {
+                id: 7,
+                name: "Cigla - Rustik - White",
+                description: "Dekorativne rustik cigle u beloj boji koje pružaju svetao i čist izgled svakom prostoru.",
+                image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/White/Cigla%20-%20Rustik%20-%20White.jpg",
+                imageVariants: getProductImages("CIG-WHT"),
+                category: "Dekorativna rustik cigla",
+                categoryId: "2",
+                price: "30",
+                unit: "m²",
+                code: "CIG-WHT"
             }
         ];
     };
@@ -331,8 +300,8 @@ export function FeaturedProducts() {
     // Pagination-Logik
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+    const totalPages = Math.ceil(products.length / productsPerPage);
 
     // Seiten-Navigation
     const paginate = (pageNumber: number) => {
@@ -341,12 +310,6 @@ export function FeaturedProducts() {
             // Zum Anfang der Produktliste scrollen
             document.getElementById('products-grid')?.scrollIntoView({ behavior: 'smooth' });
         }
-    };
-
-    // Filter zurücksetzen
-    const resetFilters = () => {
-        setSearchTerm("");
-        setSelectedCategory(null);
     };
 
     return (
@@ -366,77 +329,6 @@ export function FeaturedProducts() {
                         <p className="text-stone-600 text-center max-w-xl mx-auto mb-8 font-light">
                             Istražite našu kompletnu ponudu dekorativnih obloga za vaš dom ili poslovni prostor
                         </p>
-                    </div>
-                </div>
-
-                {/* Filter- und Suchbereich */}
-                <div className={`mb-8 transition-all duration-700 transform ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}>
-                    <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
-                        <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center">
-                            {/* Suchfeld */}
-                            <div className="flex-1 relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Search className="h-5 w-5 text-stone-400" />
-                                </div>
-                                <input
-                                    type="text"
-                                    placeholder="Pretražite proizvode..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 border border-stone-200 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
-                                />
-                            </div>
-
-                            {/* Kategorien-Filter */}
-                            <div className="w-full md:w-64">
-                                <select
-                                    value={selectedCategory || ""}
-                                    onChange={(e) => setSelectedCategory(e.target.value || null)}
-                                    className="w-full px-4 py-2 border border-stone-200 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 appearance-none bg-white"
-                                >
-                                    <option value="">Sve kategorije</option>
-                                    {categories.map((cat) => (
-                                        <option key={cat.id} value={cat.id}>
-                                            {cat.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            {/* Reset-Button */}
-                            <button
-                                onClick={resetFilters}
-                                className="px-4 py-2 bg-stone-100 text-stone-700 rounded-md hover:bg-stone-200 transition-colors"
-                            >
-                                Poništi filtere
-                            </button>
-                        </div>
-
-                        {/* Anzeige der aktiven Filter und Anzahl der Ergebnisse */}
-                        <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-stone-600">
-                            <Filter className="h-4 w-4 text-amber-500" />
-                            <span>
-                                Prikazano {filteredProducts.length} od {products.length} proizvoda
-                            </span>
-
-                            {(searchTerm || selectedCategory) && (
-                                <div className="ml-auto flex gap-2 flex-wrap">
-                                    {searchTerm && (
-                                        <span className="bg-amber-50 text-amber-700 px-2 py-1 rounded-sm text-xs">
-                                            Pretraga: {searchTerm}
-                                        </span>
-                                    )}
-
-                                    {selectedCategory && (
-                                        <span className="bg-amber-50 text-amber-700 px-2 py-1 rounded-sm text-xs">
-                                            Kategorija: {categories.find(c => c.id === selectedCategory)?.name || selectedCategory}
-                                        </span>
-                                    )}
-                                </div>
-                            )}
-                        </div>
                     </div>
                 </div>
 
@@ -467,37 +359,25 @@ export function FeaturedProducts() {
                                         onMouseLeave={() => setActiveProduct(null)}
                                     >
                                         <div className="overflow-hidden rounded-t-lg">
-                                            <div className="aspect-video relative">
-                                                <img
-                                                    src={product.image}
-                                                    alt={product.name}
-                                                    className={`object-cover w-full h-full transition-transform duration-700 ${
-                                                        activeProduct === product.id ? 'scale-105' : 'scale-100'
-                                                    }`}
-                                                />
-                                                <div className={`absolute inset-0 bg-gradient-to-t from-black/40 to-transparent transition-opacity duration-300 ${
-                                                    activeProduct === product.id ? 'opacity-100' : 'opacity-0'
-                                                }`}></div>
+                                            <a href={`/proizvodi/${product.id}`} className="cursor-pointer block">
+                                                <div className="aspect-video relative">
+                                                    <img
+                                                        src={product.image}
+                                                        alt={product.name}
+                                                        className={`object-cover w-full h-full transition-transform duration-700 ${
+                                                            activeProduct === product.id ? 'scale-105' : 'scale-100'
+                                                        }`}
+                                                    />
+                                                    <div className={`absolute inset-0 bg-gradient-to-t from-black/40 to-transparent transition-opacity duration-300 ${
+                                                        activeProduct === product.id ? 'opacity-100' : 'opacity-0'
+                                                    }`}></div>
 
-                                                <div
-                                                    className={`absolute bottom-4 left-4 text-white transition-all duration-300 ${
-                                                        activeProduct === product.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                                                    }`}
-                                                >
-                                                    <a
-                                                        href={`/proizvodi/${product.id}`}
-                                                        className="inline-flex items-center bg-amber-500 px-4 py-2 rounded-sm hover:bg-amber-600 transition-all duration-300 text-sm shadow-md"
-                                                    >
-                                                        <span>Detalji</span>
-                                                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
-                                                    </a>
+                                                    {/* Produktcode-Badge */}
+                                                    <div className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm px-2 py-1 rounded-sm text-xs text-stone-700 font-medium">
+                                                        {product.code}
+                                                    </div>
                                                 </div>
-
-                                                {/* Produktcode-Badge */}
-                                                <div className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm px-2 py-1 rounded-sm text-xs text-stone-700 font-medium">
-                                                    {product.code}
-                                                </div>
-                                            </div>
+                                            </a>
                                         </div>
 
                                         <div className="p-6">
@@ -505,7 +385,9 @@ export function FeaturedProducts() {
                                                 <div>
                                                     <div className="text-sm font-medium text-amber-600 mb-2">{product.category}</div>
                                                     <h3 className="text-xl font-medium text-stone-800 mb-2 group-hover:text-amber-600 transition-colors">
-                                                        {product.name}
+                                                        <a href={`/proizvodi/${product.id}`} className="hover:text-amber-600">
+                                                            {product.name}
+                                                        </a>
                                                     </h3>
                                                 </div>
 
@@ -552,19 +434,13 @@ export function FeaturedProducts() {
                                 ))
                             ) : (
                                 <div className="col-span-3 py-16 text-center">
-                                    <div className="text-stone-500 mb-4">Nema rezultata za tražene filtere</div>
-                                    <button
-                                        onClick={resetFilters}
-                                        className="px-4 py-2 bg-amber-500 text-white rounded-md hover:bg-amber-600 transition-colors"
-                                    >
-                                        Poništi filtere
-                                    </button>
+                                    <div className="text-stone-500 mb-4">Trenutno nema proizvoda</div>
                                 </div>
                             )}
                         </div>
 
                         {/* Pagination */}
-                        {filteredProducts.length > productsPerPage && (
+                        {products.length > productsPerPage && (
                             <div className="mt-12 flex justify-center items-center">
                                 <div className="flex items-center gap-2">
                                     <button
