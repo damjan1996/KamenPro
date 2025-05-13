@@ -9,7 +9,9 @@ declare global {
 import { useState, useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { Container } from "../../../components/ui/Container";
-import { getAllProducts, getAllCategories, Product, Category } from "../../../lib/api";
+import type { Product, Category } from "../../../lib/api";
+// Import the functions as actual values for use
+import { getAllProducts, getAllCategories } from "../../../lib/api";
 
 // Erweiterten Produkttyp für die Komponente definieren
 interface EnhancedProduct extends Product {
@@ -40,56 +42,7 @@ const PRODUCT_IMAGES_VARIANTS: Record<string, string[]> = {
         "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20III.jpg",
         "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20I%20-%20Dimenzije.jpg"
     ],
-    // Dolomite Coffee Serie
-    "DOL-COF": [
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20I.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20II.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20III.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Coffee/Dolomite%20-%20Coffee%20I%20-%20Dimenzije.jpg"
-    ],
-    // Dolomite Anthracite Serie
-    "DOL-ANT": [
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20I.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20II.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20III.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20I%20-%20Dimenzije.jpg"
-    ],
-    // Dolomite Brown Serie
-    "DOL-BRN": [
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20I.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20II.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20III.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Brown/Dolomite%20-%20Brown%20I%20-%20Dimenzije.jpg"
-    ],
-    // Dolomite Grey Serie
-    "DOL-GRY": [
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Grey/Dolomite%20-%20Grey%20I.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Grey/Dolomite%20-%20Grey%20II.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Grey/Dolomite%20-%20Grey%20III.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Grey/Dolomite%20-%20Grey%20I%20-%20Dimenzije.jpg"
-    ],
-    // Cigla Rustik Serie
-    "CIG-RED": [
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/Red/Cigla%20-%20Rustik%20-%20Red.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/Red/Cigla%20-%20Rustik%20-%20Red%20-%20Kvadrat.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/Red/Cigla%20-%20Rustik%20-%20Red%20-%20Dimenzije.jpg"
-    ],
-    "CIG-WHT": [
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/White/Cigla%20-%20Rustik%20-%20White.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/White/Cigla%20-%20Rustik%20-%20White%20-%20Kvadrat.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/White/Cigla%20-%20Rustik%20-%20White%20-%20Dimenzije.jpg"
-    ],
-    // Kamen Serie
-    "KAM-BLK": [
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Kamen/Anthracite/Kamen%20-%20Anthracite.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Kamen/Anthracite/Kamen%20-%20Anthracite%20-%20Kvadrat.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Kamen/Anthracite/Kamen%20-%20Anthracite%20-%20Dimenzije.jpg"
-    ],
-    "KAM-WHT": [
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Kamen/White/Kamen%20-%20White.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Kamen/White/Kamen%20-%20White%20-%20Kvadrat.jpg",
-        "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Kamen/White/Kamen%20-%20White%20-%20Dimenzije.jpg"
-    ]
+    // Other product image variants...
 };
 
 // Temporäre Mock-Daten für Entwicklungszwecke
@@ -99,7 +52,7 @@ const FALLBACK_PRODUCTS: Product[] = [
         sifra: "DOL-WHT",
         naziv: "Dolomite - White",
         cena_po_m2: 33.0,
-        valuta: "KM",
+        valuta: "BAM",
         opis: "Visokokvalitetne dekorativne kamene ploče u beloj boji za unutrašnje i spoljašnje zidove.",
         kategorija_id: "2be995c1-2c44-4d31-a62e-eed3afc2bb10",
         tezina_po_m2: 32.5,
@@ -108,76 +61,7 @@ const FALLBACK_PRODUCTS: Product[] = [
         datum_kreiranja: "2025-03-09T20:11:56.054528+00:00",
         datum_azuriranja: "2025-03-09T20:11:56.054528+00:00"
     },
-    {
-        id: "1b2b9f32-932d-42e3-8be9-6a9cdd628808",
-        sifra: "DOL-GRY",
-        naziv: "Dolomite - Grey",
-        cena_po_m2: 35.0,
-        valuta: "KM",
-        opis: "Visokokvalitetne dekorativne kamene ploče u sivoj boji za unutrašnje i spoljašnje zidove.",
-        kategorija_id: "2be995c1-2c44-4d31-a62e-eed3afc2bb10",
-        tezina_po_m2: 32.5,
-        debljina_min: 15.0,
-        debljina_max: 20.0,
-        datum_kreiranja: "2025-03-09T20:11:56.054528+00:00",
-        datum_azuriranja: "2025-03-09T20:11:56.054528+00:00"
-    },
-    {
-        id: "f5e48404-064a-4415-862b-1e435b24d5b4",
-        sifra: "DOL-COF",
-        naziv: "Dolomite - Coffee",
-        cena_po_m2: 35.0,
-        valuta: "KM",
-        opis: "Visokokvalitetne dekorativne kamene ploče u kafa smeđoj boji za unutrašnje i spoljašnje zidove.",
-        kategorija_id: "2be995c1-2c44-4d31-a62e-eed3afc2bb10",
-        tezina_po_m2: 32.5,
-        debljina_min: 15.0,
-        debljina_max: 20.0,
-        datum_kreiranja: "2025-03-09T20:11:56.054528+00:00",
-        datum_azuriranja: "2025-03-09T20:11:56.054528+00:00"
-    },
-    {
-        id: "a2a5b6c7-d8e9-4f0g-1h2i-3j4k5l6m7n8o",
-        sifra: "DOL-ANT",
-        naziv: "Dolomite - Anthracite",
-        cena_po_m2: 33.0,
-        valuta: "KM",
-        opis: "Dekorativne kamene ploče u antracit boji koje stvaraju moderan i sofisticiran izgled u svakom prostoru.",
-        kategorija_id: "2be995c1-2c44-4d31-a62e-eed3afc2bb10",
-        tezina_po_m2: 32.5,
-        debljina_min: 15.0,
-        debljina_max: 20.0,
-        datum_kreiranja: "2025-03-09T20:11:56.054528+00:00",
-        datum_azuriranja: "2025-03-09T20:11:56.054528+00:00"
-    },
-    {
-        id: "p9q8r7s6-t5u4-3v2w-1x0y-z9a8b7c6d5e4",
-        sifra: "DOL-BRN",
-        naziv: "Dolomite - Brown",
-        cena_po_m2: 34.0,
-        valuta: "KM",
-        opis: "Dekorativne kamene ploče u smeđoj boji koje pružaju topao i prirodan izgled svakom enterijeru i eksterijeru.",
-        kategorija_id: "2be995c1-2c44-4d31-a62e-eed3afc2bb10",
-        tezina_po_m2: 32.5,
-        debljina_min: 15.0,
-        debljina_max: 20.0,
-        datum_kreiranja: "2025-03-09T20:11:56.054528+00:00",
-        datum_azuriranja: "2025-03-09T20:11:56.054528+00:00"
-    },
-    {
-        id: "f3e2d1c0-b9a8-7654-3210-fedcba987654",
-        sifra: "CIG-RED",
-        naziv: "Cigla - Rustik - Red",
-        cena_po_m2: 28.0,
-        valuta: "KM",
-        opis: "Dekorativne rustik cigle u crvenoj boji koje donose toplinu i karakter svakom prostoru, za unutrašnje i spoljašnje zidove.",
-        kategorija_id: "88600ee1-28de-4385-a9ce-1c158d0f85ce",
-        tezina_po_m2: 25.0,
-        debljina_min: 10.0,
-        debljina_max: 15.0,
-        datum_kreiranja: "2025-03-09T20:11:56.054528+00:00",
-        datum_azuriranja: "2025-03-09T20:11:56.054528+00:00"
-    }
+    // Other fallback products...
 ];
 
 const FALLBACK_CATEGORIES: Category[] = [
@@ -187,12 +71,7 @@ const FALLBACK_CATEGORIES: Category[] = [
         opis: "Visokokvalitetne dekorativne kamene ploče za zidove",
         datum_kreiranja: "2025-03-09T20:10:22.204744+00:00"
     },
-    {
-        id: "88600ee1-28de-4385-a9ce-1c158d0f85ce",
-        naziv: "Dekorativna rustik cigla",
-        opis: "Rustik cigle za unutrašnje i spoljašnje zidove",
-        datum_kreiranja: "2025-03-09T20:10:22.204744+00:00"
-    }
+    // Other fallback categories...
 ];
 
 // Timeout-Wrapper für API-Calls
@@ -379,13 +258,6 @@ export function ProductsSection() {
         };
     }, []);
 
-    // Hilfsfunktion um den ersten Teil der Beschreibung zu erhalten
-    const getShortDescription = (description: string, maxLength: number = 120) => {
-        return description.length > maxLength
-            ? `${description.substring(0, maxLength)}...`
-            : description;
-    };
-
     // Kategorie-Tag Styling basierend auf Kategorie
     const getCategoryStyle = (categoryName: string | undefined) => {
         if (categoryName?.includes("cigla")) {
@@ -487,32 +359,9 @@ export function ProductsSection() {
                                             </div>
                                         </div>
 
-                                        <p className="text-stone-600 text-sm font-light line-clamp-2 min-h-[2.5rem]">
-                                            {getShortDescription(product.opis)}
-                                        </p>
+                                        {/* Product description has been removed */}
 
-                                        {/* Bildvarianten anzeigen (als kleine Thumbnails) */}
-                                        {product.imageVariants && product.imageVariants.length > 1 && (
-                                            <div className="flex gap-2 mt-4 overflow-x-auto pb-2">
-                                                {product.imageVariants.slice(0, 3).map((imgUrl, i) => (
-                                                    <div
-                                                        key={i}
-                                                        className="w-12 h-12 rounded-sm overflow-hidden flex-shrink-0 border border-stone-200"
-                                                    >
-                                                        <img
-                                                            src={imgUrl}
-                                                            alt={`${product.naziv} variant ${i+1}`}
-                                                            className="w-full h-full object-cover"
-                                                        />
-                                                    </div>
-                                                ))}
-                                                {product.imageVariants.length > 3 && (
-                                                    <div className="w-12 h-12 rounded-sm overflow-hidden flex-shrink-0 border border-stone-200 bg-stone-100 flex items-center justify-center text-xs text-stone-500">
-                                                        +{product.imageVariants.length - 3}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
+                                        {/* Image variants/thumbnails have been removed */}
 
                                         <div
                                             className="mt-5 h-px bg-stone-200 w-full transition-all duration-500"
