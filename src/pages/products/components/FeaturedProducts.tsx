@@ -397,31 +397,6 @@ export function FeaturedProducts() {
                                                 </div>
                                             </div>
 
-                                            <p className="text-stone-600 text-sm font-light line-clamp-2 min-h-[2.5rem]">{product.description}</p>
-
-                                            {/* Bildvarianten anzeigen (als kleine Thumbnails) */}
-                                            {product.imageVariants.length > 1 && (
-                                                <div className="flex gap-2 mt-4 overflow-x-auto pb-2">
-                                                    {product.imageVariants.slice(0, 3).map((imgUrl, i) => (
-                                                        <div
-                                                            key={i}
-                                                            className="w-12 h-12 rounded-sm overflow-hidden flex-shrink-0 border border-stone-200"
-                                                        >
-                                                            <img
-                                                                src={imgUrl}
-                                                                alt={`${product.name} variant ${i+1}`}
-                                                                className="w-full h-full object-cover"
-                                                            />
-                                                        </div>
-                                                    ))}
-                                                    {product.imageVariants.length > 3 && (
-                                                        <div className="w-12 h-12 rounded-sm overflow-hidden flex-shrink-0 border border-stone-200 bg-stone-100 flex items-center justify-center text-xs text-stone-500">
-                                                            +{product.imageVariants.length - 3}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            )}
-
                                             <div
                                                 className="mt-5 h-px bg-stone-200 w-full transition-all duration-500"
                                                 style={{
