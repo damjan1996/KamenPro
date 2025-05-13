@@ -217,12 +217,12 @@ export function ProductionCapabilities() {
                         {
                             title: 'Dekorativni kamen',
                             description: 'Standardne dimenzije 44cm x 8.5cm, debljine 15-20mm',
-                            price: '33-40 BAM/m²'
+                            price: '33-40 KM/m²'
                         },
                         {
                             title: 'Rustik cigla',
                             description: 'Standardne dimenzije 50cm x 20cm, debljine 5mm',
-                            price: '25-30 BAM/m²'
+                            price: '25-30 KM/m²'
                         },
                         {
                             title: 'Ugaoni elementi',

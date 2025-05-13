@@ -34,7 +34,7 @@ export function ProductCategories() {
             image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20I.jpg",
             description: "Prirodan izgled sa različitim teksturama i bojama za unutrašnje i spoljašnje zidove",
             link: "/proizvodi/dekorativni-kamen", // Changed from fragment to actual route
-            price: "33-40 BAM/m²"
+            price: "33-40 KM/m²"
         },
         {
             id: 2,
@@ -42,7 +42,7 @@ export function ProductCategories() {
             image: "https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/Red/Cigla%20-%20Rustik%20-%20Red.jpg",
             description: "Klasičan izgled cigle koji donosi toplinu i karakter svakom prostoru",
             link: "/proizvodi/rustik-cigla", // Changed from fragment to actual route
-            price: "25-30 BAM/m²"
+            price: "25-30 KM/m²"
         },
         {
             id: 3,

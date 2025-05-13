@@ -55,7 +55,7 @@ export function ProductsFAQ() {
         {
             id: 5,
             question: "Koje su cene vaših obloga po kvadratnom metru?",
-            answer: "Cena dekorativnog kamena se kreće između 33 BAM do 40 BAM po m². Cena dekorativne rustik cigle se kreće od 25 BAM do 30 BAM po m². Za veće porudžbine nudimo popuste po dogovoru."
+            answer: "Cena dekorativnog kamena se kreće između 33 KM do 40 KM po m². Cena dekorativne rustik cigle se kreće od 25 KM do 30 KM po m². Za veće porudžbine nudimo popuste po dogovoru."
         },
         {
             id: 6,

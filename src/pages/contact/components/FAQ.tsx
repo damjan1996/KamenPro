@@ -51,7 +51,7 @@ export function FAQSection() {
         },
         {
             question: "Koja je cena po m² za različite vrste obloga koje nudite?",
-            answer: "Cena dekorativnog kamena se kreće između 33 BAM do 40 BAM. Cena dekorativne rustik cigle se kreće od 25 BAM do 30 BAM. Za veće količine nudimo popuste po dogovoru.",
+            answer: "Cena dekorativnog kamena se kreće između 33 KM do 40 KM. Cena dekorativne rustik cigle se kreće od 25 KM do 30 KM. Za veće količine nudimo popuste po dogovoru.",
             category: "cene"
         }
     ];

@@ -392,7 +392,7 @@ export function FeaturedProducts() {
                                                 </div>
 
                                                 <div className="text-right">
-                                                    <div className="text-xl font-bold text-stone-800">{product.price} BAM</div>
+                                                    <div className="text-xl font-bold text-stone-800">{product.price} KM</div>
                                                     <div className="text-xs text-stone-500 font-light">po {product.unit}</div>
                                                 </div>
                                             </div>
