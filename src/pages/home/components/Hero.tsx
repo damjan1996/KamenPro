@@ -1,4 +1,4 @@
-// src/components/home/components/Hero.tsx
+// src/pages/home/components/Hero.tsx - with SEO optimizations
 import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { Container } from "../../../components/ui/Container";
@@ -24,14 +24,21 @@ export function Hero() {
     };
 
     return (
-        <section className="relative min-h-screen w-full flex items-center overflow-hidden font-sans">
+        <section
+            className="relative min-h-screen w-full flex items-center overflow-hidden font-sans"
+            aria-label="Hero section"
+            id="hero"
+        >
             {/* Background with gradient overlay */}
             <div className="absolute inset-0 z-0 w-full">
                 <div className="absolute inset-0 bg-gradient-to-b from-black/80 to-black/50 z-10"></div>
                 <img
                     src="/images/home/hero.png"
-                    alt="KamenPro dekorativne obloge"
+                    alt="KamenPro dekorativne kamene obloge - enterijer i eksterijer"
                     className="w-full h-full object-cover object-center z-0 transform scale-105 transition-transform duration-10000 hover:scale-110"
+                    loading="eager"
+                    width="1920"
+                    height="1080"
                 />
             </div>
 
@@ -56,13 +63,15 @@ export function Hero() {
                         <a
                             href="/proizvodi"
                             className="btn-primary group bg-amber-500 text-gray-900 px-5 py-3 rounded-sm hover:bg-amber-400 transition-all duration-300 inline-flex items-center justify-center text-sm uppercase tracking-wider font-light shadow-md hover:shadow-lg"
+                            aria-label="Pogledajte našu ponudu proizvoda"
                         >
                             Istražite proizvode
-                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                         </a>
                         <a
                             href="/kontakt"
                             className="btn-secondary px-5 py-3 rounded-sm border border-white hover:bg-white hover:bg-opacity-10 transition-all duration-300 text-center text-sm uppercase tracking-wider font-light"
+                            aria-label="Kontaktirajte nas za besplatnu konsultaciju"
                         >
                             Besplatna konsultacija
                         </a>
@@ -74,9 +83,10 @@ export function Hero() {
             <div
                 className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 cursor-pointer hidden md:block"
                 onClick={scrollToContent}
+                aria-label="Skrolujte prema dole za više sadržaja"
             >
                 <div className="w-10 h-10 flex items-center justify-center rounded-full border border-white/30 backdrop-blur-sm bg-black/10 text-white hover:bg-black/20 hover:border-white/50 transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                     </svg>
                 </div>

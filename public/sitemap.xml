@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
+                            http://www.google.com/schemas/sitemap-image/1.1
+                            http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd">
+
+    <!-- Homepage -->
+    <url>
+        <loc>https://kamenpro.net/</loc>
+        <lastmod>2025-05-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://kamenpro.net/images/home/hero.png</image:loc>
+            <image:title>KamenPro - Kamene obloge za enterijer i eksterijer</image:title>
+        </image:image>
+    </url>
+
+    <!-- Main pages -->
+    <url>
+        <loc>https://kamenpro.net/o-nama</loc>
+        <lastmod>2025-05-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://kamenpro.net/proizvodi</loc>
+        <lastmod>2025-05-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <url>
+        <loc>https://kamenpro.net/reference</loc>
+        <lastmod>2025-05-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://kamenpro.net/kontakt</loc>
+        <lastmod>2025-05-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Product pages -->
+    <url>
+        <loc>https://kamenpro.net/proizvodi/d94aaee3-08fc-4c7f-b4f7-0066aab85532</loc>
+        <lastmod>2025-05-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <image:image>
+            <image:loc>https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/White/Dolomite%20-%20White%20I%20-%20Kvadrat.jpg</image:loc>
+            <image:title>Dolomite - White</image:title>
+        </image:image>
+    </url>
+
+    <url>
+        <loc>https://kamenpro.net/proizvodi/c7938607-e6e2-4bd7-8234-5266f7264ee4</loc>
+        <lastmod>2025-05-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <image:image>
+            <image:loc>https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Dolomite/Anthracite/Dolomite%20-%20Anthracite%20I%20-%20Kvadrat.jpg</image:loc>
+            <image:title>Dolomite - Anthracite</image:title>
+        </image:image>
+    </url>
+
+    <url>
+        <loc>https://kamenpro.net/proizvodi/2e6a102f-dd4e-4674-a913-ce7838e5103d</loc>
+        <lastmod>2025-05-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <image:image>
+            <image:loc>https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Kamen/White/Kamen%20-%20White%20-%20Kvadrat.jpg</image:loc>
+            <image:title>Kamen - White</image:title>
+        </image:image>
+    </url>
+
+    <url>
+        <loc>https://kamenpro.net/proizvodi/956a220c-70ab-48af-9318-19261198a582</loc>
+        <lastmod>2025-05-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <image:image>
+            <image:loc>https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Kamen/Anthracite/Kamen%20-%20Anthracite%20-%20Kvadrat.jpg</image:loc>
+            <image:title>Kamen - Black</image:title>
+        </image:image>
+    </url>
+
+    <url>
+        <loc>https://kamenpro.net/proizvodi/d0e33ce8-2b22-4231-8157-9ef419da7e30</loc>
+        <lastmod>2025-05-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <image:image>
+            <image:loc>https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Cigla/Rustik/White/Cigla%20-%20Rustik%20-%20White%20-%20Kvadrat.jpg</image:loc>
+            <image:title>Cigla - Rustik - White</image:title>
+        </image:image>
+    </url>
+
+    <!-- Other pages -->
+    <url>
+        <loc>https://kamenpro.net/uslovi-koriscenja</loc>
+        <lastmod>2025-01-01</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+
+    <url>
+        <loc>https://kamenpro.net/politika-privatnosti</loc>
+        <lastmod>2025-01-01</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+
+</urlset>

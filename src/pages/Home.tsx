@@ -1,4 +1,4 @@
-// src/pages/Home.tsx
+// src/pages/Home.tsx - with SEO optimizations
 import { Seo } from "../components/Seo";
 import { Hero } from "./home/components/Hero";
 import { AboutSection } from "./home/components/About";
@@ -13,16 +13,36 @@ export default function Home() {
         <>
             <Seo
                 title="Početna"
-                description="KamenPro - Visokokvalitetne kamene obloge za vaš dom. Nudimo prirodni kamen, mermer, travertin i druge materijale za unutrašnje i spoljašnje uređenje."
-                keywords="kamene obloge, prirodni kamen, zidne obloge, podne obloge, mermer, travertin"
+                description="KamenPro - Visokokvalitetne kamene obloge za vaš dom i poslovni prostor. Nudimo dekorativni kamen, mermer, travertin i druge materijale za unutrašnje i spoljašnje uređenje. Bijeljina, Bosna i Hercegovina."
+                keywords="kamene obloge, dekorativni kamen, zidne obloge, podne obloge, mermer, travertin, Bijeljina, Bosna, zidni kamen, fasade"
+                canonical="/"
+                schemaType="WebPage"
+                schemaData={{
+                    speakable: {
+                        "@type": "SpeakableSpecification",
+                        cssSelector: ["h1", ".hero-description"]
+                    },
+                    breadcrumb: {
+                        "@type": "BreadcrumbList",
+                        itemListElement: [{
+                            "@type": "ListItem",
+                            position: 1,
+                            name: "Početna",
+                            item: "https://kamenpro.net/"
+                        }]
+                    }
+                }}
+                image="/images/home/hero.png"
             />
-            <Hero />
-            <ProductsSection />
-            <CTASection />
-            <AboutSection />
-            <ProjectsSection />
-            <TestimonialsSection />
-            <ContactInfoSection />
+            <main>
+                <Hero />
+                <ProductsSection />
+                <CTASection />
+                <AboutSection />
+                <ProjectsSection />
+                <TestimonialsSection />
+                <ContactInfoSection />
+            </main>
         </>
     );
 }

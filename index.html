@@ -9,7 +9,35 @@
   <link rel="manifest" href="/site.webmanifest">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#1c1917" />
-  <meta name="description" content="KamenPro - Kamene obloge, dekorativni kamen za zidove i fasade. Prirodni i veštački kamen za uređenje enterijera i eksterijera." />
+  <meta name="description" content="KamenPro - Kamene obloge, dekorativni kamen za zidove i fasade. Prirodni i veštački kamen za uređenje enterijera i eksterijera. Bijeljina, Bosna i Hercegovina." />
+  <meta name="keywords" content="kamene obloge, dekorativni kamen, prirodni kamen, zidne obloge, zidne ploče, enterijer, eksterijer, fasade, KamenPro, Bijeljina, Bosna, Hercegovina" />
+  <meta name="author" content="KamenPro" />
+  <meta name="geo.region" content="BA" />
+  <meta name="geo.placename" content="Bijeljina" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://kamenpro.net/" />
+  <meta property="og:title" content="KamenPro | Kamene obloge za enterijer i eksterijer" />
+  <meta property="og:description" content="KamenPro - Kamene obloge, dekorativni kamen za zidove i fasade. Prirodni i veštački kamen za uređenje enterijera i eksterijera." />
+  <meta property="og:image" content="https://kamenpro.net/images/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="sr_RS" />
+  <meta property="og:site_name" content="KamenPro" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://kamenpro.net/" />
+  <meta property="twitter:title" content="KamenPro | Kamene obloge za enterijer i eksterijer" />
+  <meta property="twitter:description" content="KamenPro - Kamene obloge, dekorativni kamen za zidove i fasade. Prirodni i veštački kamen za uređenje enterijera i eksterijera." />
+  <meta property="twitter:image" content="https://kamenpro.net/images/og-image.jpg" />
+
+  <!-- Preconnect to important domains -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://connect.facebook.net" crossorigin />
+  <link rel="preconnect" href="https://static.hotjar.com" crossorigin />
 
   <!-- Meta Pixel Code -->
   <script>
@@ -38,7 +66,7 @@
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
   </script>
 
-  <!-- Inline-Styles für die Schriftart (lokale Fallback-Schriften) -->
+  <!-- Inline critical CSS for better performance -->
   <style>
     @font-face {
       font-family: 'Inter';
@@ -63,10 +91,66 @@
       font-display: swap;
       src: local('Inter Bold'), local('Inter-Bold'), local('sans-serif-bold');
     }
+
+    /* Basic reset for better performance */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.5;
+      color: #1a202c;
+      overflow-x: hidden;
+    }
   </style>
+
+  <!-- Preload critical fonts -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet"></noscript>
 
   <!-- Crisp Chat Code -->
   <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="1dad85a7-9059-4191-9c56-02b60c13745f";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+
+  <!-- Structured Data - Organization -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "KamenPro",
+      "url": "https://kamenpro.net",
+      "logo": "https://kamenpro.net/logo.png",
+      "image": "https://kamenpro.net/images/og-image.jpg",
+      "description": "KamenPro - Kamene obloge, dekorativni kamen za zidove i fasade. Prirodni i veštački kamen za uređenje enterijera i eksterijera.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Bijeljina",
+        "addressRegion": "Republika Srpska",
+        "addressCountry": "BA"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "44.7305556",
+        "longitude": "19.2281741"
+      },
+      "telephone": "+38765678634",
+      "email": "info@kamenpro.net",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          "opens": "09:00",
+          "closes": "18:00"
+        }
+      ],
+      "priceRange": "$$",
+      "sameAs": [
+        "https://www.facebook.com/people/KamenPro/61575722519014/"
+      ]
+    }
+  </script>
 
   <title>KamenPro | Kamene obloge za enterijer i eksterijer</title>
 </head>
@@ -74,6 +158,7 @@
 <!-- Facebook Pixel Noscript (moved from head to body) -->
 <noscript><img height="1" width="1" style="display:none"
                src="https://www.facebook.com/tr?id=1105114359678852&ev=PageView&noscript=1"
+               alt="facebook pixel"
 /></noscript>
 
 <div id="root"></div>
