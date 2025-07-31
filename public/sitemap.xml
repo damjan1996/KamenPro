@@ -48,6 +48,40 @@
         <priority>0.7</priority>
     </url>
 
+    <!-- Location pages -->
+    <url>
+        <loc>https://kamenpro.net/lokacije/bijeljina</loc>
+        <lastmod>2025-07-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <image:image>
+            <image:loc>https://kamenpro.net/images/lokacije/bijeljina-og.jpg</image:loc>
+            <image:title>Dekorativni kamen Bijeljina - KamenPro</image:title>
+        </image:image>
+    </url>
+
+    <url>
+        <loc>https://kamenpro.net/lokacije/brcko</loc>
+        <lastmod>2025-07-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <image:image>
+            <image:loc>https://kamenpro.net/images/lokacije/brcko-og.jpg</image:loc>
+            <image:title>Dekorativni kamen Brčko - KamenPro</image:title>
+        </image:image>
+    </url>
+
+    <url>
+        <loc>https://kamenpro.net/lokacije/tuzla</loc>
+        <lastmod>2025-07-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <image:image>
+            <image:loc>https://kamenpro.net/images/lokacije/tuzla-og.jpg</image:loc>
+            <image:title>Dekorativni kamen Tuzla - KamenPro</image:title>
+        </image:image>
+    </url>
+
     <!-- Product pages -->
     <url>
         <loc>https://kamenpro.net/proizvodi/d94aaee3-08fc-4c7f-b4f7-0066aab85532</loc>

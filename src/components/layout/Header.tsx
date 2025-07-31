@@ -2,10 +2,17 @@
 import { Menu, X } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 
+interface NavigationItem {
+  name: string;
+  href: string;
+  submenu?: { name: string; href: string }[];
+}
+
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(true); // Initial auf true setzen
   const [initialized, setInitialized] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const touchStartRef = useRef<number | null>(null);
 
@@ -72,10 +79,19 @@ export function Header() {
   }, [initialized]);
 
   // Navigation items - Nur die Hauptnavigationseinträge behalten
-  const navigation = [
+  const navigation: NavigationItem[] = [
     { name: 'POČETNA', href: '/' },
     { name: 'O NAMA', href: '/o-nama' },
     { name: 'PROIZVODI', href: '/proizvodi' },
+    { 
+      name: 'LOKACIJE', 
+      href: '#',
+      submenu: [
+        { name: 'Bijeljina', href: '/lokacije/bijeljina' },
+        { name: 'Brčko', href: '/lokacije/brcko' },
+        { name: 'Tuzla', href: '/lokacije/tuzla' }
+      ]
+    },
     { name: 'REFERENCE', href: '/reference' }
   ];
 
@@ -125,17 +141,50 @@ export function Header() {
                   </a>
                 </div>
 
-                {/* Desktop Navigation - Jetzt ohne Dropdowns */}
+                {/* Desktop Navigation - Now with dropdown support */}
                 <div className="hidden lg:flex items-center space-x-4 xl:space-x-6 overflow-x-auto">
                   {navigation.map((item) => (
-                      <a
-                          key={item.name}
-                          href={item.href}
-                          className="relative text-white hover:text-amber-400 transition-all duration-300 font-light tracking-wider text-sm whitespace-nowrap after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full focus:outline-none focus:ring-2 focus:ring-amber-500"
-                          aria-current={window.location.pathname === item.href ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </a>
+                      item.submenu ? (
+                          <div
+                              key={item.name}
+                              className="relative"
+                              onMouseEnter={() => setActiveDropdown(item.name)}
+                              onMouseLeave={() => setActiveDropdown(null)}
+                          >
+                              <button
+                                  className="relative text-white hover:text-amber-400 transition-all duration-300 font-light tracking-wider text-sm whitespace-nowrap after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full focus:outline-none focus:ring-2 focus:ring-amber-500 flex items-center"
+                                  aria-expanded={activeDropdown === item.name}
+                                  aria-haspopup="true"
+                              >
+                                  {item.name}
+                                  <svg className="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                  </svg>
+                              </button>
+                              {activeDropdown === item.name && (
+                                  <div className="absolute top-full left-0 mt-2 w-48 bg-gray-900 rounded-sm shadow-lg overflow-hidden z-50">
+                                      {item.submenu.map((subitem) => (
+                                          <a
+                                              key={subitem.name}
+                                              href={subitem.href}
+                                              className="block px-4 py-3 text-sm text-white hover:bg-gray-800 hover:text-amber-400 transition-colors duration-200"
+                                          >
+                                              {subitem.name}
+                                          </a>
+                                      ))}
+                                  </div>
+                              )}
+                          </div>
+                      ) : (
+                          <a
+                              key={item.name}
+                              href={item.href}
+                              className="relative text-white hover:text-amber-400 transition-all duration-300 font-light tracking-wider text-sm whitespace-nowrap after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full focus:outline-none focus:ring-2 focus:ring-amber-500"
+                              aria-current={window.location.pathname === item.href ? 'page' : undefined}
+                          >
+                              {item.name}
+                          </a>
+                      )
                   ))}
                   <a
                       href="/kontakt"
@@ -209,14 +258,34 @@ export function Header() {
             <nav className="flex-1 space-y-1" role="navigation" aria-label="Mobile navigacija">
               {navigation.map((item) => (
                   <div key={item.name} className="border-b border-gray-800">
-                    <a
-                        href={item.href}
-                        className="block py-3 px-4 text-white hover:text-amber-400 hover:bg-gray-800 transition-colors font-light tracking-wider text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
-                        onClick={() => setIsMenuOpen(false)}
-                        aria-current={window.location.pathname === item.href ? 'page' : undefined}
-                    >
-                      {item.name}
-                    </a>
+                    {item.submenu ? (
+                        <>
+                          <div className="py-3 px-4 text-white font-light tracking-wider text-sm">
+                            {item.name}
+                          </div>
+                          <div className="pl-4">
+                            {item.submenu.map((subitem) => (
+                                <a
+                                    key={subitem.name}
+                                    href={subitem.href}
+                                    className="block py-2 px-4 text-stone-300 hover:text-amber-400 hover:bg-gray-800 transition-colors font-light text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                  {subitem.name}
+                                </a>
+                            ))}
+                          </div>
+                        </>
+                    ) : (
+                        <a
+                            href={item.href}
+                            className="block py-3 px-4 text-white hover:text-amber-400 hover:bg-gray-800 transition-colors font-light tracking-wider text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+                            onClick={() => setIsMenuOpen(false)}
+                            aria-current={window.location.pathname === item.href ? 'page' : undefined}
+                        >
+                          {item.name}
+                        </a>
+                    )}
                   </div>
               ))}
             </nav>

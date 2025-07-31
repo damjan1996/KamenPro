@@ -17,28 +17,20 @@ const NotFound = lazy(() => import('./pages/NotFound').then(module => ({ default
 // Neue ProductDetail Komponente mit Lazy Loading
 const ProductDetail = lazy(() => import('./pages/products/ProductDetail'));
 
+// Location page component
+const LocationPage = lazy(() => import('./pages/lokacije/LocationPage'));
+
 // Cookie-Kategorien und Einstellungen
 type CookieSettings = {
     necessary: boolean;
     analytics: boolean;
 }
 
+import { initializeAnalytics, trackPageView } from './lib/analyticsConfig';
+
 // Google Analytics nur laden, wenn Zustimmung gegeben wurde
 function loadGoogleAnalytics() {
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = "https://www.googletagmanager.com/gtag/js?id=G-HKZ64S51GN";
-    document.head.appendChild(script);
-
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function(command, ...args) {
-        window.dataLayer.push([command, ...args]);
-    };
-
-    window.gtag('js', new Date());
-    window.gtag('config', 'G-HKZ64S51GN', {
-        anonymize_ip: true // DSGVO-konforme IP-Anonymisierung
-    });
+    initializeAnalytics();
 }
 
 // RouteTracker Komponente für Analytics
@@ -47,10 +39,14 @@ function RouteTracker() {
 
     useEffect(() => {
         if (typeof window !== 'undefined' && window.gtag) {
-            window.gtag('config', 'G-HKZ64S51GN', {
-                page_path: location.pathname + location.search,
-                anonymize_ip: true
-            });
+            const locationMatch = location.pathname.match(/\/lokacije\/(\w+)/);
+            const currentLocation = locationMatch ? locationMatch[1] : undefined;
+            
+            trackPageView(
+                location.pathname + location.search,
+                document.title,
+                currentLocation
+            );
         }
     }, [location]);
 
@@ -128,6 +124,7 @@ function App() {
                             <Route path="/o-nama" element={<About />} />
                             <Route path="/proizvodi" element={<Products />} />
                             <Route path="/proizvodi/:productId" element={<ProductDetail />} />
+                            <Route path="/lokacije/:location" element={<LocationPage />} />
                             <Route path="/reference" element={<References />} />
                             <Route path="/kontakt" element={<Contact />} />
                             <Route path="*" element={<NotFound />} />

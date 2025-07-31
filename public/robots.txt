@@ -19,6 +19,7 @@ Allow: /proizvodi/
 Allow: /o-nama/
 Allow: /kontakt/
 Allow: /reference/
+Allow: /lokacije/
 
 # Media files
 Allow: /*.jpg$
