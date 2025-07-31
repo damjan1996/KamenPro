@@ -1,4 +1,7 @@
 /* Critical CSS für Above-the-fold Content */
+/* Google Fonts für Inter statt lokaler Dateien */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 
@@ -9,9 +12,6 @@
     font-family: 'Inter', sans-serif;
   }
 }
-
-/* Google Fonts für Inter statt lokaler Dateien */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
 
 /* Entfernt: Lokale Font Declarations, die Fehler verursachen
 @font-face {
