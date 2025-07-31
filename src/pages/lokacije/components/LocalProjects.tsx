@@ -1,78 +1,135 @@
-import { LocationData } from '../../../lib/locationData';
-import { motion } from 'framer-motion';
+// src/pages/lokacije/components/LocalProjects.tsx
+import { useState, useEffect, useRef } from "react";
+import { Container } from "../../../components/ui/Container";
+import { ArrowRight, Calendar } from "lucide-react";
+import { Image } from "../../../components/ui/Image";
+import { LocationData } from "../../../lib/locationData";
 
-interface LocalProjectsProps {
-    locationData: LocationData;
+interface Project {
+    name: string;
+    description: string;
+    image: string;
+    year: string;
 }
 
-export function LocalProjects({ locationData }: LocalProjectsProps) {
-    const { city, content } = locationData;
+interface LocalProjectsProps {
+    city?: string;
+    projects?: Project[];
+    locationData?: LocationData;
+}
+
+export function LocalProjects({ city, projects, locationData }: LocalProjectsProps) {
+    const [isVisible, setIsVisible] = useState(false);
+    const [activeProject, setActiveProject] = useState(0);
+    const sectionRef = useRef<HTMLElement>(null);
+
+    // Use data from locationData if available, otherwise use direct props
+    const currentCity = city || locationData?.city || '';
+    const currentProjects = projects || (locationData?.content?.localProjects?.map((project, index) => ({
+        name: project.split(' - ')[0] || project,
+        description: project.split(' - ')[1] || project,
+        image: `/images/projekti/${locationData.citySlug}-${index + 1}.jpg`,
+        year: '2024'
+    })) || []);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                }
+            },
+            { threshold: 0.1 }
+        );
+
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
+        }
+
+        return () => {
+            if (sectionRef.current) {
+                observer.unobserve(sectionRef.current);
+            }
+        };
+    }, []);
 
     return (
-        <section className="py-20 bg-stone-50">
-            <div className="container mx-auto px-4">
-                <div className="max-w-6xl mx-auto">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center mb-12"
-                    >
-                        <h2 className="text-3xl md:text-4xl font-bold text-stone-900 mb-4">
-                            Naši Projekti u {city}
-                        </h2>
-                        <p className="text-lg text-stone-600 max-w-3xl mx-auto">
-                            Ponosni smo na brojne uspješne projekte koje smo realizovali širom grada
-                        </p>
-                    </motion.div>
+        <section ref={sectionRef} className="py-16 md:py-24 bg-white font-sans">
+            <Container>
+                <div className={`text-center mb-12 transition-all duration-700 ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                }`}>
+                    <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-4 tracking-wide">
+                        Projekti u <span className="font-medium text-amber-600">{currentCity}</span>
+                    </h2>
+                    <div className="w-16 h-1 bg-amber-500 mx-auto mb-6"></div>
+                    <p className="text-stone-600 max-w-2xl mx-auto font-light">
+                        Pogledajte naše uspešno realizovane projekte u {currentCity} i okolini
+                    </p>
+                </div>
 
-                    <div className="grid md:grid-cols-2 gap-8">
-                        {content.localProjects.map((project, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: index * 0.1 }}
-                                className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-                            >
-                                <div className="flex items-start">
-                                    <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                                        <span className="text-amber-600 font-bold">{index + 1}</span>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-semibold text-stone-900 mb-2">
-                                            {project}
-                                        </h3>
-                                        <p className="text-stone-600">
-                                            Uspješno realizovan projekat sa vrhunskim dekorativnim kamenom
-                                        </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {currentProjects.map((project, index) => (
+                        <div
+                            key={index}
+                            className={`group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-500 overflow-hidden border border-stone-100 ${
+                                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                            }`}
+                            style={{ transitionDelay: `${index * 150}ms` }}
+                            onMouseEnter={() => setActiveProject(index)}
+                        >
+                            <div className="aspect-video overflow-hidden">
+                                <Image
+                                    src={project.image}
+                                    alt={`${project.name} - KamenPro projekat u ${currentCity}`}
+                                    className={`w-full h-full object-cover transition-transform duration-700 ${
+                                        activeProject === index ? 'scale-105' : 'scale-100'
+                                    }`}
+                                    width={400}
+                                    height={300}
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                    loading="lazy"
+                                    fallbackSrc="/images/placeholder-project.jpg"
+                                />
+                            </div>
+                            
+                            <div className="p-6">
+                                <div className="flex items-center justify-between mb-3">
+                                    <h3 className="font-medium text-stone-800 group-hover:text-amber-600 transition-colors">
+                                        {project.name}
+                                    </h3>
+                                    <div className="flex items-center text-stone-500 text-sm">
+                                        <Calendar className="h-4 w-4 mr-1" />
+                                        {project.year}
                                     </div>
                                 </div>
-                            </motion.div>
-                        ))}
-                    </div>
-
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
-                        className="text-center mt-12"
-                    >
-                        <p className="text-lg text-stone-700 mb-6">
-                            Želite vidjeti više naših projekata?
-                        </p>
-                        <a
-                            href="/reference"
-                            className="inline-block bg-amber-600 text-white px-8 py-3 rounded-sm hover:bg-amber-700 transition-colors duration-300 font-medium"
-                        >
-                            Pogledajte Sve Reference
-                        </a>
-                    </motion.div>
+                                
+                                <p className="text-stone-600 font-light text-sm leading-relaxed mb-4">
+                                    {project.description}
+                                </p>
+                                
+                                <a
+                                    href="/reference"
+                                    className="inline-flex items-center text-amber-600 hover:text-amber-700 text-sm font-medium transition-colors group"
+                                >
+                                    Pogledajte više
+                                    <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                </a>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            </div>
+
+                <div className="text-center mt-12">
+                    <a
+                        href="/reference"
+                        className="inline-flex items-center bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-sm font-medium transition-colors"
+                    >
+                        Svi naši projekti
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                    </a>
+                </div>
+            </Container>
         </section>
     );
 }

@@ -15,6 +15,7 @@ export function Header() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const touchStartRef = useRef<number | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Initialisierung des Headers
   useEffect(() => {
@@ -78,20 +79,36 @@ export function Header() {
     };
   }, [initialized]);
 
+  // Handle click outside dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setActiveDropdown(null);
+      }
+    };
+
+    if (activeDropdown) {
+      document.addEventListener('click', handleClickOutside);
+      return () => {
+        document.removeEventListener('click', handleClickOutside);
+      };
+    }
+  }, [activeDropdown]);
+
   // Navigation items - Nur die Hauptnavigationseinträge behalten
   const navigation: NavigationItem[] = [
     { name: 'POČETNA', href: '/' },
     { name: 'O NAMA', href: '/o-nama' },
     { name: 'PROIZVODI', href: '/proizvodi' },
-    { 
-      name: 'LOKACIJE', 
-      href: '#',
-      submenu: [
-        { name: 'Bijeljina', href: '/lokacije/bijeljina' },
-        { name: 'Brčko', href: '/lokacije/brcko' },
-        { name: 'Tuzla', href: '/lokacije/tuzla' }
-      ]
-    },
+    // { 
+    //   name: 'LOKACIJE', 
+    //   href: '#',
+    //   submenu: [
+    //     { name: 'Bijeljina', href: '/lokacije/bijeljina' },
+    //     { name: 'Brčko', href: '/lokacije/brcko' },
+    //     { name: 'Tuzla', href: '/lokacije/tuzla' }
+    //   ]
+    // },
     { name: 'REFERENCE', href: '/reference' }
   ];
 
@@ -116,16 +133,15 @@ export function Header() {
 
   return (
       <>
-        <div className="overflow-x-hidden w-full">
-          <header
-              ref={headerRef}
-              className={`fixed w-full top-0 left-0 z-50 transition-colors duration-300 ${
-                  scrolled
-                      ? 'bg-gray-900 shadow-md'
-                      : 'bg-black bg-opacity-70 backdrop-blur-sm'
-              }`}
-              style={{ fontFamily: 'Inter, sans-serif' }}
-          >
+        <header
+            ref={headerRef}
+            className={`fixed w-full top-0 left-0 z-50 transition-colors duration-300 ${
+                scrolled
+                    ? 'bg-gray-900 shadow-md'
+                    : 'bg-black bg-opacity-70 backdrop-blur-sm'
+            }`}
+            style={{ fontFamily: 'Inter, sans-serif' }}
+        >
             {/* Angepasster Container für Mobile */}
             <div className="max-w-full mx-auto px-3 sm:px-6 lg:container lg:px-8">
               <nav className="flex items-center justify-between h-14 sm:h-16 md:h-18" role="navigation" aria-label="Glavna navigacija">
@@ -142,38 +158,48 @@ export function Header() {
                 </div>
 
                 {/* Desktop Navigation - Now with dropdown support */}
-                <div className="hidden lg:flex items-center space-x-4 xl:space-x-6 overflow-x-auto">
+                <div className="hidden lg:flex items-center space-x-4 xl:space-x-6">
                   {navigation.map((item) => (
                       item.submenu ? (
                           <div
                               key={item.name}
-                              className="relative"
+                              className="relative group"
+                              ref={item.submenu ? dropdownRef : null}
                               onMouseEnter={() => setActiveDropdown(item.name)}
                               onMouseLeave={() => setActiveDropdown(null)}
                           >
                               <button
-                                  className="relative text-white hover:text-amber-400 transition-all duration-300 font-light tracking-wider text-sm whitespace-nowrap after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full focus:outline-none focus:ring-2 focus:ring-amber-500 flex items-center"
+                                  className="relative text-white hover:text-amber-400 transition-all duration-300 font-light tracking-wider text-sm whitespace-nowrap after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full focus:outline-none focus:ring-2 focus:ring-amber-500 flex items-center py-2"
                                   aria-expanded={activeDropdown === item.name}
                                   aria-haspopup="true"
+                                  onClick={(e) => {
+                                      e.preventDefault();
+                                      setActiveDropdown(activeDropdown === item.name ? null : item.name);
+                                  }}
                               >
                                   {item.name}
-                                  <svg className="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <svg className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                   </svg>
                               </button>
-                              {activeDropdown === item.name && (
-                                  <div className="absolute top-full left-0 mt-2 w-48 bg-gray-900 rounded-sm shadow-lg overflow-hidden z-50">
+                              <div className={`absolute top-full left-0 pt-1 transition-all duration-200 z-50 ${
+                                  activeDropdown === item.name 
+                                      ? 'opacity-100 visible translate-y-0' 
+                                      : 'opacity-0 invisible -translate-y-2'
+                              }`}>
+                                  <div className="bg-gray-900 rounded-sm shadow-xl overflow-hidden border border-gray-800 min-w-[200px]">
                                       {item.submenu.map((subitem) => (
                                           <a
                                               key={subitem.name}
                                               href={subitem.href}
-                                              className="block px-4 py-3 text-sm text-white hover:bg-gray-800 hover:text-amber-400 transition-colors duration-200"
+                                              className="block px-4 py-3 text-sm text-white hover:bg-gray-800 hover:text-amber-400 transition-colors duration-200 border-b border-gray-800 last:border-b-0"
+                                              onClick={() => setActiveDropdown(null)}
                                           >
                                               {subitem.name}
                                           </a>
                                       ))}
                                   </div>
-                              )}
+                              </div>
                           </div>
                       ) : (
                           <a
@@ -211,7 +237,6 @@ export function Header() {
               </nav>
             </div>
           </header>
-        </div>
 
         {/* Mobile Sidebar Overlay - verbessert mit Swipe-Unterstützung */}
         {isMenuOpen && (

@@ -17,8 +17,8 @@ const NotFound = lazy(() => import('./pages/NotFound').then(module => ({ default
 // Neue ProductDetail Komponente mit Lazy Loading
 const ProductDetail = lazy(() => import('./pages/products/ProductDetail'));
 
-// Location page component
-const LocationPage = lazy(() => import('./pages/lokacije/LocationPage'));
+// Location page component - temporarily disabled during development
+// const LocationPage = lazy(() => import('./pages/lokacije/LocationPage'));
 
 // Cookie-Kategorien und Einstellungen
 type CookieSettings = {
@@ -124,7 +124,7 @@ function App() {
                             <Route path="/o-nama" element={<About />} />
                             <Route path="/proizvodi" element={<Products />} />
                             <Route path="/proizvodi/:productId" element={<ProductDetail />} />
-                            <Route path="/lokacije/:location" element={<LocationPage />} />
+                            {/* <Route path="/lokacije/:location" element={<LocationPage />} /> */}
                             <Route path="/reference" element={<References />} />
                             <Route path="/kontakt" element={<Contact />} />
                             <Route path="*" element={<NotFound />} />
