@@ -16,7 +16,7 @@ export function Seo({
                         description,
                         canonical,
                         keywords,
-                        image = 'https://kamenpro.net/images/og-default.jpg',
+                        image = 'https://kamenpro.net/images/logo.png',
                         schemaType = 'WebPage',
                         schemaData = {},
                         noindex = false
@@ -44,7 +44,7 @@ export function Seo({
         if (schemaType === 'Organization' || schemaType === 'LocalBusiness') {
             return {
                 ...baseSchema,
-                logo: `${baseUrl}/logo.png`,
+                logo: `${baseUrl}/images/logo.png`,
                 contactPoint: {
                     '@type': 'ContactPoint',
                     telephone: '+38765678634',
@@ -90,7 +90,7 @@ export function Seo({
                     name: 'KamenPro',
                     logo: {
                         '@type': 'ImageObject',
-                        url: `${baseUrl}/logo.png`
+                        url: `${baseUrl}/images/logo.png`
                     }
                 },
                 datePublished: schemaData.datePublished || new Date().toISOString(),

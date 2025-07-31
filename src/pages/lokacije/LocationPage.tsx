@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Seo } from '../../components/Seo';
 import HreflangTags from '../../components/HreflangTags';
+import FaviconTags from '../../components/FaviconTags';
 import { getLocationBySlug } from '../../lib/locationData';
 import { LocationHero } from './components/LocationHero';
 import { LocationContent } from './components/LocationContent';
@@ -164,6 +165,7 @@ export default function LocationPage() {
                 location={locationData.citySlug}
             />
             
+            <FaviconTags />
             <InstallationServiceSchema location={locationData.citySlug} />
             
             {/* Additional schema markup */}

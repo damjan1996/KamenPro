@@ -1,6 +1,7 @@
 // src/pages/Home.tsx - with SEO optimizations
 import { Seo } from "../components/Seo";
 import HreflangTags from "../components/HreflangTags";
+import FaviconTags from "../components/FaviconTags";
 import MultiLocationBusinessSchema from "../components/schemas/MultiLocationBusinessSchema";
 import { Hero } from "./home/components/Hero";
 import { AboutSection } from "./home/components/About";
@@ -34,9 +35,10 @@ export default function Home() {
                         }]
                     }
                 }}
-                image="/images/home/hero.png"
+                image="/images/logo.png"
             />
             <HreflangTags currentPath="/" />
+            <FaviconTags />
             <MultiLocationBusinessSchema />
             <main>
                 <Hero />

@@ -5,7 +5,7 @@ export default function MultiLocationBusinessSchema() {
         "@id": "https://kamenpro.net/#organization",
         "name": "KamenPro",
         "url": "https://kamenpro.net",
-        "logo": "https://kamenpro.net/logo.png",
+        "logo": "https://kamenpro.net/images/logo.png",
         "description": "Proizvođač dekorativnih kamenih obloga u Bosni i Hercegovini",
         "foundingDate": "2014",
         "address": {
