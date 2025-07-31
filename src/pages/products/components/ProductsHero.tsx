@@ -59,7 +59,7 @@ export function ProductsHero() {
                 <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/60 z-10"></div>
                 <img
                     src="/images/products/pozadina%20ii.jpg"
-                    alt="KamenPro dekorativne kamene obloge"
+                    alt="KamenPro dekorativne kamene obloge - pririkaz različitih tekstura i boja dekorativnog kamena za enterijer i eksterijer"
                     className="w-full h-full object-cover object-center z-0 transition-transform duration-10000 ease-out"
                     style={{
                         transform: `scale(${1 + scrollProgress * 0.05})`,

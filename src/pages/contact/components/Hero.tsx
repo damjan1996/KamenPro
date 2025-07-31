@@ -55,7 +55,7 @@ export const Hero = () => {
                 {icon}
             </div>
             <div>
-                <h4 className="text-white text-base font-medium">{title}</h4>
+                <h3 className="text-white text-base font-medium">{title}</h3>
                 <p className="text-white/70 font-light">
                     {link ? (
                         <a
@@ -92,7 +92,7 @@ export const Hero = () => {
                     <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/60 z-10"></div>
                     <img
                         src="/images/contact/background%20contact.jpg"
-                        alt="KamenPro kontakt"
+                        alt="KamenPro kontakt - pozadinska slika sa prikazom kvalitetnih dekorativnih kamenih obloga"
                         className="w-full h-full object-cover object-center z-0 fixed"
                         style={{
                             position: "fixed",
@@ -148,7 +148,7 @@ export const Hero = () => {
                             <div className="absolute inset-0 bg-gradient-to-tr from-black/40 to-transparent"></div>
 
                             <div className="relative z-10">
-                                <h3 className="text-xl font-medium text-white mb-4">Kontakt informacije</h3>
+                                <h2 className="text-xl font-medium text-white mb-4">Kontakt informacije</h2>
                                 <p className="text-white/80 text-sm font-light mb-6">
                                     Dostupni smo za sve informacije o našim proizvodima i uslugama
                                 </p>

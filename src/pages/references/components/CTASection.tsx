@@ -115,7 +115,7 @@ export const CTASection = () => {
                                 <div className="overflow-hidden rounded-lg relative h-72 md:h-96">
                                     <img
                                         src="https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/Production/radionica%20iii.jpg"
-                                        alt="KamenPro izložbeni prostor"
+                                        alt="KamenPro izložbeni prostor sa prikazom dekorativnih kamenih obloga i stručnog osoblja za konsultacije"
                                         className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                                     />
                                 </div>
@@ -128,11 +128,11 @@ export const CTASection = () => {
                             {/* Informacije */}
                             <div className={`flex justify-center mt-8 gap-6 ${getAnimationClasses('delay-500')}`}>
                                 <div className="p-4 bg-white rounded-lg shadow-sm border border-stone-200 hover:border-amber-200 hover:shadow-md transition-all duration-300 text-center flex-1">
-                                    <h4 className="font-medium text-stone-800 mb-1">Radno vreme</h4>
+                                    <h3 className="font-medium text-stone-800 mb-1">Radno vreme</h3>
                                     <p className="text-stone-600 font-light text-sm">Pon - Sub: 09:00 - 18:00</p>
                                 </div>
                                 <div className="p-4 bg-white rounded-lg shadow-sm border border-stone-200 hover:border-amber-200 hover:shadow-md transition-all duration-300 text-center flex-1">
-                                    <h4 className="font-medium text-stone-800 mb-1">Od 2019.</h4>
+                                    <h3 className="font-medium text-stone-800 mb-1">Od 2019.</h3>
                                     <p className="text-stone-600 font-light text-sm">5+ godina iskustva</p>
                                 </div>
                             </div>
@@ -144,15 +144,15 @@ export const CTASection = () => {
                 <div className={`mt-16 pt-8 border-t border-stone-200 ${getAnimationClasses('delay-700')}`}>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                         <div>
-                            <h4 className="font-medium text-stone-800 mb-1">Adresa</h4>
+                            <h3 className="font-medium text-stone-800 mb-1">Adresa</h3>
                             <p className="text-stone-600 font-light">Bijeljina, Republika Srpska, BiH</p>
                         </div>
                         <div>
-                            <h4 className="font-medium text-stone-800 mb-1">Email</h4>
+                            <h3 className="font-medium text-stone-800 mb-1">Email</h3>
                             <a href="mailto:info@kamenpro.net" className="text-amber-600 hover:text-amber-700 transition-colors">info@kamenpro.net</a>
                         </div>
                         <div>
-                            <h4 className="font-medium text-stone-800 mb-1">Društvene mreže</h4>
+                            <h3 className="font-medium text-stone-800 mb-1">Društvene mreže</h3>
                             <a href="https://www.facebook.com/KamenPro-Bijeljina" className="text-amber-600 hover:text-amber-700 transition-colors">Facebook</a>
                         </div>
                     </div>

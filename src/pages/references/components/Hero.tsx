@@ -59,7 +59,7 @@ export function Hero() {
                 <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/60 z-10"></div>
                 <img
                     src="/images/references/hero.jpg"
-                    alt="KamenPro reference i projekti"
+                    alt="KamenPro reference - realizovani projekti dekorativnih kamenih obloga za stambene i poslovne objekte"
                     className="w-full h-full object-cover object-center z-0 transition-transform duration-10000 ease-out"
                     style={{
                         transform: `scale(${1 + scrollProgress * 0.05})`,
@@ -129,7 +129,7 @@ export function Hero() {
                                 <div className="relative h-64 overflow-hidden rounded-lg shadow-md group">
                                     <img
                                         src="/images/about/stambeni prostor.jpg"
-                                        alt="Stambeni objekat"
+                                        alt="Stambeni objekat sa KamenPro dekorativnim kamenim oblogama - elegantno uređen enterijer"
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
@@ -144,7 +144,7 @@ export function Hero() {
                                 <div className="relative h-64 overflow-hidden rounded-lg shadow-md group mt-8">
                                     <img
                                         src="/images/about/radni prostor.jpg"
-                                        alt="Poslovni prostor"
+                                        alt="Poslovni prostor uređen KamenPro dekorativnim oblogama - profesionalno radno okruženje"
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
@@ -164,7 +164,7 @@ export function Hero() {
                                     </div>
                                 </div>
                                 <div>
-                                    <h4 className="text-white font-medium">Godina iskustva</h4>
+                                    <h2 className="text-white font-medium text-lg">Godina iskustva</h2>
                                     <p className="text-white/70 text-sm font-light">Uspešno realizovani projekti stambenih i poslovnih objekata</p>
                                 </div>
                             </div>

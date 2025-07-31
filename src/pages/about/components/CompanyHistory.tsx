@@ -203,7 +203,7 @@ export function CompanyHistory() {
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
                                         <img
                                             src={item.image || 'https://yodddwoxxifcuawbmzop.supabase.co/storage/v1/object/public/product-images/Page/About/workshop-default.jpg'}
-                                            alt={`${item.year} - ${item.title}`}
+                                            alt={`KamenPro ${item.year} - ${item.title} - istorijski momenat u razvoju kompanije`}
                                             className="w-full h-full object-cover"
                                         />
                                     </div>

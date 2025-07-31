@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Container } from "../../../components/ui/Container";
 import { ChevronDown, ArrowRight, Phone } from "lucide-react";
+import FAQSchema from "../../../components/schemas/FAQSchema";
 
 export function ProductsFAQ() {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -229,6 +230,13 @@ export function ProductsFAQ() {
                     </div>
                 </div>
             </Container>
+            
+            <FAQSchema
+                items={faqs.map(faq => ({
+                    question: faq.question,
+                    answer: faq.answer
+                }))}
+            />
         </section>
     );
 }

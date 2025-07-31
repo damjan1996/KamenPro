@@ -110,7 +110,7 @@ export function ValuesSection() {
                         <div className="hidden lg:block relative overflow-hidden rounded-lg mt-12 shadow-md">
                             <img
                                 src="/images/about/proizvodni%20proces.jpg"
-                                alt="KamenPro proizvodni proces"
+                                alt="KamenPro proizvodni proces - pažljiva izrada dekorativnih kamenih obloga u našoj radionici"
                                 className="w-full h-72 object-cover hover:scale-105 transition-all duration-700"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -178,7 +178,7 @@ export function ValuesSection() {
                                     <div className="bg-stone-100 aspect-square rounded-lg overflow-hidden mb-2 shadow-sm transition-all duration-300 group-hover:shadow-md">
                                         <img
                                             src="/images/about/stambeni%20prostor.jpg"
-                                            alt="Stambeni objekat"
+                                            alt="KamenPro dekorativne kamene obloge u stambenom objektu - elegantno rešenje za enterijere"
                                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                         />
                                     </div>
@@ -192,7 +192,7 @@ export function ValuesSection() {
                                     <div className="bg-stone-100 aspect-square rounded-lg overflow-hidden mb-2 shadow-sm transition-all duration-300 group-hover:shadow-md">
                                         <img
                                             src="/images/about/radni%20prostor.jpg"
-                                            alt="Poslovni prostor"
+                                            alt="KamenPro kamene obloge u poslovnom prostoru - profesionalan i reprezentativan izgled"
                                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                         />
                                     </div>

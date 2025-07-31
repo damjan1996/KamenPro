@@ -161,7 +161,7 @@ export function InstallationInfo() {
                         <div className="relative rounded-lg overflow-hidden mb-8 shadow-md group">
                             <img
                                 src="/images/products/proces%20ugradnje.jpg"
-                                alt="Proces ugradnje dekorativnih obloga"
+                                alt="Proces ugradnje KamenPro dekorativnih kamenih obloga - stručna instalacija sa pravilnim postavljanjem kamena"
                                 className="w-full h-64 md:h-72 object-cover transition-transform duration-700 group-hover:scale-105"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
@@ -225,7 +225,7 @@ export function InstallationInfo() {
                         <div className="rounded-lg overflow-hidden shadow-md">
                             <img
                                 src="/images/products/alat.jpg"
-                                alt="Alat potreban za ugradnju"
+                                alt="Alat potreban za ugradnju dekorativnih kamenih obloga - brusilica, špatla, libela i merni alati"
                                 className="w-full h-64 object-cover"
                             />
                         </div>

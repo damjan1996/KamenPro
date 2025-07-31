@@ -112,7 +112,7 @@ export function MissionVision() {
                             <div className="relative overflow-hidden mb-8 rounded-lg shadow-md">
                                 <img
                                     src="/images/about/radionica%20ii.jpg"
-                                    alt="KamenPro radionica"
+                                    alt="KamenPro proizvodna radionica sa savremenom opremom za izradu dekorativnih kamenih obloga"
                                     className="w-full h-64 object-cover hover:scale-105 transition-transform duration-700"
                                 />
 

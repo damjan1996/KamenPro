@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { Container } from "../../../components/ui/Container";
+import { Image } from "../../../components/ui/Image";
 
 export function Hero() {
     const [isVisible, setIsVisible] = useState(false);
@@ -32,13 +33,14 @@ export function Hero() {
             {/* Background with gradient overlay */}
             <div className="absolute inset-0 z-0 w-full">
                 <div className="absolute inset-0 bg-gradient-to-b from-black/80 to-black/50 z-10"></div>
-                <img
+                <Image
                     src="/images/home/hero.png"
                     alt="KamenPro dekorativne kamene obloge - enterijer i eksterijer"
                     className="w-full h-full object-cover object-center z-0 transform scale-105 transition-transform duration-10000 hover:scale-110"
-                    loading="eager"
-                    width="1920"
-                    height="1080"
+                    priority={true}
+                    width={1920}
+                    height={1080}
+                    sizes="100vw"
                 />
             </div>
 

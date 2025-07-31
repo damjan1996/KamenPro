@@ -122,7 +122,7 @@ export function ProductionCapabilities() {
                             {/* Main Image */}
                             <img
                                 src="/images/about/radionica%20iii.jpg"
-                                alt="KamenPro radionica"
+                                alt="KamenPro moderna proizvodna radionica sa naprednom opremom za izradu kvalitetnih kamenih obloga"
                                 className="w-full h-full object-cover aspect-video"
                             />
 

@@ -2,6 +2,7 @@
 import { Container } from "../../../components/ui/Container";
 import { useState, useEffect, useRef } from "react";
 import { Check, Shield, Clock, Phone } from "lucide-react";
+import { Image } from "../../../components/ui/Image";
 
 // Card interface for type safety
 interface ValueCard {
@@ -170,11 +171,14 @@ export function AboutSection() {
                     >
                         {/* Image - updated with the correct URL */}
                         <div className="relative rounded-lg overflow-hidden mb-6 shadow-lg group">
-                            <img
+                            <Image
                                 src="/images/home/products.png"
-                                alt="KamenPro proizvodi"
+                                alt="KamenPro proizvodi - prikaz dekorativnih kamenih obloga i rustik cigli u različitim bojama i teksturama"
                                 className="w-full h-48 md:h-56 object-cover transition-transform duration-700 group-hover:scale-105"
                                 loading="lazy"
+                                width={800}
+                                height={600}
+                                sizes="(max-width: 768px) 100vw, 50vw"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
                                 <div className="p-4 text-white transform transition-transform duration-300 group-hover:translate-y-0 translate-y-2">

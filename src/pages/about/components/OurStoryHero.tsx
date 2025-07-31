@@ -60,7 +60,7 @@ export function OurStoryHero() {
                 <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/60 z-10"></div>
                 <img
                     src="/images/about/pozadina.jpg"
-                    alt="KamenPro dekorativne kamene obloge"
+                    alt="KamenPro elegantne dekorativne kamene obloge - transformišite vaš prostor sa našim kvalitetnim proizvodima"
                     className="w-full h-full object-cover object-center z-0 transition-transform duration-10000 ease-out"
                     style={{
                         transform: `scale(${1 + scrollProgress * 0.05})`,
@@ -138,7 +138,7 @@ export function OurStoryHero() {
                             <div className="absolute inset-0 bg-gradient-to-tr from-black/60 to-transparent"></div>
 
                             <div className="relative z-10">
-                                <h3 className="text-xl font-medium text-white mb-3">Naša misija</h3>
+                                <h2 className="text-xl font-medium text-white mb-3">Naša misija</h2>
                                 <p className="font-light text-white/90 text-sm mb-4">
                                     Stvaramo visokokvalitetne dekorativne kamene obloge koje transformišu svaki prostor
                                     u jedinstveno i upečatljivo okruženje, dostupno svakom domu i poslovnom prostoru.
@@ -149,7 +149,7 @@ export function OurStoryHero() {
                                 <div className="relative aspect-video rounded-lg overflow-hidden mb-4 shadow-md">
                                     <img
                                         src="/images/about/radionica.jpg"
-                                        alt="KamenPro radionica"
+                                        alt="KamenPro proizvodna radionica - mesto gde se ručno izrađuju kvalitetne dekorativne kamene obloge"
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
                                     <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-all duration-300"></div>

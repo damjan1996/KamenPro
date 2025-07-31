@@ -9,6 +9,8 @@ import { Container } from '../../components/ui/Container';
 import { Image } from '../../components/ui/Image';
 import { Alert } from '../../components/ui/Alert';
 import { Seo } from '../../components/Seo';
+import ProductSchema from '../../components/schemas/ProductSchema';
+import BreadcrumbSchema from '../../components/schemas/BreadcrumbSchema';
 
 // Enhanced product type to include additional properties
 interface EnhancedProduct extends Product {
@@ -247,6 +249,26 @@ const ProductDetail: React.FC = () => {
             <Seo
                 title={`${product.naziv} | KamenPro`}
                 description={product.opis.substring(0, 160)}
+            />
+            
+            <ProductSchema
+                name={product.naziv}
+                description={product.opis}
+                image={images[0]?.url_slike || '/images/placeholder-product.jpg'}
+                price={product.cena_po_m2}
+                currency="BAM"
+                category={category.naziv}
+                sku={product.sifra}
+                material="Beli cement sa aditivima"
+            />
+            
+            <BreadcrumbSchema
+                items={[
+                    { name: "Početna", url: "/" },
+                    { name: "Proizvodi", url: "/proizvodi" },
+                    { name: category.naziv, url: `/proizvodi/kategorija/${category.id}` },
+                    { name: product.naziv, url: `/proizvodi/${product.id}` }
+                ]}
             />
 
             {/* Breadcrumbs with improved styling - mobile optimized */}
