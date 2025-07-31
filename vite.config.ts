@@ -24,6 +24,15 @@ export default defineConfig({
             <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
             <link rel="preconnect" href="https://connect.facebook.net" crossorigin />
+            <link rel="preconnect" href="https://yodddwoxxifcuawbmzop.supabase.co" crossorigin />
+            <link rel="preload" href="/images/home/hero.png" as="image" type="image/png" />
+            <link rel="dns-prefetch" href="//kamenpro.net" />
+            <meta name="theme-color" content="#1c1917" />
+            <style>
+              /* Critical CSS for above-the-fold content */
+              body { font-family: system-ui, -apple-system, sans-serif; margin: 0; }
+              .hero-section { min-height: 100vh; background: #1c1917; }
+            </style>
           `,
         },
       },

@@ -117,6 +117,19 @@ export function Seo({
             <meta name="description" content={description} />
             <meta name="keywords" content={fullKeywords} />
             <meta name="author" content="KamenPro" />
+            
+            {/* Geo Tags for Local SEO */}
+            <meta name="geo.region" content="BA-BIH" />
+            <meta name="geo.placename" content="Bijeljina" />
+            <meta name="geo.position" content="44.758885;19.214172" />
+            <meta name="ICBM" content="44.758885, 19.214172" />
+            
+            {/* Business Info */}
+            <meta name="business:contact_data:street_address" content="Bulevar Kralja Petra I Karađorđevića 108" />
+            <meta name="business:contact_data:locality" content="Bijeljina" />
+            <meta name="business:contact_data:region" content="Republika Srpska" />
+            <meta name="business:contact_data:postal_code" content="76300" />
+            <meta name="business:contact_data:country_name" content="Bosnia and Herzegovina" />
 
             {noindex ? (
                 <meta name="robots" content="noindex, nofollow" />
