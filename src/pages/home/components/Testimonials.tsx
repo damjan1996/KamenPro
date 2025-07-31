@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "../../../components/ui/Container";
+import { Image } from "../../../components/ui/Image";
 
 interface Testimonial {
     id: number;
@@ -195,10 +196,15 @@ export function TestimonialsSection() {
                                             key={testimonial.id}
                                             className="w-full h-full rounded-lg overflow-hidden shadow-md"
                                         >
-                                            <img
+                                            <Image
                                                 src={testimonial.image}
                                                 alt={`${testimonial.name}, ${testimonial.role}`}
                                                 className="w-full h-full object-cover"
+                                                width={400}
+                                                height={256}
+                                                sizes="(max-width: 768px) 100vw, 33vw"
+                                                priority={index === activeIndex}
+                                                loading={index === activeIndex ? "eager" : "lazy"}
                                             />
                                         </div>
                                     )

@@ -6,6 +6,7 @@ import ProductGallery from './components/ProductGallery';
 import ProductInfo from './components/ProductInfo';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { Container } from '../../components/ui/Container';
+import { Image } from '../../components/ui/Image';
 import { Alert } from '../../components/ui/Alert';
 import { Seo } from '../../components/Seo';
 
@@ -403,12 +404,16 @@ const ProductDetail: React.FC = () => {
                                         <div className="overflow-hidden rounded-t-lg">
                                             <a href={`/proizvodi/${product.id}`} className="cursor-pointer block">
                                                 <div className="aspect-video relative">
-                                                    <img
+                                                    <Image
                                                         src={product.imageUrl}
                                                         alt={product.naziv}
                                                         className={`object-cover w-full h-full transition-transform duration-700 ${
                                                             activeProduct === product.id ? 'scale-105' : 'scale-100'
                                                         }`}
+                                                        width={300}
+                                                        height={200}
+                                                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
+                                                        loading="lazy"
                                                     />
                                                     <div className={`absolute inset-0 bg-gradient-to-t from-black/40 to-transparent transition-opacity duration-300 ${
                                                         activeProduct === product.id ? 'opacity-100' : 'opacity-0'
@@ -423,11 +428,11 @@ const ProductDetail: React.FC = () => {
                                                     <div className="inline-block px-2 py-1 rounded text-xs font-medium bg-amber-100 text-amber-800 mb-1">
                                                         {product.categoryName}
                                                     </div>
-                                                    <h3 className="text-sm md:text-base font-medium text-gray-800 line-clamp-1 group-hover:text-amber-600 transition-colors">
+                                                    <div className="text-sm md:text-base font-medium text-gray-800 line-clamp-1 group-hover:text-amber-600 transition-colors">
                                                         <a href={`/proizvodi/${product.id}`}>
                                                             {product.naziv}
                                                         </a>
-                                                    </h3>
+                                                    </div>
                                                 </div>
                                             </div>
 

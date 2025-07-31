@@ -9,6 +9,7 @@ declare global {
 import { useState, useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { Container } from "../../../components/ui/Container";
+import { Image } from "../../../components/ui/Image";
 import type { Product, Category } from "../../../lib/api";
 // Import the functions as actual values for use
 import { getAllProducts, getAllCategories } from "../../../lib/api";
@@ -321,12 +322,17 @@ export function ProductsSection() {
                                     <div className="overflow-hidden rounded-t-lg">
                                         <a href={`/proizvodi/${product.id}`} className="cursor-pointer block">
                                             <div className="aspect-video relative">
-                                                <img
+                                                <Image
                                                     src={product.imageUrl}
                                                     alt={product.naziv}
                                                     className={`object-cover w-full h-full transition-transform duration-700 ${
                                                         activeProduct === product.id ? 'scale-105' : 'scale-100'
                                                     }`}
+                                                    width={600}
+                                                    height={400}
+                                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                                    priority={index < 3}
+                                                    loading={index < 3 ? "eager" : "lazy"}
                                                 />
                                                 <div className={`absolute inset-0 bg-gradient-to-t from-black/40 to-transparent transition-opacity duration-300 ${
                                                     activeProduct === product.id ? 'opacity-100' : 'opacity-0'

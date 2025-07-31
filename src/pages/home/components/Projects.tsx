@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "../../../components/ui/Container";
+import { Image } from "../../../components/ui/Image";
 
 // Projekti/Reference
 const projects = [
@@ -115,10 +116,15 @@ export function ProjectsSection() {
                                             : "opacity-0 translate-x-full"
                                     }`}
                                 >
-                                    <img
+                                    <Image
                                         src={project.image}
                                         alt={`Projekat ${project.title} - ${project.subtitle}`}
                                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        width={800}
+                                        height={600}
+                                        sizes="(max-width: 768px) 100vw, 50vw"
+                                        priority={index === activeProject}
+                                        loading={index === activeProject ? "eager" : "lazy"}
                                     />
                                 </div>
                             ))}
@@ -159,9 +165,9 @@ export function ProjectsSection() {
                                     </h3>
                                 </div>
 
-                                <h2 className="text-2xl md:text-3xl font-medium mb-4">
+                                <h3 className="text-2xl md:text-3xl font-medium mb-4">
                                     {projects[activeProject].title}
-                                </h2>
+                                </h3>
 
                                 <p className="text-stone-600 mb-6 leading-relaxed">
                                     {projects[activeProject].description}
@@ -223,12 +229,16 @@ export function ProjectsSection() {
                                 projectRefs.current[index] = el;
                             }}
                         >
-                            <img
+                            <Image
                                 src={project.image}
                                 alt={`${project.title} projekat`}
                                 className={`w-full h-64 object-cover transition-all duration-500 ${
                                     isHovered === project.id ? "scale-105 brightness-90" : "scale-100"
                                 }`}
+                                width={400}
+                                height={256}
+                                sizes="(max-width: 768px) 100vw, 33vw"
+                                loading="lazy"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-stone-900/70 via-transparent to-transparent flex items-end transition-all duration-300">
                                 <div className="p-6 w-full">
